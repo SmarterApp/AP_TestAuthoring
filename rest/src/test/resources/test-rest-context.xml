@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.1.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <task:annotation-driven executor="myExecutor" scheduler="myScheduler" />
+    <task:executor id="myExecutor" pool-size="5" />
+    <task:scheduler id="myScheduler" pool-size="10" />
+
+    <bean id="userService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.opentestsystem.shared.security.service.UserService" />
+    </bean>
+
+    <bean id="progManClient" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.opentestsystem.shared.progman.client.ProgManClient" />
+    </bean>
+
+
+    <bean id="testSpecBankClient" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.opentestsystem.authoring.testspecbank.client.TestSpecBankClientInterface" />
+    </bean>
+
+    <bean id="tibClient" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.opentestsystem.authoring.testitembank.client.TestItemBankClientInterface" />
+    </bean>
+
+    <bean id="restTemplate" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.springframework.web.client.RestOperations" />
+    </bean>
+
+    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+        <property name="indentOutput" value="true" />
+        <property name="simpleDateFormat" value="yyyy-MM-dd'T'HH:mm:ss.SSSZ" />
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="objectMapper" />
+        <property name="targetMethod" value="registerModule" />
+        <property name="arguments">
+            <list>
+                <bean class="com.fasterxml.jackson.datatype.joda.JodaModule" />
+            </list>
+        </property>
+    </bean>
+
+    <import resource="classpath:persistence-context.xml" />
+    <import resource="classpath:domain-context.xml" />
+    <context:component-scan base-package="org.opentestsystem.authoring.testauth.service,org.opentestsystem.authoring.testauth.validation,org.opentestsystem.authoring.testauth.publish,org.opentestsystem.shared.security.service,org.opentestsystem.shared.security.integration" />
+    <import resource="classpath:rest-context.xml" />
+
+	<cache:annotation-driven />
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache" />
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:ehcache.xml" p:shared="true" />
+
+    <!-- just a placeholder to override the mongo in the tests -->
+
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.data.web.PageableArgumentResolver"/>
+        </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean name="fongo" class="com.github.fakemongo.Fongo">
+        <constructor-arg value="InMemoryMongo" />
+    </bean>
+
+    <bean id="mongo" factory-bean="fongo" factory-method="getMongo" />
+    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" />
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongoDbFactory" />
+        <constructor-arg name="mongoConverter" ref="mongoMappingConverter" />
+   </bean>
+
+    <bean id="gridFsRepository" class="org.opentestsystem.authoring.testauth.stub.GridFSRepositoryStub" />
+
+    <mvc:interceptors>
+        <bean class="org.opentestsystem.shared.docs.RequestLoggingInterceptor" />
+    </mvc:interceptors>
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <!-- this allows for missing resources files, specifically the ones defined in env vars -->
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath:test-dtd-cs.properties</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

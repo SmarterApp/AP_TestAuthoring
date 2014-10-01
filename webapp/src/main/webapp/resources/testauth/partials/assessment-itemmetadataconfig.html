@@ -1,0 +1,57 @@
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <h3 tabindex="-1">Choose Item Metadata fields to tally as Pool Property XML elements in this Test Specification</h3>
+    <div class="fieldGroup">
+        <ul>
+	        <li>
+                <span>
+                    <label style="float:center;" title="Available Item Metadata Fields">Available Item Metadata fields:</label>
+                    <br>
+                    <select data-ng-disabled="!editItemMetadataConfig" data-ng-model="itemMetadataConfig.availableItemMetadataKeys" data-ng-change="setInclude()" data-ng-options="itemMetadataKey for itemMetadataKey in availableItemMetadataKeys" multiple="multiple" style="height: 200px;" tabindex="0" title="Available Item Metadata Fields">
+                    </select>
+                </span>
+	        </li>
+	        <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" style="float:center;" title="Selected Item Metadata Fields">Selected Item Metadata fields:</label>
+                    <br>
+                    <select data-ng-disabled="!editItemMetadataConfig" data-ng-model="itemMetadataConfig.requestedItemMetadataKeys" data-ng-change="setExclude()" data-ng-options="itemMetadataKey for itemMetadataKey in requestedItemMetadataKeys" multiple="multiple" style="height: 200px;" class="dropdown-mid" tabindex="0" title="Selected Item Metadata Fields">
+                    </select>
+                    <span class="editable-error ng-binding" >{{errorsMap['itemMetadataReckonSet'][0]}}</span>
+                </span>
+	        </li>
+	        <li style="text-align:center;">
+			     <button data-ng-hide="!editItemMetadataConfig" type="button" class="boxBtn" style="width:27%;" data-ng-click="include()" tabindex="0">
+			         <span class="btnIcon icon_sprite icon_saveAdd2 ng-class:{ajax_indicator:savingIndicator}" style="width:25%;" aria-hidden="true"></span>
+			         <span class="btnText" style="width:67%; text-align: left;" >Add</span>
+			     </button>
+	        </li>
+	        <li style="text-align:center;">
+			     <button data-ng-hide="!editItemMetadataConfig" type="button" class="boxBtn" style="width:27%;" data-ng-click="exclude()" tabindex="0">
+			         <span class="btnIcon icon_sprite icon_delete2 ng-class:{ajax_indicator:savingIndicator}" style="width:25%;" aria-hidden="true"></span>
+			         <span class="btnText" style="width:67%; text-align: left;" >Remove</span>
+			     </button>
+	        </li>
+	    </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" data-ng-hide="assessment.locked" class="boxBtn" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+        </span>
+	 </div>
+	 </form>
+</div>

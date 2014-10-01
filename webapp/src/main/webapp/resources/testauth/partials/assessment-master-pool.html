@@ -1,0 +1,12 @@
+<div class="boxTitle"><h5 tabindex="-1">Master Item Pool</h5></div>
+
+<div>
+	<div class="tabInfo">
+	    <a data-ng-class="{selected : isActiveLink('assessmenthome.masterpool.items')}" data-ng-click="goToMasterPoolPage($event, 'assessmenthome.masterpool.items')" data-ng-keydown="goToMasterPoolPage($event, 'assessmenthome.masterpool.items')" tabindex="0" title="Master Item Pool">Master Pool</a> |
+        <a data-ng-class="{selected : isActiveLink('assessmenthome.masterpool.summary')}" data-ng-click="goToMasterPoolPage($event, 'assessmenthome.masterpool.summary')" data-ng-keydown="goToMasterPoolPage($event, 'assessmenthome.masterpool.summary')" tabindex="0" title="Affinity Group Summary">Affinity Group Summary</a>
+	</div>
+    <div class="clear"></div>
+    
+    <div data-ui-view="master-pool-view"></div>
+    
+</div>

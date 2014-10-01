@@ -1,0 +1,109 @@
+
+<div data-ng-show="updateIndicator">
+	<strong>Updating information...</strong><br>
+	<img src="resources/testauth/images/loading.gif" alt="" />
+</div>
+<div data-ng-hide="updateIndicator">
+
+	<div class="entryArea">
+        <ul class="one-column publishing" data-ng-hide="publishingRecord.purpose.length">
+            <li>
+                <span>
+                    <label class="side1" title="Assessment Not Eligible for Publishing">Assessment Not Eligible for Publishing: </label>
+                    <span class="publishingError propertyBox">{{publishingRecord.errorMessageText}}</span>
+                </span>
+            </li>
+	    </ul>
+		<div data-error-panel data-error-header="Some test specification types cannot be published due to the following errors:" data-error-list="errors" data-relative-width="true"></div>
+        <ul class="one-column publishing" data-ng-hide="!publishingRecord.purpose.length">
+            <li>
+                <span>
+                    <label class="side1" for="publishingRecord.publishingStatus" title="Publishing Status">Publishing Status: </label>
+                    <span class="propertyBox">{{publishingRecord.publishingStatus}}</span>
+		            <span data-ng-show="publishingRecord.publishingStatus == 'Publishing'"><img src="resources/testauth/images/loading-small.gif" alt="" /></span>
+                </span>
+            </li>
+            <li data-ng-hide="!publishingRecord.errorMessageText">
+                <span>
+                    <label class="side1" for="publishingRecord.errorMessageText" title="Error">Error: </label>
+                    <span class="publishingError propertyBox">{{publishingRecord.errorMessageText}}</span>
+                </span>
+            </li>
+            <li data-ng-hide="publishingRecord.publishingStatus == 'In Progress' && publishingRecord.errorMessageText">
+                <span>
+                    <label class="side1" for="publishingRecord.purpose" title="Included Specification Type">Included Specification Type(s): </label>
+					<span class="propertyBox" style="white-space: nowrap;" data-ng-repeat="purpose in publishingRecord.purpose">
+						<a target="_blank" href="{{baseSimulationUrl}}{{purpose}}">{{purpose}}</a>&nbsp;
+					</span>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label class="side1" for="publishingRecord.version" title="Version">Version: </label>
+                    <span class="propertyBox">{{publishingRecord.version}}</span>
+                </span>
+            </li>
+            <li data-ng-hide="!assessment.locked">
+                <span>
+                    <label class="side1" for="publishingRecord.lastUpdatedDate" title="Last Updated Date">Last Updated Date: </label>
+                    <span class="propertyBox" style="white-space: nowrap;">{{publishingRecord.lastUpdatedDate | date: 'MMMM d, y h:mm:ss a'}}</span>
+                </span>
+            </li>
+	    </ul>
+	    <div class="fieldGroup">
+                <button data-ng-hide="publishingRecord.publishingStatus != 'In Progress' || !publishingRecord.purpose.length || publishingRecord.errorMessageText" type="button" class="boxBtn" data-ng-click="save('submit')" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span> <span class="btnText">Submit for Approval</span>
+                </button>
+                <button data-ng-show="publishingRecord.publishingStatus == 'Awaiting Approval' && !hasApprovedApproval()" type="button" class="boxBtn" data-ng-click="cancelApproval()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span> <span class="btnText">Cancel</span>
+                </button>
+                <button data-ng-show="publishingRecord.publishingStatus == 'Published' && isAdminUser" type="button" class="boxBtn" data-ng-click="save('minor')" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">Begin Next Minor Version</span>
+                </button>
+                <button data-ng-show="publishingRecord.publishingStatus == 'Published' && isAdminUser" type="button" class="boxBtn" data-ng-click="save('major')" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">Begin Next Major Version</span>
+                </button>
+        </div>
+	</div>
+	<h3 data-ng-show="publishingRecord.publishingStatus != 'In Progress' && currentApprovals" tabindex="-1">Approvals</h3>
+         <table class="dataTable" data-ng-show="publishingRecord.publishingStatus != 'In Progress' && currentApprovals" role="grid">
+             <colgroup>
+                 <col style="width:15%">
+                 <col style="width:7%;">
+                 <col style="width:10%;">
+                 <col>
+                 <col>
+                 <col style="width:30%">
+                 <col data-ng-show="isAdminUser" class="doubleActionColumn">
+             </colgroup>
+             <thead>
+             <tr role="row">
+                 <th scope="col" id="permissionHeader" title="Permission" class="noSort">Permission</th>
+                 <th scope="col" id="versionHeader" title="Version" class="noSort">Version</th>
+                 <th scope="col" id="statusHeader" title="Status" class="noSort">Status</th>
+                 <th scope="col" id="usernameHeader" title="Username" class="noSort">Username</th>
+                 <th scope="col" id="udpatedHeader" title="Last Updated" class="noSort">Last Updated</th>
+                 <th scope="col" id="messageHeader" title="Message" class="noSort">Message</th>
+                 <th scope="col" id="actionHeader" title="Action" data-ng-show="isAdminUser">Action</th>
+             </tr>
+             </thead>
+             <tr data-ng-repeat="approval in currentApprovals" role="row" id="row{{$index}}">
+                 <td scope="col" role="gridcell" aria-labelledby="permissionHeader">{{approval.permissionLabel}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="versionHeader" style="text-align:center;">{{approval.version}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{approval.status}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="usernameHeader">{{approval.username}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="updatedHeader">{{approval.lastUpdatedDate | date:'MMMM d, y h:mm:ss a'}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="messageHeader"><span data-ng-hide="publishingRecord.publishingStatus == 'Awaiting Approval' && hasPermission(approval)">{{approval.message}}</span><span data-ng-show="publishingRecord.publishingStatus == 'Awaiting Approval' && hasPermission(approval)" class="control-label-param-required"><input class="approvalMessage" name="message" data-ng-model="approval.message" tabindex="0" alt="Approval Message" /></span></td>
+	             <td scope="col" role="gridcell" aria-labelledby="actionHeader" data-ng-show="isAdminUser" class="normalSpace">
+	                 <div data-ng-show="publishingRecord.publishingStatus == 'Awaiting Approval' && hasPermission(approval) && !(approval.permission == 'ROLE_QA Lead' && !allowLevel2)" class="tableButtonGroup">
+	                     <button data-ng-click="updateApproval(approval, 'Approved')" class="boxBtn" tabindex="0">
+	                         <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	                     </button>
+                         <button data-ng-click="updateApproval(approval, 'Rejected')" class="boxBtn" tabindex="0">
+                             <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                         </button>
+	                 </div>
+	             </td>
+             </tr>
+         </table>
+</div>

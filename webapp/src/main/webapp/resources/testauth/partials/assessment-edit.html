@@ -1,0 +1,144 @@
+<div class="boxTitle"><h5 tabindex="-1">Test<span class="control-label-required">Indicates required field</span></h5></div>
+<div data-error-panel data-error-list="errors"></div>
+           
+<div class="formWrapper">
+<form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">    
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup">
+        <ul>
+               <li data-ng-hide="isNew">
+                    <span> 
+                        <label class="control-label" for="assessment.subjectId" title="Subject">Subject:</label>        
+                        <span data-tooltip="{{assessment.subject.name}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="propertyBox viewSpanLeft">{{assessment.subject.name}}</span>
+                    </span>
+                </li>
+                <li data-ng-hide="isNew">
+                    <span> 
+                        <label class="control-label" for="publication" title="Publication">Publication:</label>       
+                        <span class="propertyBox">{{assessment.publication.coreStandardsPublicationKey}}</span>                                    
+                    </span>
+                </li>
+                <li data-ng-hide="isNew">
+                    <span> 
+                        <label class="control-label" for="assessment.grade" title="Grade">Grade(s):</label>
+                        <span class="propertyBox">{{assessment.grade | joinBy}}</span>
+                    </span>                   
+                </li> 
+                <li data-ng-show="isNew">
+                    <span> 
+                        <label class="control-label-required" for="assessment.subjectId" title="Subject">Subject:</label>
+                        <span data-editable-select="assessment.subjectId" data-e-name="subjectId" data-e-ng-change="changeSubject($data)" data-e-ng-options="availableSubject.id as availableSubject.name for availableSubject in availableSubjects" >
+                             {{assessment.subject.name}}
+                        </span>                          
+                    </span>
+                </li>
+                <li data-ng-show="isNew">
+                    <span> 
+                        <label class="control-label-required" for="publication" title="Publication">Publication:</label>
+                        <span data-editable-select="assessment.publicationId" data-e-name="publicationId" data-e-ng-change="changePublication($data)" data-e-ng-options="publication.id as publication.coreStandardsPublicationKey for publication in publications" >
+                             {{assessment.publication.coreStandardsPublicationKey}}
+                        </span>                        
+                    </span>
+                </li>
+                <li data-ng-show="isNew">
+                    <span> 
+                        <label class="control-label-required" for="assessment.grade" title="Grade">Grade(s):</label>
+                        <input data-ng-readonly="!editableForm.$visible" type="text" data-ui-select2="gradesSelector" data-ng-disabled="grades.length == 0" data-ng-model="selectedGrades" tabindex="0" alt="Grade" />
+                        <span class="editable-error ng-binding" >{{errorsMap['grade'][0]}}</span> 
+                    </span>
+                                       
+                </li>                
+                <li>
+                    <span> 
+                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="assessment.type" title="Type">Type:</label>
+                        <span data-editable-select="assessment.type" data-e-name="type" data-e-ng-options="assessmentType for assessmentType in availableAssessmentTypes">
+                            <span class="propertyBox">{{assessment.type}}</span>
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="assessment.administration" title="Administration">Administration:</label>
+                        <span data-editable-text="assessment.administration" data-e-name="administration" >
+                            <span data-tooltip="{{assessment.administration}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.administration}}</span>                           
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label class="control-label" for="assessment.version" title="Version">Version:</label>
+                        <span class="propertyBox">{{assessment.version == null ? '1.0' : assessment.version}}</span>
+                    </span>
+                </li>
+
+                <li>
+                    <span> 
+                        <label class="control-label" for="assessment.label" title="Label">Label:</label>
+                        <span data-editable-text="assessment.label" data-e-name="label" >
+                            <span data-tooltip="{{assessment.label}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.label}}</span>
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label class="control-label" for="assessment.testFamily" title="Test Family">Test Family:</label>
+                        <span data-editable-text="assessment.testFamily" data-e-name="testFamily" >
+                            <span data-tooltip="{{assessment.testFamily}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.testFamily}}</span>
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label class="control-label" for="assessment.category" title="Category">Category:</label>
+                        <span data-editable-text="assessment.category" data-e-name="category" >
+                            <span data-tooltip="{{assessment.category}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.category}}</span>
+                        </span>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label class="control-label" for="assessment.comment" title="Comment">Comment:</label>
+                        <span data-editable-text="assessment.comment" data-e-name="comment" >
+                            <span data-tooltip="{{assessment.comment}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.comment}}</span>
+                        </span>
+                    </span>
+                </li>
+        </ul>
+        <ul class="oneCol">
+            <li style="width: 100%;">
+                <span> 
+                    <label style="width:25%;text-align:right;" class="control-label" for="assessment.description" title="Description">Description:</label>
+                    <span data-editable-textarea="assessment.description" data-e-name="description" data-e-rows="4" data-e-style="width:456px;">
+                        <span data-tooltip="{{assessment.description}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{assessment.description}}</span>
+                    </span>
+                </span>
+            </li>
+        </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-click="edit()" data-ng-hide="assessment.locked" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+    </div>
+    </form>
+    </div>
+<div class="clear"></div>

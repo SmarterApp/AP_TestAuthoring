@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-bindings xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/oxm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.eclipse.org/eclipselink/xsds/persistence/oxm http://www.eclipse.org/eclipselink/xsds/eclipselink_oxm_2_5.xsd"
+	version="2.5" package-name="org.opentestsystem.authoring.testauth.publish.domain" >
+
+	<java-types>
+		<java-type name="TestSpecification">
+			<xml-root-element name="testspecification" />
+			<xml-type prop-order="identifier propertyList comment description registration administration scoring reporting complete"/>
+			<java-attributes>
+				<xml-attribute java-attribute="tenantId" xml-path="@publisher" />
+				<xml-attribute java-attribute="publishDate" xml-path="@publishdate" >
+					<xml-schema-type name="jodaDateTimeXml" />
+					<xml-java-type-adapter value="org.opentestsystem.authoring.testauth.config.JodaDateTimeXmlAdapter" />
+				</xml-attribute>
+				<xml-attribute java-attribute="version" xml-path="@version" />
+				<xml-attribute java-attribute="purpose" xml-path="@purpose" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="comment" xml-path="comment/text()" />
+				<xml-element java-attribute="description" xml-path="description/text()" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+ 				<xml-element java-attribute="registration" name="registration" />
+ 				<xml-element java-attribute="administration" name="administration" />
+ 				<xml-element java-attribute="scoring" name="scoring" />
+ 				<xml-element java-attribute="reporting" name="reporting" />
+ 				<xml-element java-attribute="complete" name="complete" />
+ 				<xml-transient java-attribute="content" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Registration">
+			<xml-type prop-order="registrationSegmentList registrationFormList poolPropertyList comment"/>
+			<java-attributes>
+ 				<xml-element java-attribute="registrationFormList" xml-path="registrationform" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+ 				<xml-element java-attribute="registrationSegmentList" xml-path="registrationsegment" />
+ 				<xml-element java-attribute="comment" xml-path="comment/text()" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Administration">
+			<xml-type prop-order="testBlueprintList administrationSegmentList testFormList itemPool poolPropertyList comment"/>
+			<java-attributes>
+ 				<xml-element java-attribute="testBlueprintList" xml-path="testblueprint/bpelement" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+ 				<xml-element java-attribute="itemPool" xml-path="itempool" />
+ 				<xml-element java-attribute="testFormList" xml-path="testform" />
+ 				<xml-element java-attribute="administrationSegmentList" xml-path="adminsegment" />
+ 				<xml-element java-attribute="comment" xml-path="comment/text()" />
+ 				<xml-transient java-attribute="blueprintElementList" />
+ 				<xml-transient java-attribute="blueprintReferenceMap" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Scoring">
+			<xml-type prop-order="testBlueprintList testFormList testPerformanceLevelList scoringRuleData itemPool"/>
+			<java-attributes>
+ 				<xml-element java-attribute="testBlueprintList" xml-path="testblueprint/bpelement" />
+ 				<xml-element java-attribute="itemPool" xml-path="itempool" />
+ 				<xml-element java-attribute="testFormList" xml-path="testform" />
+ 				<xml-element java-attribute="testPerformanceLevelList" xml-path="performancelevels/performancelevel" />
+ 				<xml-element java-attribute="scoringRuleData" xml-path="scoringrules" />
+ 				<xml-transient java-attribute="blueprintElementList" />
+ 				<xml-transient java-attribute="blueprintReferenceMap" />
+ 				<xml-transient java-attribute="blueprintElementList" />
+ 				<xml-transient java-attribute="blueprintReferenceMap" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Reporting">
+			<xml-type prop-order="testBlueprintList testFormList testPerformanceLevelList testReportingMeasureList itemPool"/>
+			<java-attributes>
+ 				<xml-element java-attribute="testBlueprintList" xml-path="testblueprint/bpelement" />
+ 				<xml-element java-attribute="testPerformanceLevelList" xml-path="performancelevels/performancelevel" />
+ 				<xml-element java-attribute="testReportingMeasureList" xml-path="reportingmeasures/reportingmeasure" />
+ 				<xml-element java-attribute="itemPool" xml-path="itempool" />
+ 				<xml-element java-attribute="testFormList" xml-path="testform" />
+ 				<xml-transient java-attribute="blueprintElementList" />
+ 				<xml-transient java-attribute="blueprintReferenceMap" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Complete">
+			<xml-type prop-order="testBlueprintList administrationSegmentList testFormList testPerformanceLevelList scoringRuleData testReportingMeasureList itemPool poolPropertyList comment"/>
+			<java-attributes>
+ 				<xml-element java-attribute="testBlueprintList" xml-path="testblueprint/bpelement" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+ 				<xml-element java-attribute="itemPool" xml-path="itempool" />
+ 				<xml-element java-attribute="testFormList" xml-path="testform" />
+ 				<xml-element java-attribute="administrationSegmentList" xml-path="adminsegment" />
+ 				<xml-element java-attribute="testPerformanceLevelList" xml-path="performancelevels/performancelevel" />
+ 				<xml-element java-attribute="scoringRuleData" xml-path="scoringrules" />
+ 				<xml-element java-attribute="testReportingMeasureList" xml-path="reportingmeasures/reportingmeasure" />
+ 				<xml-element java-attribute="comment" xml-path="comment/text()" />
+ 				<xml-transient java-attribute="blueprintElementList" />
+ 				<xml-transient java-attribute="blueprintReferenceMap" />
+			</java-attributes>
+		</java-type>
+		<java-type name="RegistrationSegment">
+			<xml-type prop-order="identifier poolPropertyList"/>
+			<java-attributes>
+ 				<xml-attribute java-attribute="position" xml-path="@position" />
+ 				<xml-attribute java-attribute="itemSelection" xml-path="@itemselection" />
+ 				<xml-attribute java-attribute="minItems" xml-path="@minitems" />
+ 				<xml-attribute java-attribute="maxItems" xml-path="@maxitems" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="poolPropertyList" name="poolproperty" />
+			</java-attributes>
+		</java-type>
+		<java-type name="AdministrationSegment">
+			<xml-type prop-order="segmentBlueprintElementList itemSelectorIdentifier itemSelectionParameterList formPartitionReferenceList itemReferenceGroupList"/>
+			<java-attributes>
+				<xml-attribute java-attribute="segmentId" xml-path="@segmentid" />
+ 				<xml-attribute java-attribute="position" xml-path="@position" />
+ 				<xml-attribute java-attribute="itemSelection" xml-path="@itemselection" />
+ 				<xml-attribute java-attribute="itemSelection" xml-path="itemselector/@type" />
+				<xml-element java-attribute="itemSelectorIdentifier" xml-path="itemselector/identifier" />
+ 				<xml-element java-attribute="itemSelectionParameterList" name="itemselector/itemselectionparameter" />
+ 				<xml-element java-attribute="segmentBlueprintElementList" name="segmentblueprint/segmentbpelement" />
+ 				<xml-element java-attribute="formPartitionReferenceList" name="segmentform/@formpartitionid" />
+ 				<xml-element java-attribute="itemReferenceGroupList" xml-path="segmentpool/itemgroup" />
+			</java-attributes>
+		</java-type>
+		<java-type name="RegistrationForm">
+			<xml-type prop-order="identifier propertyList poolPropertyList"/>
+			<java-attributes>
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestForm">
+			<xml-type prop-order="identifier propertyList testFormPartitionList poolPropertyList"/>
+			<java-attributes>
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+ 				<xml-element java-attribute="testFormPartitionList" xml-path="formpartition" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestFormPartition">
+			<xml-type prop-order="identifier itemReferenceGroupList"/>
+			<java-attributes>
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="itemReferenceGroupList" xml-path="itemgroup" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemReferenceGroup">
+			<xml-type prop-order="identifier propertyList itemReferenceList passageReferenceList"/>
+			<java-attributes>
+				<xml-attribute java-attribute="maxResponses" xml-path="@maxresponses" />
+				<xml-attribute java-attribute="formPosition" xml-path="@formposition" />
+				<xml-attribute java-attribute="maxItems" xml-path="@maxitems" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+				<xml-attribute java-attribute="passageReferenceList" xml-path="passageref/@passageid" />
+				<xml-element java-attribute="itemReferenceList" xml-path="groupitem" />
+				<xml-element java-attribute="propertyList" xml-path="property" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemReference">
+			<java-attributes>
+				<xml-attribute java-attribute="itemId" xml-path="@itemid" />
+				<xml-attribute java-attribute="groupPosition" xml-path="@groupposition" />
+				<xml-attribute java-attribute="adminRequired" xml-path="@adminrequired" />
+				<xml-attribute java-attribute="responseRequired" xml-path="@responserequired" />
+				<xml-attribute java-attribute="isFieldTest" xml-path="@isfieldtest" />
+				<xml-attribute java-attribute="isActive" xml-path="@isactive" />
+				<xml-attribute java-attribute="blockId" xml-path="@blockid" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestBlueprintElement">
+			<java-attributes>
+				<xml-attribute java-attribute="elementType" xml-path="@elementtype" />
+				<xml-attribute java-attribute="parentId" xml-path="@parentid" />
+				<xml-attribute java-attribute="minOpItems" xml-path="@minopitems" />
+				<xml-attribute java-attribute="maxOpItems" xml-path="@maxopitems" />
+				<xml-attribute java-attribute="minFtItems" xml-path="@minftitems" />
+				<xml-attribute java-attribute="maxFtItems" xml-path="@maxftitems" />
+				<xml-attribute java-attribute="opItemCount" xml-path="@opitemcount" />
+				<xml-attribute java-attribute="ftItemCount" xml-path="@ftitemcount" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+			</java-attributes>
+		</java-type>
+		<java-type name="SegmentBlueprintElement">
+			<java-attributes>
+				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
+				<xml-attribute java-attribute="minOpItems" xml-path="@minopitems" />
+				<xml-attribute java-attribute="maxOpItems" xml-path="@maxopitems" />
+				<xml-attribute java-attribute="minFtItems" xml-path="@minftitems" />
+				<xml-attribute java-attribute="maxFtItems" xml-path="@maxftitems" />
+				<xml-attribute java-attribute="opItemCount" xml-path="@opitemcount" />
+                <xml-attribute java-attribute="ftItemCount" xml-path="@ftitemcount" />
+				<xml-element java-attribute="propertyList" xml-path="property" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemSelectionParameter">
+			<java-attributes>
+				<xml-attribute java-attribute="blueprintElementId" xml-path="@bpelementid" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemPool">
+			<java-attributes>
+ 				<xml-element java-attribute="passageList" xml-path="passage" />
+ 				<xml-element java-attribute="testEnemyGroupList" xml-path="enemylist" />
+ 				<xml-element java-attribute="testItemList" xml-path="testitem" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestItem">
+			<java-attributes>
+				<xml-attribute java-attribute="fileName" xml-path="@filename" />
+				<xml-attribute java-attribute="itemType" xml-path="@itemtype" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+				<xml-element java-attribute="bluprintReferenceList" xml-path="bpref/text()" />
+				<xml-element java-attribute="passageReferenceList" xml-path="passageref/text()" />
+ 				<xml-element java-attribute="poolPropertyList" xml-path="poolproperty" />
+ 				<xml-element java-attribute="itemScoreDimensionList" xml-path="itemscoredimension" />
+ 				<xml-transient java-attribute="databaseId" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemScoreDimension">
+			<java-attributes>
+				<xml-attribute java-attribute="measurementModel" xml-path="@measurementmodel" />
+				<xml-attribute java-attribute="scorePoints" xml-path="@scorepoints" />
+				<xml-attribute java-attribute="dimension" xml-path="@dimension" />
+				<xml-attribute java-attribute="weight" xml-path="@weight" />
+ 				<xml-element java-attribute="itemScoreParameterList" xml-path="itemscoreparameter" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ItemScoreParameter">
+			<java-attributes>
+				<xml-attribute java-attribute="measurementParameter" xml-path="@measurementparameter" />
+				<xml-attribute java-attribute="value" xml-path="@value" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Passage">
+			<java-attributes>
+				<xml-attribute java-attribute="fileName" xml-path="@filename" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestEnemyGroup">
+			<java-attributes>
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="testEnemyList" xml-path="enemy" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestEnemy">
+			<java-attributes>
+ 				<xml-attribute java-attribute="objectId" xml-path="@objectid" />
+ 				<xml-attribute java-attribute="objectType" xml-path="@objecttype" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestPerformanceLevel">
+			<java-attributes>
+				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
+				<xml-attribute java-attribute="level" xml-path="@level" />
+				<xml-attribute java-attribute="scaledLo" xml-path="@scaledlo" />
+				<xml-attribute java-attribute="scaledHi" xml-path="@scaledhi" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ScoringRuleData">
+			<java-attributes>
+ 				<xml-element java-attribute="computationRuleList" xml-path="computationrule" />
+ 				<xml-element java-attribute="conversionTableList" xml-path="conversiontable" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestComputationRule">
+			<java-attributes>
+			    <xml-transient java-attribute="scoringRuleId" />
+				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
+				<xml-attribute java-attribute="measurementId" xml-path="@measurementid" />
+				<xml-attribute java-attribute="computationOrder" xml-path="@computationorder" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="computationRuleParameterList" xml-path="computationruleparameter" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestComputationRuleParameter">
+			<java-attributes>
+				<xml-attribute java-attribute="position" xml-path="@position" />
+				<xml-attribute java-attribute="parameterType" xml-path="@parametertype" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="propertyList" xml-path="property" />
+ 				<xml-element java-attribute="computationRuleParameterValueList" xml-path="computationruleparametervalue" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestComputationRuleParameterValue">
+			<java-attributes>
+				<xml-attribute java-attribute="value" xml-path="@value" />
+				<xml-attribute java-attribute="index" xml-path="@index" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ConversionTable">
+			<java-attributes>
+				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
+				<xml-attribute java-attribute="measureId" xml-path="@measureid" />
+				<xml-attribute java-attribute="purpose" xml-path="@purpose" />
+				<xml-attribute java-attribute="formId" xml-path="@formid" />
+				<xml-element java-attribute="identifier" xml-path="identifier" />
+ 				<xml-element java-attribute="conversionTupleList" xml-path="conversiontuple" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ConversionTuple">
+			<java-attributes>
+				<xml-attribute java-attribute="inValue" xml-path="@invalue" />
+				<xml-attribute java-attribute="outValue" xml-path="@outvalue" />
+			</java-attributes>
+		</java-type>
+		<java-type name="TestReportingMeasure">
+			<java-attributes>
+				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
+ 				<xml-element java-attribute="scoreTypeList" xml-path="scoretype" />
+			</java-attributes>
+		</java-type>
+		<java-type name="ScoreType">
+			<java-attributes>
+				<xml-attribute java-attribute="scoreName" xml-path="@scorename" />
+				<xml-attribute java-attribute="scoreLabel" xml-path="@scorelabel" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Identifier">
+			<xml-type prop-order="uniqueid name label version"/>
+			<java-attributes>
+ 				<xml-attribute java-attribute="uniqueId" xml-path="@uniqueid" />
+ 				<xml-attribute java-attribute="name" xml-path="@name" />
+ 				<xml-attribute java-attribute="label" xml-path="@label" />
+ 				<xml-attribute java-attribute="version" xml-path="@version" />
+			</java-attributes>
+		</java-type>
+		<java-type name="PoolProperty">
+			<xml-type prop-order="property value label comment description itemcount"/>
+			<java-attributes>
+				<xml-element java-attribute="property" xml-path="@property" />
+				<xml-element java-attribute="value" xml-path="@value" />
+				<xml-element java-attribute="label" xml-path="@label" />
+				<xml-element java-attribute="itemcount" xml-path="@itemcount" />
+				<xml-element java-attribute="comment" xml-path="comment/text()" />
+				<xml-element java-attribute="description" xml-path="description/text()" />
+			</java-attributes>
+		</java-type>
+		<java-type name="Property">
+			<xml-type prop-order="name value label sequence"/>
+			<java-attributes>
+				<xml-element java-attribute="name" xml-path="@name" />
+				<xml-element java-attribute="value" xml-path="@value" />
+				<xml-element java-attribute="label" xml-path="@label" />
+				<xml-element java-attribute="sequence" xml-path="@sequence" />
+			</java-attributes>
+		</java-type>
+	</java-types>
+</xml-bindings>

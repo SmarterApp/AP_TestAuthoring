@@ -1,0 +1,8 @@
+
+<input type="text" 
+    placeholder="Select..." 
+    data-ng-model="languageModel"
+    data-typeahead="({true:availableLanguage[valueAttribute], false:availableLanguage}[hasAttribute]) as availableLanguage.value + (availableLanguage.key) for availableLanguage in filterLanguages($viewValue)" 
+    data-typeahead-wait-ms="200" 
+    data-typeahead-editable="false" 
+    data-typeahead-on-select="onSelect({newTenant:$item,newTenantLabel:$label})" tabindex="0" alt="Available Language" />

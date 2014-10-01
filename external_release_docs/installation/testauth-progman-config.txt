@@ -1,0 +1,24 @@
+testauth.item.count.max.limit=40000
+component.name=TestAuthoring
+permission.uri=http://web-dev.opentestsystem.org:8080/permissions/rest
+testauth.security.idp=http://drcamp-dev.opentestsystem.org:8080/auth/saml2/jsp/exportmetadata.jsp?metalias=idp&realm=sbac
+testauth.mna.description=The Test Authoring Component
+testauth.mna.healthMetricIntervalInSeconds=120
+mna.mnaUrl=http://xxxxx/rest/
+mna.logger.level=[OFF | ERROR | WARN | INFO | DEBUG | TRACE | ALL](default:ERROR)
+mna.clean.days=30 (default)
+mna.clean.cron=0 0 0 * * ? (default)
+testauth.mna.availability.metric.email=abc@example.org
+testauth.mongo.hostname=
+testauth.mongo.port=27017
+testauth.mongo.username=
+testauth.mongo.password=
+testauth.mongo.dbname=testauth-dev
+testauth.minJs=true
+testauth.rest.context.root=/rest/
+testauth.dtd.url=http://xxxxx/rest/resources/dtd/testpackage_v_9_19_2013.dtd
+tsb.tsbUrl=http://xxxxx/rest/
+testauth.core.standards.url=http://web-dev.opentestsystem.org:8080/corestandards/api/
+tib.baseUri=http://xxxxx/rest/
+testauth.security.profile=dev
+testauth.languages=Afar|aar|Abkhazian|abk|Achinese|ace...

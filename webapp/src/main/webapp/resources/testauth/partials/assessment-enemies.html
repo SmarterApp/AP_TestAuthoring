@@ -1,0 +1,180 @@
+<div class="boxTitle"><h5 tabindex="-1">Enemy List</h5></div>
+<div>
+    <div data-searchable data-search-promise="searchEnemies(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-enemy-search">
+        <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span>
+                        <label for="enemySearchType">Search for:</label>
+                        <select data-ng-model="enemySearchType" data-ng-options="enemyType for enemyType in enemyTypes" data-ng-change="clearObjectIdSearch()" tabindex="0" title="Search for">
+                            <option value="">Select...</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span data-ng-if="enemySearchType == 'Item'"> 
+                        <label class="control-label" for="searchParams.objectIdSearch">Item:</label>
+                        <span data-item-auto-complete data-item-model="enemySearchObject" data-assessment-id="{{assessment.id}}" data-on-select="changeObjectIdSearch(newItem,'Item')"></span>
+                    </span>
+                    <span data-ng-if="enemySearchType == 'Item Group'"> 
+                        <label class="control-label" for="searchParams.objectIdSearch">Item Group:</label>
+                        <span data-item-group-auto-complete data-item-group-model="enemySearchObject" data-assessment-id="{{assessment.id}}" data-on-select="changeObjectIdSearch(newItemGroup,'Item Group')"></span>
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> 
+                <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col width="50%">
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="enemy1Header" title="Enemy 1" class="noSort">Enemy 1</th>
+                    <th scope="col" id="enemy2Header" title="Enemy 2" class="noSort">Enemy 2</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="enemy in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="enemy1Header" class="enemyCell normalSpace ellipse">
+                        <span data-ng-if="'Item' == enemy.objectType1"><strong>Item:</strong> {{enemy.object1.tibIdentifier + (enemy.object1.description != null?(' - ' + enemy.object1.description):"")}}</span>
+                        <span data-ng-if="'Item Group' == enemy.objectType1"><strong>Item Group:</strong> {{enemy.object1.groupName + ' (' + (enemy.object1.segment ? 'Segment: ' + enemy.object1.segment.label : 'Partition: ' + enemy.object1.formPartition.name) + ')'}}</span>
+                        <div class="icons-small icon-search-small" data-ng-click="viewDetails(enemy.objectType1,enemy.object1)">&nbsp;</div>
+                    </td>
+                    <td scope="col" role="gridcell" aria-labelledby="enemy2Header" class="enemyCell normalSpace ellipse">
+                        <span data-ng-if="'Item' == enemy.objectType2"><strong>Item:</strong> {{enemy.object2.tibIdentifier + (enemy.object2.description != null?(' - ' + enemy.object2.description):"")}}</span>
+                        <span data-ng-if="'Item Group' == enemy.objectType2"><strong>Item Group:</strong> {{enemy.object2.groupName + ' (' + (enemy.object2.segment ? 'Segment: ' + enemy.object2.segment.label : 'Partition: ' + enemy.object2.formPartition.name) + ')'}}</span>
+                        <div class="icons-small icon-search-small" data-ng-click="viewDetails(enemy.objectType2,enemy.object2)">&nbsp;</div>
+                    </td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(enemy)" id="view{{$index}}" class="boxBtn" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="remove(enemy)" id="remove{{$index}}" class="boxBtn" data-ng-show="!assessment.locked" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="left_menu_visible_enemy_details" data-ng-show="showDetails">
+    <div class="itemSection">
+        <div class="itemMove fieldGroup">
+            <div data-ng-repeat="error in widget.errors">
+                <div><span class="icon_sprite icon_error error"></span>{{error}}</div>
+            </div>
+            <ul class="itemMoveList" data-ng-show="detailEnemyType == 'Item'">
+                <li>
+                    <span>
+                        <label for="detailEnemy.tibIdentifier">Item Identifier:</label>
+                        {{detailEnemy.tibIdentifier}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.passageName">Passage:</label>
+                        {{detailEnemy.passageName}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.version">Version:</label>
+                        {{detailEnemy.version}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.author">Author:</label>
+                        {{detailEnemy.author}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.primaryStandard">Primary Standard:</label>
+                        {{detailEnemy.primaryStandard}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.grade">Grade:</label>
+                        {{detailEnemy.grade}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.itemType">Item Type:</label>
+                        {{detailEnemy.itemType}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.subject">Subject:</label>
+                        {{detailEnemy.subject}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.subjectCategory">Subject Category:</label>
+                        {{detailEnemy.subjectCategory}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.itemDifficulty">Item Difficulty:</label>
+                        {{detailEnemy.itemDifficulty}}
+                    </span>
+                </li>
+            </ul>
+            <ul class="itemMoveList" data-ng-show="detailEnemyType == 'Item Group'">
+                <li>
+                    <span>
+                        <label for="detailEnemy.groupName">Group Name:</label>
+                        {{detailEnemy.groupName}}
+                    </span>
+                </li>
+                <li></li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.segment.label">Segment:</label>
+                        {{detailEnemy.segment.label}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.passageId">Passage ID:</label>
+                        {{detailEnemy.passageId}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.maxResponses">Max Responses:</label>
+                        {{detailEnemy.maxResponses}}
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="detailEnemy.maxItems">Max Items:</label>
+                        {{detailEnemy.maxitems}}
+                    </span>
+                </li>
+            </ul>
+            <button type="button" class="boxBtn" data-ng-click="closeDetails()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Close</span>
+            </button>
+        </div>
+     </div>
+</div>

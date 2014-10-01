@@ -1,0 +1,103 @@
+<div class="boxTitle"><h5 tabindex="-1">Enemy List<span class="control-label-required">Indicates required field</span></h5></div>
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup enemyForm">
+        <ul class="split-list">
+            <li>
+                <ul class="one-column">
+                    <li>
+                        <fieldset>
+                            <h4 tabindex="-1">Enemy 1</h4>
+                            <ul class="one-column">
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="enemy.objectType1" title="Enemy Type">Enemy Type:</label>   
+                                        <span data-ng-disabled="assessment.locked" data-editable-select="enemy.objectType1" data-e-name="objectType1"
+                                            data-e-ng-options="enemyType for enemyType in enemyTypes" data-e-ng-change="clearEnemy1($data)">
+                                            <span class="viewSpan">{{enemy.objectType1}}</span>
+                                        </span>                                                                     
+                                    </span>
+                                </li>
+                                <li data-ng-if="enemy.objectType1">
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="enemy.objectId1" title="Enemy">Enemy:</label>
+                                        <span data-ng-readonly="!editableForm.$visible" data-ng-show="enemy.objectType1 == 'Item' && !assessment.locked && editableForm.$visible" 
+                                            data-item-auto-complete data-item-model="enemy.object1" data-assessment-id="{{assessment.id}}" data-on-select="changeObject1(newItem,'Item')"></span>
+                                        <span class="viewSpan" data-ng-show="enemy.objectType1 == 'Item' && (assessment.locked || !editableForm.$visible)">{{enemy.object1.tibIdentifier + (enemy.object1.description?(' - ' + enemy.object1.description):"")}}</span>
+
+                                        <span data-ng-readonly="!editableForm.$visible" data-ng-show="enemy.objectType1 == 'Item Group' && !assessment.locked && editableForm.$visible" 
+                                            data-item-group-auto-complete data-item-group-model="enemy.object1" data-assessment-id="{{assessment.id}}" data-on-select="changeObject1(newItemGroup,'Item Group')"></span>
+                                        <span class="viewSpan" data-ng-show="enemy.objectType1 == 'Item Group' && (assessment.locked || !editableForm.$visible)">{{enemy.object1.groupName + ' (' + (enemy.object1.segment ? 'Segment: ' + enemy.object1.segment.label : 'Partition: ' + enemy.object1.formPartition.name) + ')'}}</span>        
+                                            
+                                        <span class="editable-error ng-binding" >{{errorsMap['objectId1'][0]}}</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="one-column">
+                    <li>
+                        <fieldset>
+                            <h4 tabindex="-1">Enemy 2</h4>
+                            <ul class="one-column">
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="enemy.objectType2">Enemy Type:</label>
+                                        <span data-ng-disabled="assessment.locked" data-editable-select="enemy.objectType2" data-e-name="objectType2"
+                                            data-e-ng-options="enemyType for enemyType in enemyTypes" data-e-ng-change="clearEnemy2($data)">
+                                            <span class="viewSpan">{{enemy.objectType2}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li data-ng-if="enemy.objectType2">
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="enemy.objectId1">Enemy:</label>
+                                        <span data-ng-readonly="!editableForm.$visible" data-ng-show="enemy.objectType2 == 'Item' && !assessment.locked && editableForm.$visible" data-item-auto-complete data-item-model="enemy.object2" data-assessment-id="{{assessment.id}}" data-on-select="changeObject2(newItem,'Item')"></span>
+                                        <span class="viewSpan" data-ng-show="enemy.objectType2 == 'Item' && (assessment.locked || !editableForm.$visible)">{{enemy.object2.tibIdentifier + (enemy.object2.description?(' - ' + enemy.object2.description):"")}}</span>
+                                        
+                                        <span data-ng-readonly="!editableForm.$visible"  data-ng-show="enemy.objectType2 == 'Item Group' && !assessment.locked && editableForm.$visible" data-item-group-auto-complete data-item-group-model="enemy.object2" data-assessment-id="{{assessment.id}}" data-on-select="changeObject2(newItemGroup,'Item Group')"></span>
+                                        <span class="viewSpan" data-ng-show="enemy.objectType2 == 'Item Group' && (assessment.locked || !editableForm.$visible)">{{enemy.object2.groupName + ' (' + (enemy.object2.segment ? 'Segment: ' + enemy.object2.segment.label : 'Partition: ' + enemy.object2.formPartition.name) + ')'}}</span>        
+                                         
+                                        <span class="editable-error ng-binding" >{{errorsMap['objectId2'][0]}}</span> 
+                                    </span>
+                                </li>
+                            </ul>
+                        </fieldset>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+        
+    </div>  
+    </form>
+</div>

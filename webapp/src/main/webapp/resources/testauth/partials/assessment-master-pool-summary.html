@@ -1,0 +1,52 @@
+<div data-searchable data-search-promise="searchAffinityGroups(params)" data-search-params="searchParams" data-search-response="searchResponse" 
+        data-deactivate-initial-search="false" data-broadcast-signal="initiate-affinity-group-search">
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span>
+                    <label for="selectedSegmentId" title="Segment">Segment:</label>
+                    <select class="" data-ng-model="selectedSegmentId" data-ng-options="segment.id as segment.position + ' - ' + segment.label for segment in segmentList" tabindex="0" title="Segment">
+                        <option value="">Master</option>
+                    </select>
+                </span>
+            </li>
+        </ul>
+        <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+            <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+            <span class="btnText">Search</span>
+        </button>
+    </div>
+
+    <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+        <table class="dataTable withHeader" role="grid">
+            <colgroup>
+                <col style="width:25%">
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <tr role="row">
+                <th scope="col" id="affinityGroupHeader" title="Affinity Group Name" class="noSort">Affinity Group Name</th>
+                <th scope="col" id="opMinHeader" title="OP Min" class="noSort">OP Min</th>
+                <th scope="col" id="opMaxHeader" title="OP Max" class="noSort">OP Max</th>
+                <th scope="col" id="ftMinHeader" title="FT Min" class="noSort">FT Min</th>
+                <th scope="col" id="ftMaxHeader" title="FT Max" class="noSort">FT Max</th>
+                <th scope="col" id="opItemsHeader" title="OP Items" class="noSort">OP Items</th>
+                <th scope="col" id="ftItemsHeader" title="FT Items" class="noSort">FT Items</th>
+                <th scope="col" id="totalItemsHeader" title="Total Items" class="noSort">Total Items</th>
+            </tr>
+            <tr data-ng-repeat="affinityGroup in searchResponse.searchResults" role="row" id="row{{$index}}">
+                <td scope="col" role="gridcell" aria-labelledby="affinityGroupHeader">{{affinityGroup.groupName}}</td>
+                <td scope="col" role="gridcell" aria-labelledby="opMinHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).operationalItemMinValue}}</td>
+                <td scope="col" role="gridcell" aria-labelledby="opMaxHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).operationalItemMaxValue}}</td>
+                <td scope="col" role="gridcell" aria-labelledby="ftMinHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).fieldTestItemMinValue}}</td>
+                <td scope="col" role="gridcell" aria-labelledby="ftMaxHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).fieldTestItemMaxValue}}</td>                             
+                <td scope="col" role="gridcell" aria-labelledby="opItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['opCount']}}</td>     
+                <td scope="col" role="gridcell" aria-labelledby="ftItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['ftCount']}}</td>             
+                <td scope="col" role="gridcell" aria-labelledby="totalItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['totalCount']}}</td>                                        
+            </tr>
+        </table>  
+    </div>  
+</div>

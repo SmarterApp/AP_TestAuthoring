@@ -1,0 +1,63 @@
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <h5 tabindex="-1">Form Partition<span class="control-label-required">Indicates required field</span></h5>
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="formPartition.formId" title="Form">Form:</label>
+                    <span data-editable-select="formPartition.formId" data-e-ng-disabled="assessment.locked" data-e-name="formId" 
+                       data-e-ng-options="form.id as form.name for form in formList" data-e-class="dropdown-mid">
+                       <span data-ng-repeat="form in formList"><span style="word-wrap:break-word; white-space: normal;" class="propertyBox" data-ng-if="form.id == formPartition.formId">{{form.name}}</span></span>
+                    </span>                    
+                </span>
+            </li>
+            <li>
+	            <span>
+	                <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="formPartition.name" title="Form Partition Name">Form Partition Name:</label>
+                    <span style="white-space: normal;" class="propertyBox" data-e-maxlength="60" data-editable-text="formPartition.name" data-e-name="name">{{formPartition.name}}</span>	                
+	            </span>
+	        </li>
+	        <li>
+	            <span> 
+	                <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="formPartition.segmentId" title="Segment">Segment:</label>
+                    <span data-editable-select="formPartition.segmentId" data-e-ng-disabled="assessment.locked" data-e-name="segmentId" 
+                       data-e-ng-options="segment.id as segment.label for segment in segmentList | fixedFormSegments" data-e-class="dropdown-mid">
+                       <span data-ng-repeat="segment in segmentList"><span class="propertyBox" data-ng-if="segment.id == formPartition.segmentId">{{segment.position}} - {{segment.label}}</span></span>
+                    </span>	                
+	            </span>
+	        </li>
+	        <li>
+               
+            </li>
+	    </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>     
+	 </div>
+	 </form>
+</div>

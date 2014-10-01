@@ -1,0 +1,51 @@
+
+<div>
+    <div data-searchable data-search-promise="searchForms(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-form-search">
+        <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span>
+                        <label for="name" title="Form Name">Form Name:</label>
+                        <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Form Name" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> 
+                <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="name">Name</th>
+                    <th scope="col" id="languageHeader" title="Language" class="noSort">Language</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="form in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="nameHeader"><span>{{form.name}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="languageHeader"><span>{{formatLanguage(form.language)}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(form)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="remove(form)" class="boxBtn" data-ng-show="!assessment.locked" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

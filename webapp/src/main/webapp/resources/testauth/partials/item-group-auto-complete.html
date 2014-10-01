@@ -1,0 +1,8 @@
+<input type="text" 
+    placeholder="Select..." 
+    data-ng-model="itemGroupModel"
+    data-typeahead="availableGroup as availableGroup ? availableGroup.groupName + ' (' + (availableGroup.segment ? 'Segment: ' + availableGroup.segment.label : 'Partition: ' + availableGroup.formPartition.name) + ')' : '' for availableGroup in filterItemGroups($viewValue)" 
+    data-typeahead-wait-ms="200" 
+    data-typeahead-editable="false" 
+    data-typeahead-min-length="-1"
+    data-typeahead-on-select="onSelect({newItemGroup:$item,newItemGroupLabel:$label})" tabindex="0" alt="Available Group" />

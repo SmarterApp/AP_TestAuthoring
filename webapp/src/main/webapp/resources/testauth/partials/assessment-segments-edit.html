@@ -1,0 +1,122 @@
+<div class="boxTitle"><h5 tabindex="-1">Test Segments<span class="control-label-required">Indicates required field</span></h5></div>
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span> 
+                    <label class="control-label" for="segment.position" title="Position">Position:</label>
+                    <span class="propertyBox">{{segment.position}}</span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.label" title="Label">Label:</label>
+                    <span data-ng-disabled="assessment.locked" data-editable-text="segment.label" data-e-name="label"><span class="propertyBox">{{segment.label}}</span></span>
+               </span>
+            </li>
+            <li data-ng-hide="lockOpItems">
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.minOpItems" title="Min OP Items">Min OP Items:</label>
+                    <span data-ng-disabled="assessment.locked" data-editable-text="segment.minOpItems" data-e-name="minOpItems"><span class="propertyBox">{{segment.minOpItems}}</span></span>
+                </span>
+            </li>
+            <li data-ng-hide="lockOpItems">
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.maxOpItems" title="Max OP Items">Max OP Items:</label>
+                    <span data-ng-disabled="assessment.locked" data-editable-text="segment.maxOpItems" data-e-name="maxOpItems"><span class="propertyBox">{{segment.maxOpItems}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.minFtItems" title="Min FT Items">Min FT Items:</label>
+                    <span data-ng-disabled="assessment.locked" data-editable-text="segment.minFtItems" data-e-name="minFtItems"><span class="propertyBox">{{segment.minFtItems}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.maxFtItems" title="Max FT Items">Max FT Items:</label>
+                    <span data-ng-disabled="assessment.locked" data-editable-text="segment.maxFtItems" data-e-name="maxFtItems"><span class="propertyBox">{{segment.maxFtItems}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="segment.itemSelectionAlgorithmId" title="Item Selection">Item Selection:</label>
+                    <span data-e-ng-disabled="assessment.locked" data-editable-select="segment.itemSelectionAlgorithmId" data-e-name="itemSelectionAlgorithmId" 
+                        data-e-ng-options="algorithm.id as algorithm.name + ' (' + algorithm.version + ')'  for algorithm in algorithmList" data-e-ng-change="updateSelectedAlgorithm($data, true)">
+                        <span data-ng-repeat="algorithm in algorithmList"><span class="viewSpanLeft" data-ng-show="algorithm.id == segment.itemSelectionAlgorithmId">{{algorithm.name}} ({{algorithm.version}})</span></span>
+                    </span>
+                </span>
+            </li>
+            <li></li>
+        </ul>
+        
+
+            <fieldset data-ng-show="selectedAlgorithm.scalarParameters">
+            <h4 tabindex="-1">Item Selection Parameters</h4>
+                    <ul class="one-column width600">
+	                <li data-ng-repeat="param in selectedAlgorithm.scalarParameters" class="centered">
+		                <span class="wrap-error"> 
+		                    <label class="control-label" for="param.parameterName" title="Item Selection Parameters">{{param.parameterName}}:
+		                        <br data-ng-if="param.itemSelectionType == 'Integer' || param.itemSelectionType == 'Float'"/>
+		                        <span data-ng-if="param.minimumValue && param.maximumValue" class="subText" data-ng-if="param.itemSelectionType == 'Integer' || param.itemSelectionType == 'Float'">
+                                    <em><i>({{param.minimumValue}} - {{param.maximumValue}})</i></em>
+		                        </span>
+                                <span data-ng-if="param.minimumValue && !param.maximumValue" class="subText" data-ng-if="param.itemSelectionType == 'Integer' || param.itemSelectionType == 'Float'">
+                                    <em><i>(Minimum {{param.minimumValue}})</i></em>
+                                </span>	
+                                <span data-ng-if="!param.minimumValue && param.maximumValue" class="subText" data-ng-if="param.itemSelectionType == 'Integer' || param.itemSelectionType == 'Float'">
+                                    <em><i>(Maximum {{param.maximumValue}})</i></em>
+                                </span>                                                                  	                        
+		                    </label>
+		                    <span data-ng-if="param.itemSelectionType == 'Integer' || param.itemSelectionType == 'Float' || param.itemSelectionType == 'String'" 
+		                      data-editable-text="segment.itemSelectionParameters[param.parameterName]" 
+		                      data-e-name="itemSelectionParameters[{{param.parameterName}}]" data-e-ng-disabled="assessment.locked" >
+		                      {{segment.itemSelectionParameters[param.parameterName]}}
+		                    </span>
+
+                            <span data-ng-if="param.itemSelectionType == 'Boolean'" data-e-name="itemSelectionParameters[{{param.parameterName}}]"
+                              data-editable-select="segment.itemSelectionParameters[param.parameterName]" data-e-ng-disabled="assessment.locked" 
+                              data-e-ng-options="k as v for (k,v) in {false:'FALSE',true:'TRUE'}">
+                              {{segment.itemSelectionParameters[param.parameterName]}}
+                            </span>
+                        
+                            <span data-ng-if="param.itemSelectionType == 'List'" data-e-name="itemSelectionParameters[{{param.parameterName}}]"
+                              data-editable-select="segment.itemSelectionParameters[param.parameterName]" data-e-ng-disabled="assessment.locked" 
+                              data-e-ng-options="option.name as option.name for option in param.itemSelectionList">
+                              {{segment.itemSelectionParameters[param.parameterName]}}
+                            </span>
+                        </span>
+		            </li>
+		            </ul>
+		</fieldset>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="returnToSearch()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+    </div>  
+    </form>
+</div>

@@ -1,0 +1,29 @@
+
+    <div class="home">
+       <div class="menuslide" data-ng-click="slidePage('/home')" data-ng-keydown="slidePageEnter($event, '/home')" tabindex="0">
+            <span class="icon_arrows_sprite icon_slider"></span>slide to view <b>test-creation</b> options
+            <div data-ng-if="assessment">Assessment:&nbsp;<b>{{assessment.name}}</b></div>            
+       </div>
+       <span class="subtitle">After you've created a test:</span>
+      <div data-ng-if="assessment" class="navCore">
+          <ol>
+              <li class="green" data-ng-click="go('assessmenthome.simulation')">Upload Simulation<br>Information<br><br><span class="assessment_icon_sprite_large icon_test_simulate_large"></span><p>Prepare to simulate your test and<br>upload simulation documentation</p></li>
+              <li class="maroon" data-ng-click="go('assessmenthome.publishinghome.publishing')">Publish<br><br><span class="assessment_icon_sprite_large icon_test_publishing_large"></span><p>Publish your test<br>to other systems</p></li>
+              <li class="navy" data-ng-click="go('assessmenthome.psychometric')">Upload Psychometric<br>Information<br><span class="assessment_icon_sprite_large icon_test_psychometric_large"></span><p>Upload psychometric analysis<br>documentation your test</p></li>
+          </ol>
+     </div>
+      <div data-ng-if="!assessment" class="navCore">
+          <ol>
+              <li class="disabled" >Upload Simulation<br>Information<br><br><span class="assessment_icon_sprite_large icon_test_simulate_large_disabled"></span><p>Prepare to simulate your test and<br>upload simulation documentation</p></li>
+              <li class="disabled" >Publish<br><br><span class="assessment_icon_sprite_large icon_test_publishing_large_disabled"></span><p>Publish your test<br>to other systems</p></li>
+              <li class="disabled" >Upload Psychometric<br>Information<br><span class="assessment_icon_sprite_large icon_test_psychometric_large_disabled"></span><p>Upload psychometric analysis<br>documentation your test</p></li>
+          </ol>
+     </div>  
+     <div class="clear"></div>
+    </div>
+ <div class="footer">
+    <div data-ng-if="buildInfo.appVersion" class="footerText">
+        Version: {{buildInfo.appVersion}}
+        <span data-ng-if="buildInfo.jenkinsBuildNumber"> (build #: {{buildInfo.jenkinsBuildNumber}})</span>
+    </div>
+</div>

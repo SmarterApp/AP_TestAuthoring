@@ -1,0 +1,78 @@
+<h5 tabindex="-1">Upload Simulation Information</h5>
+<div data-error-panel data-error-list="errors"></div>
+
+<div>
+    <div data-searchable data-search-promise="searchDocs(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-docs-search">
+        <div class="entryArea fieldGroup">
+            <ul>
+                <li>
+                    <span style="text-align:center;">
+                        <label for="name" title="Group Name">Group Name:</label>
+                        <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Group Name" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="createNewGroup()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+            
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col class="actionColumn">
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="expanderHeader" title="Expander"></th>
+                    <th scope="col" id="groupNameHeader" title="Group Name" data-sort-on-click data-sort-column="name">Group Name</th>
+                    <th scope="col" id="createDateHeader" title="Create Date" data-sort-on-click data-sort-column="createDate">Create Date</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tbody data-ng-repeat="fileGroup in searchResponse.searchResults" data-expandable="fileGroup">
+                    <tr role="row" id="row{{$index}}">
+	                    <td scope="col" role="gridcell" aria-labelledby="expanderHeader"><span data-ng-click="toggle()" data-ng-keydown="keyToggle($event)" data-ng-class="iconClass" tabindex="0" title="Expand {{fileGroup.name}}"></span></td>
+	                    <td scope="col" role="gridcell" aria-labelledby="groupNameHeader"><span>{{fileGroup.name}}</span></td>
+	                    <td scope="col" role="gridcell" aria-labelledby="createDateHeader"><span>{{fileGroup.createDate | date:'MMMM d, y h:mm:ss a'}}</span></td>
+	                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace">
+	                        <div class="tableButtonGroup">
+	                            <button data-ng-click="view(fileGroup)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+	                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+	                            </button>
+	                        </div>
+                            <div class="tableButtonGroup" data-ng-hide="assessment.locked">
+                                <button data-ng-click="removeGroup(fileGroup)" class="boxBtn" id="remove{{$index}}" tabindex="-1">
+                                    <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                                </button>
+                            </div>
+	                    </td>
+	                </tr>
+	                <tr data-ng-show="expanded" class="expander">
+	                    <td colspan="4">
+	                         <ul class="gridFile">
+	                             <li data-ng-repeat="gridFile in fileGroup.gridFiles" data-ng-class-odd="'gridFileOdd'" data-ng-class-even="'gridFileEven'">
+                                     <span class="gridFileName">{{gridFile.fileName}}</span>
+                                     <span data-ng-hide="assessment.locked" class="gridFileLinks">
+                                        <button data-ng-click="removeFile(fileGroup, gridFile, $index)" class="boxBtn" tabindex="0">
+                                            <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                     <span class="gridFileLinks">
+		                                <button data-ng-click="downloadFile(gridFile)" class="boxBtn" tabindex="0">
+		                                    <span class="btnIcon icon_sprite icon_download2" aria-hidden="true"></span>
+		                                </button>
+                                    </span>
+	                             </li>
+	                         </ul>
+                         </td>
+	                </tr>
+            </table>
+        </div>
+    </div>
+</div>

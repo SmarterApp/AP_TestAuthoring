@@ -1,0 +1,56 @@
+<div data-searchable data-search-promise="searchApprovals(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-approval-search">
+<div data-ng-hide="updateIndicator">
+	<div data-error-panel data-error-list="errors" data-always-expanded="true"></div>
+    <h3 tabindex="-1">Approval History</h3>
+    <div class="fieldGroup">
+           <ul>
+               <li>
+                   <span>
+                       <label for="version" title="Version">Version:</label>
+                       <input name="version" data-ng-model="searchParams.version" tabindex="0" alt="Version" />
+                   </span>
+               </li>
+               <li>
+                   <span>
+                       <label for="status" title="Status">Status:</label>
+                       <input name="status" data-ng-model="searchParams.status" tabindex="0" alt="Status" />
+                   </span>
+               </li>
+           </ul>
+           <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+               <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+               <span class="btnText">Search</span>
+           </button>
+       </div>
+     <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+         <table class="dataTable" role="grid">
+             <colgroup>
+                 <col style="width:15%">
+                 <col style="width:7%;">
+                 <col>
+                 <col>
+                 <col>
+                 <col style="width:28%">
+             </colgroup>
+             <thead>
+             <tr role="row">
+                 <th scope="col" id="permissionHeader" title="Permission" data-sort-on-click data-sort-column="permissionLabel">Permission</th>
+                 <th scope="col" id="versionHeader" title="Version" data-sort-on-click data-sort-column="version">Version</th>
+                 <th scope="col" id="statusHeader" title="Status" data-sort-on-click data-sort-column="status">Status</th>
+                 <th scope="col" id="usernameHeader" title="Username" data-sort-on-click data-sort-column="username">Username</th>
+                 <th scope="col" id="updatedHeader" title="Last Updated" data-sort-on-click data-sort-column="lastUpdatedDate">Last Updated</th>
+                 <th scope="col" id="messageHeader" title="Message" data-sort-on-click data-sort-column="message">Message</th>
+             </tr>
+             </thead>
+             <tr data-ng-repeat="approval in searchResponse.searchResults" role="row" id="row{{$index}}">
+                 <td scope="col" role="gridcell" aria-labelledby="permissionHeader">{{approval.permissionLabel}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="versionHeader" style="text-align:center;">{{approval.version}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{approval.status}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="usernameHeader">{{approval.username}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="updatedHeader">{{approval.lastUpdatedDate | date:'MMMM d, y h:mm:ss a'}}</td>
+                 <td scope="col" role="gridcell" aria-labelledby="messageHeader">{{approval.message}}</td>
+             </tr>
+         </table>
+     </div>
+</div>
+</div>

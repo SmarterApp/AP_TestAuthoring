@@ -1,0 +1,124 @@
+
+<div data-error-panel data-error-list="errors"></div>
+           
+<div class="boxTitle"><h2 tabindex="-1">Assessment Search</h2></div>
+<div>
+    <div>
+        <div data-ng-show="updateIndicator"><img src="resources/testauth/images/loading-small.gif" alt="" /><strong>Updating assessment information...</strong></div>
+    </div>
+    <div data-ng-hide="updateIndicator" data-searchable data-search-promise="searchTests(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-assessment-search">
+        <div class="fieldGroup">
+            <h5 tabindex="-1">Search Filters</h5>
+            <ul>
+                <li>
+                    <span> 
+                          <label for="name" title="Name">Name:</label>
+                          <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Name" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="purpose" title="Label">Label:</label>
+                        <input name="purpose" data-ng-model="searchParams.label" tabindex="0" alt="Label" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label for="grade" title="Grade">Grade(s):</label>
+                        <input  type="text" data-ui-select2="gradesSelector" data-ng-model="searchParams.grade" tabindex="0" alt="Grade" />
+                    </span>  
+                </li>
+                <li>
+                    <span> 
+                        <label for="subjectId" title="Subject">Subject:</label>
+                        <select data-ng-model="searchParams.subjectId" data-ng-options="subject.id as subject.name for subject in availableSubjects" tabindex="0" title="Subject">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label for="administration" title="Administration">Administration:</label>
+                        <input name="administration" data-ng-model="searchParams.administration" tabindex="0" alt="Administration" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label for="type" title="Type">Type:</label>
+                        <select data-ng-model="searchParams.type" data-ng-options="type as type for type in availableTypes" tabindex="0" title="Type">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                        <label for="status" title="Status">Status:</label>
+                        <select data-ng-model="searchParams.status" data-ng-options="status as status for status in availableStatuses" tabindex="0" title="Status">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>&nbsp;</li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col style="width: 130px;">
+                    <col>
+                    <col>
+                    <col>
+                    <col class="tripleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="name" class="headerSortUp">Name</th>
+                    <th scope="col" id="labelHeader" title="Label" data-sort-on-click data-sort-column="label">Label</th>
+                    <th scope="col" id="versionHeader" title="Version" data-sort-on-click data-sort-column="version" >Version</th>
+                    <th scope="col" id="subjectHeader" title="Subject" class="noSort">Subject</th>
+                    <th scope="col" id="gradeHeader" title="Grade" class="noSort">Grade</th>
+                    <th scope="col" id="administrationHeader" title="Administration" data-sort-on-click data-sort-column="administration">Administration</th>
+                    <th scope="col" id="typeHeader" title="Type" data-sort-on-click data-sort-column="type">Type</th>
+                    <th scope="col" id="categoryHeader" title="Category" data-sort-on-click data-sort-column="category">Category</th>
+                    <th scope="col" id="statusHeader" title="Status" data-sort-on-click data-sort-column="status">Status</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort" scope="col" id="buttonHeader" title="Buttons">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="test in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="nameHeader">{{test.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="labelHeader">{{test.label}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{test.version}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="subjectHeader">{{test.subject.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{test.grade.join(', ')}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="administrationHeader">{{test.administration}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="typeHeader">{{test.type}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="categoryHeader">{{test.category}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{test.status}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text role="gridcell" id="row{{$index}}-button" aria-labelledby="buttonHeader">
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="edit(test)" class="boxBtn" tabindex="{{$index == 0 ? 0 : -1}}" value="Edit" title="Edit" id="view{{$index}}" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="copy(test)" class="boxBtn" tabindex="-1" value="Copy" title="Copy" id="copy{{$index}}" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_copy2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="remove(test)" class="boxBtn" data-ng-hide="test.locked" tabindex="-1" value="Remove" title="Remove" id="remove{{$index}}" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

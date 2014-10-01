@@ -1,0 +1,9 @@
+<div class="boxTitle"><h5 data-ng-show="formAction == 'Add'" tabindex="-1">{{formAction}} Assessment</h5></div>
+<div>
+<div class="tabInfo">
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.detailhome.edit')}" data-ng-click="goToSubPage($event, 'assessmenthome.detailhome.edit')" data-ng-keydown="goToSubPage($event, 'assessmenthome.detailhome.edit')" tabindex="0" title="Assessment Details">Details</a> |
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.detailhome.summary')}" data-ng-click="goToSubPage($event, 'assessmenthome.detailhome.summary')" data-ng-keydown="goToSubPage($event, 'assessmenthome.detailhome.summary')" tabindex="0" title="Assessment Summary">Summary</a>
+</div>
+<div class="clear"></div>
+<div data-ui-view="details-home-view"></div>
+</div>

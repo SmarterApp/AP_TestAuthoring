@@ -1,0 +1,140 @@
+
+<div data-error-panel data-error-list="errors"></div>
+<div class="formWrapper">
+   <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup">
+        <h5 tabindex="-1">{{formAction}} Computation Rule<span class="control-label-required">Indicates required field</span></h5>
+        <ul>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="computationRule.name" title="Name">Name:</label>
+                    <span data-editable-text="computationRule.name" data-e-name="name" data-e-maxlength="60" data-focus-on="focusEdit">{{computationRule.name}}</span>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="computationRule.version" title="Version">Version:</label>
+                    <span data-editable-text="computationRule.version" data-e-name="version" data-e-maxlength="60" data-focus-on="focusEdit">{{computationRule.version}}</span>                    
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="computationRule.conversionTableType" title="Conversion Table">Conversion Table:</label>
+                    <span data-editable-select="computationRule.conversionTableType" data-e-name="conversionTableType" data-e-ng-options="conversionTableType for conversionTableType in availableConversionTableTypes">{{computationRule.conversionTableType}}</span>
+                </span>
+            </li>
+            <li>
+                <span class="ng-class:{hasError:hasFieldError('version')}" data-tooltip="{{fieldErrorText('description')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                    <label for="computationRule.description" title="Description">Description:</label>
+                    <span data-editable-textarea="computationRule.description">
+                        <span data-tooltip="{{computationRule.description}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" style="width:100%;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;" class="viewSpanLeft">{{computationRule.description}}</span>
+                    </span>
+                </span>
+            </li>
+        </ul>
+		<div class="tableWrapper">
+        <span class="editable-error ng-binding" >{{errorsMap['parameters'][0]}}</span>		
+		    <table class="sortableTable" role="grid">
+		           <colgroup>
+		               <col>
+		               <col>
+		               <col>
+		               <col>
+		               <col>
+		               <col>
+		               <col>
+		               <col>
+		               <col class="doubleActionColumn">
+		           </colgroup>
+		           <thead>
+			           <tr role="row">
+			               <th scope="col" id="paramNameHeader" title="Parameter Name">Parameter Name</th>
+			               <th scope="col" id="paramTypeHeader" title="Parameter Type">Parameter Type</th>
+			               <th scope="col" id="descriptionHeader" title="Description">Description</th>
+			               <th scope="col" id="defaultHeader" title="Default">Default</th>
+			               <th scope="col" id="minimumHeader" title="Minimum">Minimum</th>
+			               <th scope="col" id="maximumHeader" title="Maximum">Maximum</th>
+			               <th scope="col" id="multiplicityHeader" title="Multiplicity">Multiplicity</th>
+			               <th scope="col" id="dictionaryIdHeader" title="Dictionary Index Type">Dictionary Index Type</th>
+                           <th scope="col" id="addItemHeader" title="Add Item">
+                               <div class="tableButtonGroup" data-ng-hide="!editComputationRule" >
+                                    <button type="button" data-ng-click="addItem()" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span></button>
+                               </div>
+                           </th>			               
+			           </tr>
+		           </thead>
+		           <tbody data-ui-sortable="sortableComputationRuleParamOptions" data-ng-model="computationRule.parameters">
+                   <tr data-ng-repeat="computationRuleParam in computationRule.parameters" class="{{editComputationRule ? 'move-cursor' : 'default-cursor'}} ng-class:{hasError:hasRowError($index)}" role="row" id="row{{$index}}" data-drag-drop draggable="true" aria-grabbed="false">
+                       <td scope="col" role="gridcell" aria-labelledby="paramNameHeader" class="normalSpace ng-class:{hasError:hasGridFieldError($index, 'parameterName')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].parameterName')}}" data-tooltip-placement="top" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <input type="text" data-ng-disabled="!editComputationRule" maxlength="60" data-ng-model="computationRuleParam.parameterName" data-focus-on="focusNewParam" tabindex="0" alt="Parameter Name" />
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="paramTypeHeader" class="scoringSelect ng-class:{hasError:hasGridFieldError($index, 'computationRuleType')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].computationRuleType')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <select data-ng-disabled="!editComputationRule" data-ng-model="computationRuleParam.computationRuleType" data-ng-options="computationRuleType for computationRuleType in availableComputationRuleTypes" data-ng-change="refreshComputationRuleParameter($index)" tabindex="0" title="Computation Rule Type">
+                                <option value="">Select...</option>
+                            </select>
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="descriptionHeader" class="normalSpace ng-class:{hasError:hasGridFieldError($index, 'description')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].description')}}" data-tooltip-placement="top" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <input type="text" data-ng-disabled="!editComputationRule" maxlength="60" data-ng-model="computationRuleParam.description" tabindex="0" alt="Description" />
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="defaultHeader" class="narrow ng-class:{hasError:hasGridFieldError($index, 'defaultValue')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].defaultValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <input type="text" data-ng-hide="computationRuleParam.computationRuleType == 'Boolean'" maxlength="{{computationRuleParam.computationRuleType == 'String' ? '60' : '18'}}" data-ng-disabled="!editComputationRule" data-ng-model="computationRuleParam.defaultValue" tabindex="0" alt="Default Value" />
+                            <select data-ng-hide="computationRuleParam.computationRuleType != 'Boolean'" data-ng-disabled="!editComputationRule" data-ng-model="computationRuleParam.defaultValue" data-ng-options="key as label for (key,label) in booleanOptions" tabindex="0" title="Default Value">
+                                <option value="">Select...</option>
+                            </select>
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="minimumHeader" class="narrow ng-class:{hasError:hasGridFieldError($index, 'minimumValue')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].minimumValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <input type="text" maxlength="18" data-ng-disabled="!editComputationRule" data-ng-hide="!(computationRuleParam.computationRuleType == 'Integer' || computationRuleParam.computationRuleType == 'Float')" data-ng-model="computationRuleParam.minimumValue" tabindex="0" alt="Minimum Value" />
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="maximumHeader" class="narrow ng-class:{hasError:hasGridFieldError($index, 'maximumValue')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].maximumValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <input type="text" maxlength="18" data-ng-disabled="!editComputationRule" data-ng-hide="!(computationRuleParam.computationRuleType == 'Integer' || computationRuleParam.computationRuleType == 'Float')" data-ng-model="computationRuleParam.maximumValue" tabindex="0" alt="Maximum Value" />
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="multiplicityHeader" class="scoringSelect ng-class:{hasError:hasGridFieldError($index, 'computationRuleMultiplicityType')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].computationRuleMultiplicityType')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <select data-ng-disabled="!editComputationRule" data-ng-model="computationRuleParam.computationRuleMultiplicityType" data-ng-options="computationRuleMultiplicityType for computationRuleMultiplicityType in availableComputationRuleMultiplicityTypes" data-ng-change="refreshComputationRuleMultiplicity($index)" tabindex="0" title="Computation Rule Multiplicity Type">
+                                <option value="">Select...</option>
+                            </select>
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="dictionaryIdHeader" class="scoringSelect ng-class:{hasError:hasGridFieldError($index, 'dictionaryIndexType')}" data-tooltip="{{fieldErrorText('parameters['+$index+'].dictionaryIndexType')}}" data-tooltip-placement="top" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <select data-ng-disabled="!editComputationRule" data-ng-hide="computationRuleParam.computationRuleMultiplicityType != 'Dictionary'" data-ng-model="computationRuleParam.dictionaryIndexType" data-ng-options="dictionaryIndexType for dictionaryIndexType in availableDictionaryIndexTypes" tabindex="0" title="Dictionary Index Type">
+                                <option value="">Select...</option>
+                            </select>
+                       </td>
+                       <td scope="col" role="gridcell" aria-labelledby="addItemHeader"  class="normalSpace">
+                           <div class="tableButtonGroup" data-ng-hide="!editComputationRule">
+                           <span data-ng-hide="!editComputationRule || computationRule.parameters.length == 1" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, computationRule.parameters)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
+                           <button data-ng-click="removeItem($index)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+                           </div>
+                       </td>
+                   </tr>
+                   </tbody>
+		    </table>
+		</div>
+        <span data-ng-hide="computationRule.parameters.length">There are currently no parameters for this computation rule<br></span>
+        <span data-ng-show="!editableForm.$visible">
+             <button data-ng-show="computationRule.canEdit" type="button" class="boxBtn" data-ng-click="openEditor()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="returnToSearch()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancelEditor();" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+    </div>
+    </form>
+</div>  
+

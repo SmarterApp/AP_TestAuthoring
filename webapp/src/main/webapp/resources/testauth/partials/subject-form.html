@@ -1,0 +1,83 @@
+
+<div data-error-panel data-error-list="errors"></div>
+           
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup">
+    <h5 tabindex="-1">{{formAction}} Subject<span class="control-label-required">Indicates required field</span></h5>
+        <ul>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="subject.name" title="Name">Name:</label>
+                    <span data-editable-text="subject.name" data-e-name="name"><span class="viewSpanLeft">{{subject.name}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="subject.abbreviation" title="Abbreviation">Abbreviation:</label>
+                    <span data-editable-text="subject.abbreviation" data-e-name="abbreviation"><span class="viewSpanLeft">{{subject.abbreviation}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="tenant" title="Tenant">Tenant:</label>
+                    <span class="subjectEditable" data-ng-show="!editableForm.$visible"><span class="viewSpanLeft">{{selectedTenantName}}</span></span>
+                    
+                    <span data-ng-show="editableForm.$visible" data-tenant-auto-complete data-on-select="changeTenant(newTenant)" data-tenant-model="selectedTenantName" data-ng-change="resetTenant()" data-tenant-type="{{selectedTenantType}}"></span>
+                    <br />
+                    <a data-ng-show="editableForm.$visible" class="fieldLink" data-tenant-type-modal data-selected-tenant-type="selectedTenantType" href="">
+                        <span class="subGroup" data-ng-show="!selectedTenantType">Filter</span>
+                        <span class="subGroup" data-ng-show="selectedTenantType">Filtered By: {{selectedTenantType}}</span>
+                    </a>
+                    
+                    <span style="float:right" class="editable-error ng-binding" >{{errorsMap['tenantId'][0]}}</span> 
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label class="control-label" for="subject.description" title="Description">Description:</label>
+                    <span data-editable-text="subject.description" data-e-name="description"><span class="viewSpanLeft">{{subject.description}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label class="control-label" for="subject.inactive" title="Status">Status:</label>
+                    <span data-editable-select="subject.inactive" data-e-name="inactive" data-e-ng-options="item.key as item.label for item in inactiveItems">
+                        <span class="viewSpanLeft">{{subject.inactive ? "INACTIVE" : "ACTIVE"}}</span>
+                    </span>
+                </span>
+            </li>
+            <li></li>
+        </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-show="!subject.inUse" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+        
+    </div>
+    </form>
+</div>  
+
+
+ 

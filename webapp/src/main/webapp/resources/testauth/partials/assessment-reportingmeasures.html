@@ -1,0 +1,57 @@
+<div class="boxTitle"><h5 tabindex="-1">Reporting</h5></div>
+<div>
+    <div data-searchable data-search-promise="searchReportingMeasures(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-reportingmeasure-search">
+        <h3 tabindex="-1">Reporting Measures</h3>
+        <div class="fieldGroup">
+            <ul class="one-field">
+                <li>
+                    <span>
+                        <label for="blueprintReferenceType" title="Blueprint Reference Type">Blueprint Reference Type:</label>
+                        <select data-ng-model="searchParams.blueprintReferenceType" data-ng-options="blueprintReferenceType for blueprintReferenceType in blueprintReferenceTypes" tabindex="0" title="Blueprint Reference Type">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked || assessment.id == null || !scoringRuleCreated" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> 
+                <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="bpReferenceTypeHeader" title="BP Reference Type" data-sort-on-click data-sort-column="blueprintReferenceType" class="headerSortUp">BP Reference Type</th>
+                    <th scope="col" id="bpReferenceHeader" title="BP Reference" data-sort-on-click data-sort-column="blueprintReferenceName">BP Reference</th>
+                    <th scope="col" id="scoringHeader" title="Scoring Rules" class="noSort">Scoring Rules</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="reportingMeasure in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="bpReferenceTypeHeader">{{reportingMeasure.blueprintReferenceType}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="bpReferenceHeader"><span>{{reportingMeasure.blueprintReferenceName}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="scoringHeader"><span data-ng-repeat="scoringRule in reportingMeasure.scoringRuleList" style="display: table;">{{scoringRule.label}} ({{scoringRule.computationRule.name}} {{scoringRule.computationRule.version}})</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(reportingMeasure)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="remove(reportingMeasure)" class="boxBtn" data-ng-show="!assessment.locked" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

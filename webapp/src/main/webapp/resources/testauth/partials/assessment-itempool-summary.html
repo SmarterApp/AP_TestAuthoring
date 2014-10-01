@@ -1,0 +1,63 @@
+    <div data-searchable data-search-promise="searchBlueprintElements(params)" data-search-params="searchParams" data-search-response="searchResponse" 
+            data-deactivate-initial-search="false" data-broadcast-signal="initiate-blueprint-search">
+       <div class="fieldGroup">
+                    <ul>
+                        <li>
+                            <span>
+                                <label for="segmentId" title="Segment">Segment:</label>
+                                <select class="" data-ng-model="segmentId" data-ng-change="getItemStats(segmentId)"  data-ng-options="segment.id as segment.position + ' - ' + segment.label for segment in segmentList | adaptiveSegments" tabindex="0" title="Segment">
+                                </select>
+                            </span>
+                        </li>
+                    </ul>
+		            <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+		                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+		                <span class="btnText">Search</span>
+		            </button>
+		            <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-ng-click="segmentId='0'" data-search-on-click data-set-params="getDefaultSearchParams()" tabindex="0">
+		                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+		                <span class="btnText">Reset</span>
+		            </button>
+        </div>         
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+                <table class="dataTable withHeader" role="grid">
+                    <colgroup>
+                        <col style="width:25%">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <tr role="row">
+                        <th scope="col" id="standardKeyHeader" title="Standard Key" class="noSort">Standard Key</th>
+                        <th scope="col" id="gradeHeader" title="Grade" class="noSort">Grade</th>
+                        <th scope="col" id="opMinHeader" title="OP Min" class="noSort">OP Min</th>
+                        <th scope="col" id="opMaxHeader" title="OP Max" class="noSort">OP Max</th>
+                        <th scope="col" id="ftMinHeader" title="FT Min" class="noSort">FT Min</th>
+                        <th scope="col" id="ftMaxHeader" title="FT Max" class="noSort">FT Max</th>
+                        <th scope="col" id="opItemsHeader" title="OP Items" class="noSort">OP Items</th>
+                        <th scope="col" id="ftItemsHeader" title="FT Items" class="noSort">FT Items</th>
+                        <th scope="col" id="totalItemsHeader" title="Total Items" class="noSort">Total Items</th>
+                    </tr>
+                    <tr data-ng-hide="isParentCollapsed(blueprintElement)" data-ng-repeat="(bpIndex,blueprintElement) in searchResponse.searchResults" role="row" id="row{{$index}}">
+                        <td scope="col" role="gridcell" aria-labelledby="standardKeyHeader" class="indent{{blueprintElement.level}} standardEL normalSpace expanded">
+                            <div style="float:left; width:20px;">
+                                <i data-ng-show="!isCollapsed(blueprintElement) && hasChild(bpIndex)" data-ng-click="collapse(blueprintElement)" class="treeExpander expanded"></i>
+                                <i data-ng-show="isCollapsed(blueprintElement) && hasChild(bpIndex)" data-ng-click="expand(blueprintElement)" class="treeExpander collapsed"></i>
+                                <i data-ng-show="!hasChild(bpIndex)" class="tree-expanded"></i>
+                            </div>
+                            <div style="float:left">{{blueprintElement.standardKey}}</div>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{ blueprintElement.grade }}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="opMinHeader">{{ blueprintElement.blueprintElementValueMap[segmentId].operationalItemMinValue }}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="opMaxHeader">{{ blueprintElement.blueprintElementValueMap[segmentId].operationalItemMaxValue }}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="ftMinHeader">{{ blueprintElement.blueprintElementValueMap[segmentId].fieldTestItemMinValue }}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="ftMaxHeader">{{ blueprintElement.blueprintElementValueMap[segmentId].fieldTestItemMaxValue }}</td>                             
+                        <td scope="col" role="gridcell" aria-labelledby="opItemsHeader" class="itemstat">{{ itemStatsMap[blueprintElement.standardKey][blueprintElement.grade]['opCount']}}</td>     
+                        <td scope="col" role="gridcell" aria-labelledby="ftItemsHeader" class="itemstat">{{ itemStatsMap[blueprintElement.standardKey][blueprintElement.grade]['ftCount']}}</td>             
+                        <td scope="col" role="gridcell" aria-labelledby="totalItemsHeader" class="itemstat">{{ itemStatsMap[blueprintElement.standardKey][blueprintElement.grade]['opCount'] + itemStatsMap[blueprintElement.standardKey][blueprintElement.grade]['ftCount'] }}</td>                                        
+                    </tr>                  
+                    </table>  
+        </div>  
+</div>

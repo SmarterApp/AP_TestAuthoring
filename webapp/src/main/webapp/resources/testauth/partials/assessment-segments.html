@@ -1,0 +1,80 @@
+
+<div class="boxTitle"><h5 tabindex="-1">Test Segments</h5></div>
+<div>
+    <div data-ng-show="deleteIndicator"><strong>Deleting segment...</strong><br><img src="resources/testauth/images/loading.gif" alt="" /></div>
+    <div data-ng-hide="deleteIndicator" data-searchable data-search-promise="searchSegments(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-segment-search">
+        <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span>
+                        <label for="position" title="Segment Position">Segment Position:</label>
+                        <input name="position" data-ng-model="searchParams.position" tabindex="0" alt="Segment Position" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="label" title="Segment Label">Segment Label:</label>
+                        <input name="label" data-ng-model="searchParams.label" tabindex="0" alt="Segment Label" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked || assessment.id == null" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col style="width: 150px;">
+                    <col style="width: 65px;">
+                    <col style="width: 120px;">
+                    <col style="width: 120px;">
+                    <col style="width: 120px;">
+                    <col style="width: 120px;">
+                    <col style="width: 75px;">
+                    <col class="quartletActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="positionHeader" title="Type" data-sort-on-click data-sort-column="position" class="headerSortUp">Segment Position</th>
+                    <th scope="col" id="labelHeader" title="Type" data-sort-on-click data-sort-column="label">Label</th>
+                    <th scope="col" id="opMinHeader" title="Type" data-sort-on-click data-sort-column="minOpItems">Min OP Items</th>
+                    <th scope="col" id="opMaxHeader" title="Type" data-sort-on-click data-sort-column="maxOpItems">Max OP Items</th>
+                    <th scope="col" id="ftMinHeader" title="Type" data-sort-on-click data-sort-column="minFtItems">Min FT Items</th>
+                    <th scope="col" id="ftMaxHeader" title="Type" data-sort-on-click data-sort-column="maxFtItems">Max FT Items</th>
+                    <th scope="col" id="itemSelectionHeader" title="Type" class="noSort">Item Selection</th>
+	                <th scope="col" id="actionHeader" title="Type" class="noSort" scope="col" id="buttonHeader" title="Buttons">Action</th>
+                </tr>
+                <tr data-ng-repeat="segment in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="positionHeader">{{segment.position}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="labelHeader">{{segment.label}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="opMinHeader">{{segment.minOpItems}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="opMaxHeader">{{segment.maxOpItems}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="ftMinHeader">{{segment.minFtItems}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="ftMaxHeader">{{segment.maxFtItems}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="itemSelectionHeader">{{segment.itemSelectionAlgorithm.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text role="gridcell" id="row{{$index}}-button" aria-labelledby="buttonHeader">
+                         <button data-ng-click="view(segment)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}" value="View" title="View" id="view{{$index}}">
+                             <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                         </button>
+                         <span class="narrowUpDown">
+	                         <button data-ng-click="oneUp(segment)" class="halfBtn" data-ng-hide="assessment.locked || (segment.position < 2) || (segmentList.length < 2)" id="oneUp{{$index}}" tabindex="-1" value="One Up" title="One Up" id="oneUp{{$index}}">
+	                             <span class="icon-up"></span>
+	                         </button>	                         
+	                         <button data-ng-click="oneDown(segment)" class="halfBtn" data-ng-hide="assessment.locked || (segment.position == segmentList.length) || (segmentList.length < 2)" id="oneDown{{$index}}" tabindex="-1" value="One Down" title="One Down" id="oneDown{{$index}}">
+	                             <span class="icon-down"></span>
+	                         </button>
+                         </span>
+                         <button data-ng-hide="assessment.locked" data-ng-click="remove(segment)" class="boxBtn" style="float:right;" id="remove{{$index}}" tabindex="-1" value="Remove" title="Remove" id="remove{{$index}}">
+                             <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                         </button>  
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

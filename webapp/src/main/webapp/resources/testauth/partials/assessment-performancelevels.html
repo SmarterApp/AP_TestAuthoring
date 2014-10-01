@@ -1,0 +1,68 @@
+<div class="boxTitle"><h5 tabindex="-1">Performance Levels</h5></div>
+<div>
+    <div data-searchable data-search-promise="searchPerformanceLevels(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-performancelevel-search">
+        <h3 tabindex="-1">Performance Levels</h3>
+        <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span>
+                        <label for="searchParams.blueprintReferenceType" title="BP Reference Type">BP Reference Type:</label>
+                        <select data-ng-model="searchParams.blueprintReferenceType" data-ng-options="blueprintReferenceType for blueprintReferenceType in blueprintReferenceTypes" tabindex="0" title="BP Reference Type">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="searchParams.blueprintReferenceName" title="BP Reference">BP Reference:</label>
+                        <input name="searchParams.blueprintReferenceName" data-ng-model="searchParams.blueprintReferenceName" tabindex="0" alt="BP Reference" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked || assessment.id == null" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                <col>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="bpReferenceTypeHeader" title="BP Reference Type" data-sort-on-click data-sort-column="blueprintReferenceType" class="headerSortUp">BP Reference Type</th>
+                    <th scope="col" id="bpReferenceHeader" title="BP Reference" class="noSort">BP Reference</th>
+                    <th scope="col" id="levelsHeader" title="Levels" class="noSort">Levels</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="performanceLevel in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="bpReferenceTypeHeader">{{performanceLevel.blueprintReferenceType}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="bpReferenceHeader">{{performanceLevel.blueprintReferenceName}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="levelsHeader" class="normalSpace">
+                        <span data-ng-repeat="val in performanceLevel.performanceLevelValues" style="display: table;">
+                            <span style="font-weight:bold">Level {{val.level}}:</span>
+                            &nbsp;&nbsp;{{val.scaledLo}} - {{val.scaledHi}}
+                        </span>
+                    </td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(performanceLevel)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>
+                            <button data-ng-click="remove(performanceLevel)" class="boxBtn" data-ng-show="!assessment.locked" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,140 @@
+<div data-error-panel data-error-list="errors"></div>
+
+<span class="boxIcon icon_sprite icon_view1"></span>
+<div class="boxTitle"><h2 tabindex="-1">Item Search</h2></div>
+<div>
+    <div data-searchable data-search-promise="searchItems(params)" data-search-params="searchParams" data-search-response="searchResponse">
+        <div class="fieldGroup">
+            <h5 tabindex="-1">Search Filters</h5>
+            <ul>
+                <li>
+                    <span>
+                        <label for="tibIdentifier" title="Item Identifier">Item Identifier:</label>
+                        <input name="tibIdentifier" data-ng-model="searchParams.tibIdentifier" tabindex="0" alt="Item Identifier" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="version" title="Version">Version:</label>
+                          <input name="version" data-ng-model="searchParams.version" tabindex="0" alt="Version" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="interactionType" title="Item Type">Interaction Type:</label>
+                          <input name="interactionType" data-ng-model="searchParams.interactionType" tabindex="0" alt="Item Type" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="grade" title="Grade">Grade:</label>
+                          <input name="grade" data-ng-model="searchParams.grade" tabindex="0" alt="Grade" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="subject" title="Subject">Subject:</label>
+                          <input name="subject" data-ng-model="searchParams.subject" tabindex="0" alt="Subject" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="subjectCategory" title="Subject Category">Subject Category:</label>
+                          <input name="subjectCategory" data-ng-model="searchParams.subjectCategory" tabindex="0" alt="Subject Category" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="status" title="Status">Status:</label>
+                          <input name="status" data-ng-model="searchParams.status" tabindex="0" alt="Status" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="source" title="Source">Source:</label>
+                          <input name="source" data-ng-model="searchParams.source" tabindex="0" alt="Source" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="author" title="Author">Author:</label>
+                          <input name="author" data-ng-model="searchParams.author" tabindex="0" alt="Author" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="itemDifficulty" title="Item Difficulty">Item Difficulty:</label>
+                          <input name="itemDifficulty" data-ng-model="searchParams.itemDifficulty" tabindex="0" alt="Item Difficulty" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="keywords" title="Keywords">Keywords:</label>
+                          <input name="keywords" data-ng-model="searchParams.keywords" tabindex="0" alt="Keywords" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click data-active-indicator="searchResponse.searching" tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:activeIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-click="addNewItems()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span> <span class="btnText">Save</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="actionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="itemIdHeader" title="Item Identifier" data-sort-on-click data-sort-column="tibIdentifier" class="headerSortUp">Item Identifier</th>
+                    <th scope="col" id="versionHeader" title="Version" data-sort-on-click data-sort-column="version">Version</th>
+                    <th scope="col" id="itemTypeHeader" title="Item Type" data-sort-on-click data-sort-column="interactionType">Interaction Type</th>
+                    <th scope="col" id="gradeHeader" title="Grade" data-sort-on-click data-sort-column="grade">Grade</th>
+                    <th scope="col" id="subjectHeader" title="Subject" data-sort-on-click data-sort-column="subject">Subject</th>
+                    <th scope="col" id="categoryHeader" title="Subject Category" data-sort-on-click data-sort-column="subjectCategory">Subject Category</th>
+                    <th scope="col" id="authorHeader" title="Author" data-sort-on-click data-sort-column="author">Author</th>
+                    <th scope="col" id="statusHeader" title="Status" data-sort-on-click data-sort-column="status">Status</th>
+                    <th scope="col" id="keywordsHeader" title="Keywords" data-sort-on-click data-sort-column="keywords">Keywords</th>
+                    <th scope="col" id="actionHeader" title="Action"></th>
+                </tr>
+                <tr data-ng-repeat="item in searchResponse.searchResults" data-ng-class="{ 'selectedItemRow': selectedItems[item.tibIdentifier] }" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="itemIdHeader">{{item.tibIdentifier}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{item.version}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="itemTypeHeader">{{item.interactionType}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{item.grade}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="subjectHeader">{{item.subject}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="categoryHeader">{{item.subjectCategory}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="authorHeader">{{item.author}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{item.status}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="keywordsHeader">{{item.keywords}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace">
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="removeItem(item, $index)" class="boxBtn" data-ng-show="selectedItems[item.tibIdentifier]" id="view{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                            <button data-ng-click="addItem(item, $index)" class="boxBtn" data-ng-show="!selectedItems[item.tibIdentifier] && !existingItemIds[item.tibIdentifier]" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

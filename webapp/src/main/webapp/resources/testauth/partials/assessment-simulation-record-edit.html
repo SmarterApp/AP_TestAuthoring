@@ -1,0 +1,83 @@
+<h5 tabindex="-1">Upload Simulation Information<span class="control-label-required">Indicates required field</span></h5>
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="upload()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    
+    <div class="fieldGroup simulationEdit">
+        <ul>
+            <li>
+	            <span>
+	                <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="fileGroup.name" title="Group Name">Group Name:</label>
+	                <span data-e-maxlength="60" data-editable-text="fileGroup.name" data-e-name="name" data-e-focus-on="focusEdit">
+	                   <span class="viewSpanLeft">{{fileGroup.name}}</span>
+	                </span>
+	            </span>
+	        </li>
+	        <li>
+                <span data-ng-show="editableForm.$visible" class="file-btn fileinput-button">
+                    <input type="file" name="gridFsFile" data-uploadurl="uploadRecordUrl(docType)" data-uploadfile tabindex="0" alt="Upload Simulation Results"><span>Upload Simulation Results...</span>
+                </span>
+	        </li>
+	    </ul>
+	    
+		<div class="tableWrapper">
+		    <table class="dataTable" role="grid">
+		           <colgroup>
+		               <col>
+		               <col class="doubleActionColumn">
+		           </colgroup>
+		           <tr role="row">
+		               <th scope="col" id="nameHeader" title="File Name">File Name</th>
+                       <th scope="col" id="addFileHeader" title="Add File"></th>
+		           </tr>
+                   <tr data-ng-repeat="gridFile in fileGroup.gridFiles" role="row" id="row{{$index}}">
+                       <td scope="col" role="gridcell" aria-labelledby="nameHeader" class="normalSpace">{{gridFile.fileName}}</td>
+                       <td scope="col" role="gridcell" aria-labelledby="addFileHeader" class="normalSpace">
+                           <div class="tableButtonGroup">
+                              <button data-ng-click="downloadFile(gridFile,$event)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_download2" aria-hidden="true"></span></button>
+                           </div>
+                           <div class="tableButtonGroup" data-ng-show="editableForm.$visible">
+                              <button data-ng-click="deleteFile(gridFile, $index)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+                           </div>
+                       </td>
+                   </tr>
+		           <tr data-ng-repeat="file in queue">
+		               <td class="normalSpace">{{file.files[0].name}}</td>
+                       <td class="normalSpace">
+		                   <div class="tableButtonGroup" data-ng-show="editableForm.$visible">
+		                      <button data-ng-click="removeFile($index)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+		                   </div>
+		               </td>
+		           </tr>
+		    </table>
+	    </div>
+	    
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="editableForm.$show()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 	        
+	 </div>
+	 </form>
+</div>

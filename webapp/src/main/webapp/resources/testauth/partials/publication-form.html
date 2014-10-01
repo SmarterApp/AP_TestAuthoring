@@ -1,0 +1,108 @@
+
+<div data-error-panel data-error-list="errors"></div>
+           
+<div class="formWrapper">
+   <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup publication-form">
+        <h5 tabindex="-1">{{formAction}} Publication<span class="control-label-required">Indicates required field</span></h5>
+        <ul class="split-list">
+            <li>
+                <fieldset>
+                    <h4>Select Standards Publication</h4>
+	                <ul class="no-nav wrap-error">
+	                    <li>
+                            <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="publication.coreStandardsPublisherKey">Publisher:</label>
+                        </li>
+                        <li>          
+                            <span data-e-ng-disabled="publicationInUse" data-e-id="pubPublisher" data-editable-select="publication.coreStandardsPublisherKey" data-e-name="coreStandardsPublisherKey" data-e-ng-change="changeCsPublisher($data)" data-e-ng-options="csPublisher.key as csPublisher.name for csPublisher in coreStandardPublishers">
+                                <span data-ng-repeat="csPublisher in coreStandardPublishers"><span class="viewSpan" data-ng-show="csPublisher.key == publication.coreStandardsPublisherKey">{{csPublisher.name}}</span></span>
+                            </span>			                    
+	                    </li>
+	                    <li>
+                            <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="publication.coreStandardsSubjectKey">Subject:</label>
+                        </li>
+                        <li>
+                            <span data-e-ng-disabled="publicationInUse" data-e-id="pubSubject" data-editable-select="publication.coreStandardsSubjectKey" data-e-name="coreStandardsSubjectKey" data-e-ng-change="changeCsSubject($data)" data-e-ng-options="csSubject.key as csSubject.name for csSubject in coreStandardSubjects">
+                                <span data-ng-repeat="csSubject in coreStandardSubjects"><span class="viewSpan"  data-ng-show="csSubject.key == publication.coreStandardsSubjectKey">{{csSubject.name}}</span></span>
+                            </span>     			                                   
+			            </li>
+	                    <li>
+                            <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="publication.coreStandardsPublicationKey">Publication:</label>
+                        </li>
+                        <li>
+                            <span data-e-ng-disabled="publicationInUse" data-e-id="pubPubkey" data-editable-select="publication.coreStandardsPublicationKey" data-ng-disabled="publicationInUse" data-e-name="coreStandardsPublicationKey" data-e-ng-options="csPublication.key as getPublicationDisplay(csPublication) for csPublication in coreStandardPublications">
+                                <span data-ng-repeat="csPublication in coreStandardPublications"><span class="viewSpan" data-ng-show="csPublication.key == publication.coreStandardsPublicationKey">{{getPublicationDisplay(csPublication)}}</span></span>
+                            </span>     			                                  
+			            </li>
+	                </ul>
+                </fieldset>
+            </li>
+            <li>
+                <fieldset>
+                    <h4>Select Tenant and Subject(s)</h4>
+	                <ul class="no-nav">
+	                    <li data-ng-show="publicationInUse && editableForm.$visible">
+		                    <label  data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}"  for="selectedTenantName">Tenant:</label>
+		                </li>
+		                <li data-ng-show="publicationInUse && editableForm.$visible">
+		                    <input type="text" data-ng-disabled="true" data-ng-model="selectedTenantName" />
+	                    </li>
+		                <li data-ng-show="!publicationInUse && editableForm.$visible">
+		                    <label class="control-label-required" for="selectedTenantName">Tenant:</label>
+		                </li>
+		                <li data-ng-show="!publicationInUse && editableForm.$visible">
+		                    <span data-tenant-auto-complete data-on-select="changeTenant(newTenant)" data-tenant-model="selectedTenantName" data-ng-change="resetTenant()" data-tenant-type="{{selectedTenantType}}"></span>
+		                    <a class="fieldLink" data-tenant-type-modal data-selected-tenant-type="selectedTenantType" href="">
+		                        <span class="subGroup" data-ng-show="!selectedTenantType">Filter</span>
+		                        <span class="subGroup" data-ng-show="selectedTenantType">Filtered By: {{selectedTenantType}}</span>
+		                    </a>
+                            <span style="float:right" class="editable-error ng-binding" >{{errorsMap['tenantId'][0]}}</span>			                    
+		                </li>
+		                <li data-ng-show="!editableForm.$visible">
+	                        <label for="selectedTenantName">Tenant:</label>
+			            </li>
+		                <li data-ng-show="!editableForm.$visible">
+	                        <span>{{selectedTenantName}}</span>
+			            </li>
+	                    <li>
+		                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="selectedSubjects">Subject(s):</label>
+		                </li>
+		                <li>
+		                    <input data-ng-readonly="!editableForm.$visible" type="text" data-ui-select2="subjectSelector" data-ng-disabled="subjects.length == 0" data-ng-model="selectedSubjects"/>      
+		                    <span style="float:right" data-ng-show="displayDeletedSubjectMessage"><i>** subject has been deactivated</i></span>
+			                <span class="editable-error ng-binding" >{{errorsMap['subjectIds'][0]}}</span> 
+			            </li>			            
+	                </ul>
+                </fieldset>
+            </li>
+        </ul>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-click="edit()" >
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" ></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()">
+                    <span class="btnIcon icon_sprite icon_reTry2" ></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" ></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()">
+                <span class="btnIcon icon_sprite icon_cancel2" ></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()">
+                    <span class="btnIcon icon_sprite icon_reTry2" ></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+    </div>
+    </form>
+</div>  
+
+ 

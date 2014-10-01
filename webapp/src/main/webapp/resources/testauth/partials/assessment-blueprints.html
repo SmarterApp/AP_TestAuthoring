@@ -1,0 +1,302 @@
+
+<div class="boxTitle"><h5 tabindex="-1">Blueprints</h5></div>
+
+<div class="tabInfo">
+    <b>Standards</b> | <a href="#" data-ng-click="goToTab($event, 'assessmenthome.affinityGroups')" data-ng-keydown="goToTab($event, 'assessmenthome.affinityGroups')" tabindex="0" title="Affinity Groups">Affinity Groups</a>
+</div>
+<br/>
+
+<div data-error-panel data-error-list="errors"></div>
+
+<div>
+    <div data-searchable data-search-promise="searchBlueprintElements(params)" data-search-params="searchParams" data-search-response="searchResponse" 
+            data-deactivate-initial-search="{{deactivateInitialSearch}}" data-broadcast-signal="initiate-blueprint-search">
+        <div class="fieldGroup ng-class:{disabledSearch:disabledSearch}">
+            <ul>
+                <li>
+                    <span>
+                        <label for="blueprint" title="Blueprint">Blueprint:</label>
+                        <!-- IE10 does not display <select> correctly if only 1 bp in list -->
+                        <select data-ng-if="blueprints.length > 1" data-ng-disabled="disabledSearch" data-ng-model="searchParams.selectedBlueprint" data-ng-options="bp.key as bp.label for bp in blueprints" tabindex="0" title="Blueprint"></select>
+                        <input data-ng-if="blueprints.length == 1" data-ng-model="searchParams.selectedBlueprint" data-ng-disabled="true" tabindex="0" alt="Blueprint">
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="grade" title="Grade">Grade(s):</label>
+                        <input data-ng-disabled="disabledSearch" type="text" data-ui-select2="gradesSelector"  data-ng-model="searchParams.grade" tabindex="0" alt="Grade" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="standardKey" title="Standard Key">Standard Key:</label>
+                        <input data-ng-disabled="disabledSearch" name="standardKey" data-ng-model="searchParams.standardKey" tabindex="0" alt="Standard Key" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="textDescription" title="Standard Text">Standard Text:</label>
+                        <input data-ng-disabled="disabledSearch" name="textDescription" data-ng-model="searchParams.textDescription" tabindex="0" alt="Standard Text" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="active" title="Active">Active:</label>
+                        <select data-ng-disabled="disabledSearch" data-ng-model="searchParams.active" data-ng-options="item.key as item.label for item in activeItems" tabindex="0" title="Active">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="active" title="Page Size">Page Size:</label>
+                        <select data-ng-disabled="disabledSearch" data-ng-model="searchParams.pageSize" tabindex="0" title="Page Size">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                    </span>
+                </li>
+            </ul>
+            <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-search-on-click data-set-params="getDefaultSearchParams()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                <span class="btnText">Reset</span>
+            </button>
+        </div>
+        <div>
+            <div data-ng-show="syncIndicator"><img src="resources/testauth/images/loading-small.gif" alt="" /><strong>Synchronizing blueprint with core standards...</strong></div>
+        </div>
+        
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()" data-disabled-search="{{disabledSearch}}">
+            <form data-editable-form name="tableform" data-onaftersave="saveAll(searchResponse.searchResults)" data-onshow="disableSearch();">
+                <div class="left_menu_hidden" data-ng-show="showTools" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+				    <h6 tabindex="-1">Tools</h6>
+				    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
+				    <div title="Edit Blueprint Elements" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked && searchParams.selectedBlueprint != 'MASTER'" data-ng-click="openEditor(tableform)"> </div>
+				    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()"> </div>
+				    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();"> </div>
+				    <div title="Widgets" class="icons icon-gear"  data-ng-hide="tableform.$visible || assessment.locked" data-ng-click="toggleWidgets()"> </div>
+				    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || blueprintErrors.length == 0" data-ng-click="toggleErrors()"> </div>
+				    <div title="Informational Stats" class="icons icon-list"  data-ng-hide="tableform.$visible" data-ng-click="toggleStats()"> </div>
+				    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+				</div>
+				
+                <div class="left_menu_errors" data-ng-show="showErrors">
+                    <div class="tableWrapper">
+                        <h3 tabindex="-1">Blueprint Errors</h3>
+                        <table class="errors">
+                            <tr data-ng-repeat="bpError in blueprintErrors" data-ng-class-odd="'left_menu_errors_odd'" data-ng-class-even="'left_menu_errors_even'">
+                                <td><div class="icons icon-error" data-ng-click="toggleErrors();" data-search-on-click data-set-params="getParamsForErrorFiltering(bpError);">&nbsp;</div></td>
+                                <td><div><span data-ng-if="bpError.validatedObject">Standard:{{bpError.validatedObject.standardKey}} on </span>Blueprint:{{getBlueprintName(bpError.segmentId)}} </div><div>{{bpError.message}}</div></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="menu_button_bar">
+                        <button type="button" class="boxBtn" data-ng-click="toggleErrors()" tabindex="0">
+                            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                            <span class="btnText">Close</span>
+                        </button>
+                    </div>  
+                </div>
+                
+                <div class="left_menu_visible" data-ng-show="showWidgets">
+                    <div class="section" data-ng-show="showConfirmation">
+	                    <div class="fieldGroup">
+                            <ul>
+                                <li>
+	                                <span class="normal-wrap">{{confirmationMessage}}</span>
+	                            </li>
+	                        </ul>
+	                        <button type="button"  class="boxBtn" data-ng-click="toggleWidgets()" tabindex="0">
+	                             <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	                             <span class="btnText">Ok</span>
+	                        </button>
+	                    </div>
+                    </div>
+                    <div class="section" data-ng-hide="showConfirmation">
+                        <div class="fieldGroup">
+                            <ul>
+                                <li>
+                                    <span>
+                                        <label for="grade" title="Action">Action:</label>
+                                        <select data-ng-model="widget.action" tabindex="0" title="Action">
+                                            <option value="">- Select Action -</option>
+                                            <option value="clear">Zero Out Segment Values</option>
+                                            <option value="activate">Activate Grade</option>
+                                            <option value="deactivate">Deactivate Grade</option>
+                                            <option value="activateStandard">Activate Standard</option>
+                                            <option value="deactivateStandard">Deactivate Standard</option>
+                                            <option value="copy">Copy Values from Segment</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li data-ng-show="widget.action == 'clear'">
+                                    <span>
+                                        <label for="clear" title="Segment">Segment:</label>
+                                        <select data-ng-model="widget.clearSegmentId" data-ng-options="bp.key as bp.label for bp in segmentBlueprints" tabindex="0" title="Segment">
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li data-ng-show="widget.action == 'activate' || widget.action == 'deactivate'">
+                                    <span>
+                                        <label for="grade" title="Grade">Grade(s):</label>
+                                        <input data-ng-disabled="disabledSearch" type="text" data-ui-select2="gradesSelector"  data-ng-model="widget.grades" style="width:60%" tabindex="0" alt="Grade" />
+                                    </span>
+                                </li>
+                                <li data-ng-show="widget.action == 'activateStandard' || widget.action == 'deactivateStandard'">
+                                    <span>
+                                        <label for="grade" title="Grade">Grade:</label>
+                                        <select data-ng-model="widget.grade" data-ng-options="grade.key as grade.name for grade in grades" data-ng-change="updateAvailableStandards(widget.grade)" tabindex="0" title="Grade">
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li data-ng-show="(widget.action == 'activateStandard' || widget.action == 'deactivateStandard')">
+                                    <span>
+                                        <label for="grade" title="Standard Key">Standard Key:</label>
+                                        <select data-ng-model="widget.standardKey" data-ng-options="std.key as std.key for std in availableStandards" tabindex="0" title="Standard Key">
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li data-ng-show="widget.action == 'copy'">
+                                    <span>
+                                        <label for="from" title="From">From:</label>
+                                        <select data-ng-model="widget.fromSegmentId" data-ng-options="bp.key as bp.label for bp in segmentBlueprints" tabindex="0" title="From">
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </span>
+                                </li>
+                                <li data-ng-show="widget.action == 'copy'">
+                                    <span>
+                                        <label for="to" title="To">To:</label>
+                                        <select data-ng-model="widget.toSegmentId" data-ng-options="bp.key as bp.label for bp in segmentBlueprints" tabindex="0" title="To">
+                                            <option value="">Select...</option>
+                                        </select>
+                                    </span>
+                                </li>
+                            </ul>
+                            <div data-error-panel data-error-list="widget.errors" data-always-expanded="true" data-relative-width="true"></div>
+
+                            <button type="button" class="boxBtn" data-ng-click="useWidget()" data-ng-show="widget.action" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_edit2" data-ng-class="{ajax_indicator:widget.saveIndicator}" aria-hidden="true"></span>
+                                <span class="btnText">Save</span>
+                            </button>	
+                            <button type="button" class="boxBtn" data-ng-click="toggleWidgets()" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                                <span class="btnText">Cancel</span>
+                            </button>		             
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="left_menu_visible" data-ng-show="showStats">
+                    <div class="section" data-ng-hide="showConfirmation">
+                        <div class="fieldGroup">
+                            <ul>
+                                <li>
+                                    <div class="section">
+                                        <h5>Stats</h5>
+                                        <div data-ng-hide="syncIndicator">
+                                            Total Active BP Elements: {{activeElements}}<br>
+                                            Filtered BP Elements: {{searchResponse.totalCount}}<br>
+                                        </div>
+                                        <div>
+                                            <div data-ng-show="syncIndicator"><img src="resources/testauth/images/loading-small.gif" alt="" /></div>
+                                            <div data-ng-show="updatedBlueprintElementTotal > 0"><strong>Rows updated from core<br> standards synchronization: {{updatedBlueprintElementTotal}}</strong></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button type="button" class="boxBtn" data-ng-click="toggleStats()" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                                <span class="btnText">Close</span>
+                            </button>                    
+                        </div>
+                    </div>
+                </div>
+                <!-- this is a dummy div to provide scrollbar on top of the blueprint table in case of more columns from Item selection algorithm -->
+				<div data-ng-show="algorithms[searchParams.selectedBlueprint].blueprintParameters.length > 0" 
+				    class="blueprintScrollDiv"  data-blueprint-scroll>
+				    <div class="scroll-table" data-ng-style="changeWidth(algorithms[searchParams.selectedBlueprint].blueprintParameters)">
+
+				    </div>
+				</div>
+			    <div class="blueprintDataDiv"  data-blueprint-scroll>
+                <table class="dataTable withHeader" data-ng-style="changeWidth(algorithms[searchParams.selectedBlueprint].blueprintParameters)" role="grid">
+                    <colgroup>
+                        <col style="width:400px;">
+                        <col style="width:55px;">
+                        <col style="width:55px;">
+                        <col data-ng-style="getRelativeWidth(25, algorithms[searchParams.selectedBlueprint].blueprintParameters)">
+                        <col style="width:50px;">
+                        <col style="width:50px;">
+                        <col style="width:50px;">
+                        <col style="width:50px;">
+                        <col style="width:50px;">
+                        <col style="width:140px;" data-ng-repeat="parameter in algorithms[searchParams.selectedBlueprint].blueprintParameters">
+                    </colgroup>
+                    <tr role="row">
+                        <th scope="col" id="standardKeyHeader" title="Standard Key" class="noSort">Standard Key</th>
+                        <th scope="col" id="levelHeader" title="Level" class="noSort">Level</th>
+                        <th scope="col" id="gradeHeader" title="Grade" class="noSort">Grade</th>
+                        <th scope="col" id="standardTextHeader" title="Standard Text" class="noSort">Standard Text</th>
+                        <th scope="col" id="opMinHeader" title="OP Min" class="noSort" data-ng-hide="algorithms[searchParams.selectedBlueprint].itemSelectionAlgorithmType === 'Field Test'">OP Min</th>
+                        <th scope="col" id="opMaxHeader" title="OP Max" class="noSort" data-ng-hide="algorithms[searchParams.selectedBlueprint].itemSelectionAlgorithmType === 'Field Test'">OP Max</th>
+                        <th scope="col" id="ftMinHeader" title="FT Min" class="noSort">FT Min</th>
+                        <th scope="col" id="ftMaxHeader" title="FT Max" class="noSort">FT Max</th>
+                        <th scope="col" id="activeHeader" title="Active" class="noSort">Active</th>
+                        <th scope="col" id="paramHeader" title="Blueprint Parameters" class="noSort ellipse" data-tooltip="{{parameter.parameterName}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" data-ng-repeat="parameter in algorithms[searchParams.selectedBlueprint].blueprintParameters">
+                            {{parameter.parameterName}}
+                            <span data-ng-if="(parameter.itemSelectionType == 'Integer' || parameter.itemSelectionType == 'Float') && (parameter.minimumValue || parameter.maximumValue)">
+                                <br/>
+                                <em data-ng-if="parameter.minimumValue && parameter.maximumValue"><i>({{parameter.minimumValue}} - {{parameter.maximumValue}})</i></em>
+                                <em data-ng-if="parameter.minimumValue && !parameter.maximumValue"><i>(Min {{parameter.minimumValue}})</i></em>
+                                <em data-ng-if="!parameter.minimumValue && parameter.maximumValue"><i>(Max {{parameter.maximumValue}})</i></em>
+                            </span>
+                        </th>
+                    </tr>
+                    <tr data-ng-hide="isParentCollapsed(blueprintElement)" data-ng-repeat="(bpIndex,blueprintElement) in searchResponse.searchResults" class="ng-class:{hasError:hasRowError(blueprintElement)}" role="row" id="row{{$index}}">
+                        <td scope="col" role="gridcell" aria-labelledby="standardKeyHeader" class="indent{{blueprintElement.level}} standardEL normalSpace expanded">
+                            <div style="float:left; width:20px;">
+                                <i data-ng-show="!isCollapsed(blueprintElement) && hasChild(bpIndex)" data-ng-click="collapse(blueprintElement)" class="treeExpander expanded"></i>
+                                <i data-ng-show="isCollapsed(blueprintElement) && hasChild(bpIndex)" data-ng-click="expand(blueprintElement)" class="treeExpander collapsed"></i>
+                                <i data-ng-show="!hasChild(bpIndex)" class="tree-expanded"></i>
+                            </div>
+                            <div style="float:left">{{blueprintElement.standardKey}}</div>
+                            <div class="icons-small icon-search-small" data-add-filter data-filter-param="standardKey" data-filter-value="blueprintElement.standardKey" >&nbsp;</div>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="levelHeader">{{blueprintElement.level}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{blueprintElement.grade}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="standardTextHeader" class="ellipse" data-tooltip="{{blueprintElement.textDescription}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">{{blueprintElement.textDescription}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="opMinHeader" class="ng-class:{hasError:hasValidationError(blueprintElement,'operationalItemMinValue'),hasSevereError:hasSevereError(blueprintElement,'operationalItemMinValue')}" data-tooltip="{{fieldErrorText(blueprintElement,'operationalItemMinValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" data-ng-hide="algorithms[searchParams.selectedBlueprint].itemSelectionAlgorithmType === 'Field Test'"><a href="#"  data-editable-text="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).operationalItemMinValue" data-e-maxlength="3">{{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).operationalItemMinValue | convertToIntFilter }}</a></td>
+                        <td scope="col" role="gridcell" aria-labelledby="opMaxHeader" class="ng-class:{hasError:hasValidationError(blueprintElement,'operationalItemMaxValue'),hasSevereError:hasSevereError(blueprintElement,'operationalItemMaxValue')}" data-tooltip="{{fieldErrorText(blueprintElement,'operationalItemMaxValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" data-ng-hide="algorithms[searchParams.selectedBlueprint].itemSelectionAlgorithmType === 'Field Test'"><a href="#"  data-editable-text="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).operationalItemMaxValue" data-e-maxlength="3">{{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).operationalItemMaxValue | convertToIntFilter }}</a></td>
+                        <td scope="col" role="gridcell" aria-labelledby="ftMinHeader" class="ng-class:{hasError:hasValidationError(blueprintElement,'fieldTestItemMinValue'),hasSevereError:hasSevereError(blueprintElement,'fieldTestItemMinValue')}" data-tooltip="{{fieldErrorText(blueprintElement,'fieldTestItemMinValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"><a href="#" data-editable-text="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).fieldTestItemMinValue" data-e-maxlength="3">{{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).fieldTestItemMinValue | convertToIntFilter }}</a></td>
+                        <td scope="col" role="gridcell" aria-labelledby="ftMax" class="ng-class:{hasError:hasValidationError(blueprintElement,'fieldTestItemMaxValue'),hasSevereError:hasSevereError(blueprintElement,'fieldTestItemMaxValue')}" data-tooltip="{{fieldErrorText(blueprintElement,'fieldTestItemMaxValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"><a href="#" data-editable-text="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).fieldTestItemMaxValue" data-e-maxlength="3">{{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).fieldTestItemMaxValue | convertToIntFilter }}</a></td>
+                        <td scope="col" role="gridcell" aria-labelledby="activeHeader" class="ng-class:{hasError:hasValidationError(blueprintElement,'active'),hasSevereError:hasSevereError(blueprintElement,'active')}" data-tooltip="{{fieldErrorText(blueprintElement,'active')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"><a href="#" data-editable-checkbox="blueprintElement.active">{{ blueprintElement.active ? "Yes" : "No" }}</a></td>
+
+                        <td scope="col" role="gridcell" aria-labelledby="paramHeader" data-ng-repeat="parameter in algorithms[searchParams.selectedBlueprint].blueprintParameters" data-ng-class="{normalSpace:true, hasError: hasValidationError(blueprintElement,'itemSelectionParameters[' + parameter.parameterName + ']'), hasSevereError: hasSevereError(blueprintElement,'itemSelectionParameters[' + parameter.parameterName + ']')}" data-tooltip="{{fieldErrorText(blueprintElement,'itemSelectionParameters[' + parameter.parameterName + ']')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                            <span data-ng-if="parameter.itemSelectionType == 'Boolean'" data-editable-select="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName]" data-e-ng-options="k as v for (k,v) in {false:'false',true:'true'}">
+                                {{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName] == "true" ? "true" : "false" }}
+                            </span>
+                            <a data-ng-if="parameter.itemSelectionType == 'Integer' || parameter.itemSelectionType == 'Float' || parameter.itemSelectionType == 'String'" href="#" data-editable-text="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName]">{{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName] }}</a>
+                            <span data-ng-if="parameter.itemSelectionType == 'List'" data-editable-select="getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName]" data-e-ng-options="option.name as option.name for option in parameter.itemSelectionList">
+                                {{getBlueprintElementValue(blueprintElement,searchParams.selectedBlueprint).itemSelectionParameters[parameter.parameterName]}}
+                            </span>
+                        </td> 
+                    </tr>
+                </table>
+                </div>
+            </form>
+        </div>
+
+        <div id="bottomOfTable"></div>
+    </div>
+</div>

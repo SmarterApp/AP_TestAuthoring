@@ -1,0 +1,73 @@
+<div data-error-panel data-error-list="errors"></div>
+
+<div  class="formWrapper">
+<form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">    
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <h5 tabindex="-1">Item Group<span class="control-label-required">Indicates required field</span></h5>
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="form" title="Form Partition">Form Partition:</label>
+                    <span style="white-space: normal; word-wrap:break-word;"  data-editable-select="itemGroup.locationId" data-e-name="locationId" data-e-ng-options="value.id as value.form.name + ' - ' +value.name for (key,value) in formPartitionMap">
+                         {{formPartitionMap[itemGroup.locationId].form.name}} - {{formPartitionMap[itemGroup.locationId].name}} 
+                    </span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="itemGroup.groupName" title="Name">Name:</label>
+                    <span style="white-space: normal"  data-editable-text="itemGroup.groupName" data-e-name="groupName" data-e-maxlength="60">{{itemGroup.groupName}}</span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="itemGroup.maxResponses" title="Max Responses">Max Responses:</label>
+                    <span data-editable-text="itemGroup.maxResponses" data-e-name="maxResponses" >{{itemGroup.maxResponses}}</span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="itemGroup.maxItems" title="Max Items">Max Items:</label>
+                    <span data-editable-text="itemGroup.maxitems" data-e-name="maxitems" >{{itemGroup.maxitems}}</span>
+                </span>
+            </li>
+            <li>
+                 <span> 
+                    <label for="itemGroup.passageId" title="Passage Id">Passage Id:</label>
+                    <span data-editable-text="itemGroup.passageId" data-e-name="passageId" >{{itemGroup.passageId}}</span>
+                </span>
+            </li>
+            <li>
+                 <span> 
+                 </span>
+            </li>            
+        </ul> 
+         <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="edit()" tabindex="0">
+	            <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+	            <span class="btnText">Edit</span>
+	        </button>
+	        <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+	                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+	                <span class="btnText">Back</span>
+	        </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+	         <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+	            <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+	            <span class="btnText">Save</span>
+	        </button>
+	        <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+	            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	            <span class="btnText">Cancel</span>
+	        </button>
+	        <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+	</div>
+    </form>
+    <div class="clear"></div>
+</div>  

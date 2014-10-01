@@ -1,0 +1,33 @@
+<div data-ng-transclude></div>
+
+<div class="errorBox" data-ng-show="errorList.length">
+    <div class="leftAligned" data-ng-class="{pageWidth:!isRelativeWidth()}">
+        <div data-ng-if="!isAlwaysExpanded()">
+            {{errorHeader ? errorHeader : 'Please fix errors in order to save information:'}}
+            <i data-ng-click="toggleErrors()" class="treeExpander {{showErrors ? 'expanded' : 'collapsed'}}"></i>
+        </div>
+
+        <div data-ng-class="{offset:!isAlwaysExpanded(), leftAlign:!isAlwaysExpanded() || isRelativeWidth()}">
+            <div data-ng-hide="!showErrors" data-ng-repeat="error in errorList track by $index | orderBy:'toString()'">
+                <span class="icon_sprite icon_error error"></span>
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="warningBox" data-ng-show="warningList.length">
+    <div class="leftAligned" data-ng-class="{pageWidth:!isRelativeWidth()}">
+        <div data-ng-if="!isAlwaysExpanded()">
+            {{warningHeader ? warningHeader : 'WARNING - please ensure following data is correct:'}}
+            <i data-ng-click="toggleWarnings()" class="treeExpander {{showWarnings ? 'expanded' : 'collapsed'}}"></i>
+        </div>
+
+        <div data-ng-class="{offset:!isAlwaysExpanded(), leftAlign:!isAlwaysExpanded() || isRelativeWidth()}">
+            <div data-ng-hide="!showWarnings" data-ng-repeat="warning in warningList track by $index | orderBy:'toString()'">
+                <span class="icon_sprite icon_warning warning"></span>
+                {{warning}}
+            </div>
+        </div>
+    </div>
+</div>

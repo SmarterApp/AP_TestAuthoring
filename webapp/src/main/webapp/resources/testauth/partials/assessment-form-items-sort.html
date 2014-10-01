@@ -1,0 +1,61 @@
+    <div>
+            <div class="fieldGroup">
+                    <ul>
+                        <li>
+                            <span>
+                                <label for="formPartition" title="Form Partition">Form Partition:</label>
+                                <select data-ng-model="formPartitionId" data-ng-change="formPartitionChanged()" data-ng-options="formPart.id as formPart.title for formPart in formPartitionList" tabindex="0" title="Form Partition">
+                                </select>
+                            </span>
+                        </li>
+                    </ul>
+              </div>                  
+              <button type="button" class="boxBtn" data-ng-click="saveSorting()"  data-ng-show="sortChanged" tabindex="0">
+                  <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+                  <span class="btnText">Save Reorder</span>
+              </button>
+              <button type="button" class="boxBtn" data-ng-show="sortChanged" data-ng-click="formPartitionChanged()" tabindex="0">
+                  <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                  <span class="btnText">Cancel</span>
+              </button>
+              <div data-ng-show="sortedGroupedItems.length > 0">
+                  <div data-ui-sortable="sortableOptions" data-ng-model="sortedGroupedItems" class="sortableContainer" data-ng-class="{disabledSortableGroup:assessment.locked}">
+                      <div data-ng-repeat="group in sortedGroupedItems" class="sortableGroup" draggable="true" aria-grabbed="false" data-drag-drop>
+                            <div class="itemGroupHeader"><span data-ng-if="!assessment.locked" class="sortableListIcon2" data-ng-keydown="toggleDragged($index, $event, sortedGroupedItems)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span> Item Group</div>
+	                        <div class="sortableItemsGroup">
+	                           <ul data-ng-if="isMultiItemGroup(group)" data-ui-sortable="sortableOptions" data-ng-model="group">
+		                        <li data-ng-repeat="itemLocation in group"  class="multiItemGroup">
+		                            <span data-ng-if="!assessment.locked" class="sortableListIcon2"></span>
+		                            Item:{{itemLocation.itemIdentifier}} - {{itemGroupMap[itemLocation.itemGroupId].groupName}} - {{itemLocation.level1SortIndex}}  - {{itemLocation.level2SortIndex}}
+		                        </li>
+	                           </ul>
+	                           <ul data-ng-if="!isMultiItemGroup(group)">
+                                <li data-ng-repeat="itemLocation in group">
+                                    Item:{{itemLocation.itemIdentifier}} - {{itemGroupMap[itemLocation.itemGroupId].groupName}} - {{itemLocation.level1SortIndex}}  - {{itemLocation.level2SortIndex}}
+                                </li>
+                               </ul>
+	                           
+	                        </div>
+	                        <div class="clear"></div>
+                      </div>
+                  </div>
+                  <button type="button" class="boxBtn" data-ng-click="saveSorting()"  data-ng-show="sortChanged" tabindex="0">
+                      <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+                      <span class="btnText">Save Reorder</span>
+                  </button>
+		          <button type="button" class="boxBtn" data-ng-show="sortChanged" data-ng-click="formPartitionChanged()" tabindex="0">
+		              <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+		              <span class="btnText">Cancel</span>
+		          </button>
+              </div>
+              <div data-ng-show="loading">
+                    loading...
+              </div>
+              <div data-ng-show="saving">
+                    saving...
+              </div>
+              <div data-ng-show="sortedGroupedItems.length == 0 && !loading">
+                    No Items in selected partition
+              </div>
+              
+</div>  

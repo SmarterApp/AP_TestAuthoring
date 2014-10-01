@@ -1,0 +1,148 @@
+<div data-error-panel data-error-list="errors" data-error-header="Invalid affinity group data detected:" data-relative-width="true"></div>
+
+<div class="left_menu_hidden" data-ng-show="!assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+    <h6 tabindex="-1">Tools</h6>
+    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
+    <div title="Attach Items to Affinity Group" class="icons icon-gear"  data-ng-hide="assessment.locked" data-ng-click="openEditWidget()"> </div>      
+    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+</div>
+                
+<div class="left_menu_visible_item_mover" data-ng-show="showEditWidget">
+    <div class="itemSection">
+	    <h5 tabindex="-1">Assign Items to Affinity Group</h5>
+	    <div class="itemMove">
+	        <div data-ng-repeat="error in widgeterrors">
+	            <div><span class="icon_sprite icon_error error"></span>{{error}}</div>
+	        </div>
+	        <div class="moverSection" data-ng-show="!operationComplete">
+                 <div>
+                      <label for="assignItems" title="Selected Items">Selected Items:</label> 
+                      <span class="selectedItemsList">{{getSelectedItems()}}</span>
+                 </div>
+                 <div><a data-ng-click="checkAll()">Check All</a> - <a data-ng-click="uncheckAll()">Uncheck All</a></div>
+            </div>
+            <div class="moverSection" data-ng-show="!operationComplete">
+                 <div>
+                      <label for="attachOrDetach" title="Action">Action:</label> 
+                      <input type="radio" data-ng-model="selectedAction" value="attach" tabindex="0" alt="Assign to Group">Assign to Group
+                      <input type="radio" data-ng-model="selectedAction" value="detach" tabindex="0" alt="Remove from Group">Remove from Group
+                 </div>
+            </div>
+            <div class="moverSection" data-ng-show="!operationComplete">
+	            <div>
+	                 <label for="moveSegment" title="Target Affinity Group">Target Affinity Group:</label>
+	                 <select data-ng-model="targetAffinityGroupId" data-ng-options="ag.id as ag.groupName for ag in affinityGroups" tabindex="0" title="Target Affinity Group">
+	                     <option value="">Select...</option>
+	                 </select>
+	            </div>
+	        </div>
+	        <div class="moverSection" data-ng-show="!operationComplete">
+	           <button type="button" class="boxBtn" data-ng-click="assignItems()" tabindex="0">
+	               <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	               <span class="btnText">Submit</span>
+	           </button>
+	            <button type="button" class="boxBtn" data-ng-click="closeEditWidget()" tabindex="0">
+	                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	                <span class="btnText">Cancel</span>
+	            </button>
+            </div>
+            <div class="moverSection" data-ng-show="operationComplete">
+	            <div>
+	                <label for="moveSegment" title="Move Segment">{{bulkEditMessage}}</label>
+	            </div>
+	            <div>
+	               <button type="button" class="boxBtn" data-ng-click="closeEditWidget()" tabindex="0">
+	                   <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	                   <span class="btnText">Done</span>
+	               </button>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-searchable data-search-promise="searchAssessmentItems(params)" data-search-params="searchParams" data-search-response="searchResponse"
+        data-broadcast-signal="initiate-master-pool-search">
+	<div class="fieldGroup">
+		<ul class="wide-filters">
+            <li>
+                <span>
+                     <label for="affinityGroupId" title="Affinity Groups">Affinity Group:</label>
+                     <select data-ng-model="searchParams.affinityGroupId" data-ng-options="ag.id as ag.groupName for ag in affinityGroups" tabindex="0" title="Affinity Group">
+                         <option value="">Select...</option>
+                     </select>
+                </span>
+            </li>
+            <li></li>
+        </ul>
+        <ul class="wide-filters">
+            <span data-ng-repeat="filter in metadataParams">
+                <li>
+	                <span>
+                        <i data-ng-click="removeMetadataFilter($index)" class="removeFilter"></i>
+                        <select data-ng-change="filtersUpdated(filter)" data-ng-model="filter.filterName" data-ng-options="metaKey as metaKey for metaKey in itemMetadataKeys" tabindex="0" title="Filter Name">
+                            <option value="">Select...</option>
+                        </select>
+                        <span data-tib-metadata-auto-complete data-metadata-key="filter.filterName" data-metadata-value-model="filter.filterValue" data-tenant-id="assessment.tenantId"></span>
+	                </span>
+	            </li>
+            </span>
+            <li data-ng-show="metadataParams.length % 2"></li>
+        </ul>
+		<button data-ng-disabled="disabledSearch" type="button" class="boxBtn" data-search-on-click tabindex="0">
+			<span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+			<span class="btnText">Search</span>
+		</button>
+        <button data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" data-search-on-click data-set-params="resetSearchParams()" tabindex="0">
+            <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+            <span class="btnText">Reset</span>
+        </button>
+        <button data-ng-show="itemMetadataKeys" data-ng-click="addMetadataFilter()" data-ng-disabled="disabledSearch" type="button" type="button" class="boxBtn" tabindex="0">
+            <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span>
+            <span class="btnText">Add Filter</span>
+        </button>
+	</div>
+	<div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+	   <table class="dataTable withHeader" role="grid">
+	       <colgroup>
+	           <col style="width:15%">
+	           <col>
+	           <col style="width:9%">
+	           <col style="width:8%">
+	           <col>
+	           <col style="width:8%">
+	           <col>
+	           <col>
+               <col>
+	       </colgroup>
+           <tr role="row">
+               <th scope="col" id="standardHeader" title="Standard" data-sort-on-click data-sort-column="primaryStandard">Standard</th>
+               <th scope="col" id="idHeader" title="Identifier" data-sort-on-click data-sort-column="tibIdentifier">Identifier</th>
+               <th scope="col" id="versionHeader" title="Version" data-sort-on-click data-sort-column="version">Version</th>
+               <th scope="col" id="gradeHeader" title="Grade" data-sort-on-click data-sort-column="grade">Grade</th>
+               <th scope="col" id="subjectHeader" title="Subject" data-sort-on-click data-sort-column="subject">Subject</th>
+               <th scope="col" id="statusHeader" title="Status" data-sort-on-click data-sort-column="status">Status</th>
+               <th scope="col" id="keywordsHeader" title="Keywords" data-sort-on-click data-sort-column="allIncludedMetadata.Keyword">Keywords</th>
+               <th scope="col" id="locationsHeader" title="Locations" class="noSort">Locations</th>
+               <th scope="col" id="affinityGroupsHeader" title="Affinity Groups" class="noSort">Affinity Groups</th>
+           </tr>
+           <tr data-ng-repeat="item in searchResponse.searchResults" role="row" id="row{{$index}}">
+               <td scope="col" role="gridcell" aria-labelledby="standardHeader">{{ item.primaryStandard }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="idHeader">{{ item.tibIdentifier }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{ item.version }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{ item.grade }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="subjectHeader">{{ item.subject }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{ item.status }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="keywordsHeader">{{ item.allIncludedMetadata.Keyword }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="locationsHeader">{{getLocationNames(item)}}</td>
+               <td scope="col" role="gridcell" aria-labelledby="affinityGroupsHeader" class="normalSpace">
+	               <div class="moveselector">
+	                    <input data-ng-show="showItemSelectors" data-ng-model="itemCheckboxMap[item.tibIdentifier]" type="checkbox" value="item.id" tabindex="0" alt="Show Item Selectors" />
+	                    {{getAffinityGroupLocationNames(item)}}
+	               </div>
+	           </td>
+           </tr>
+	   </table>
+	</div>
+
+</div>

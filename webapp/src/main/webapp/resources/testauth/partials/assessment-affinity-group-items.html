@@ -1,0 +1,89 @@
+<div class="boxTitle"><h2 tabindex="-1">Affinity Group Segment Items</h2></div>
+<div data-searchable data-search-promise="searchSegmentItems(params)" data-search-params="searchParams" data-search-response="searchResponse"
+            data-broadcast-signal="initiate-segmentItem-search" data-search-post-process="postProcessGroup(response)">
+    <div class="left_menu_hidden" data-ng-show="showTools && !assessment.locked">
+        <h6 tabindex="-1">Tools</h6>
+        <div title="Search" class="icons icon-search"  data-ng-hide="assessment.locked" data-ng-click="openItemSearch()"> </div>
+    </div>
+    <div class="left_menu_visible_tib_search" data-ng-show="showAffinityGroupSearch">
+        <div data-affinityGroup-item-search data-segment-id='searchParams.segmentId' data-close-search="closeAffinityGroupSearch()"></div>
+    </div>
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <label title="Segment">Segment:</label>
+                {{segment.label}}
+            </li>
+            <li>
+                <label title="Affinity Group">Affinity Group:</label>
+                {{affinityGroup.groupName}}
+            </li>
+            <li>
+                <label title="OP Min">OP Min:</label>
+                {{affinityGroup.affinityGroupValueMap[segment.id].operationalItemMinValue}}
+            </li>
+            <li>
+                <label title="OP Max">OP Max:</label>
+                {{affinityGroup.affinityGroupValueMap[segment.id].operationalItemMaxValue}}
+            </li>
+            <li>
+                <label title="FT Min">FT Min:</label>
+                {{affinityGroup.affinityGroupValueMap[segment.id].fieldTestItemMinValue}}
+            </li>
+            <li>
+                <label title="FT Max">FT Max:</label>
+                {{affinityGroup.affinityGroupValueMap[segment.id].fieldTestItemMaxValue}}
+            </li>
+        </ul>
+    </div>
+    <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+        <h5 tabindex="-1">Items</h5>
+        <table class="dataTable" data-accessible-table role="grid">
+	        <colgroup>
+	            <col width="20%">
+	            <col width="15%">
+	            <col>
+	            <col>
+	            <col>
+	            <col>
+	            <col>
+	            <col>
+	            <col>
+	            <col class="tripleActionColumn" data-ng-show="editableForm.$visible">                    
+	        </colgroup>
+	        <tr role="row">
+	           <th scope="col" id="keyHeader" title="Standard Key">Standard Key</th>
+	           <th scope="col" id="idHeader" title="Item Identifier">Item Identifier</th>
+	           <th scope="col" id="typeHeader" title="Interaction Type">Interaction Type</th>
+	           <th scope="col" id="versionHeader" title="Version">Version</th>
+	           <th scope="col" id="gradeHeader" title="Grade">Grade</th>
+	           <th scope="col" id="subjectHeader" title="Subject">Subject</th>
+	           <th scope="col" id="categoryHeader" title="Subject Category">Subject Category</th>
+	           <th scope="col" id="authorHeader" title="Author">Author</th>
+	           <th scope="col" id="statusHeader" title="Status">Status</th>
+	           <th scope="col" id="buttonHeader" title="Button"></th>
+	        </tr>
+            <tr data-ng-repeat="item in searchResponse.searchResults" role="row" id="row{{$index}}">
+	            <td scope="col" role="gridcell" aria-labelledby="standardHeader">{{item.primaryStandard}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="idHeader">{{item.tibIdentifier}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="typeHeader">{{item.interactionType}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{item.version}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{item.grade}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="subjectHeader">{{item.subject}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="categoryHeader">{{item.subjectCategory}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="authorHeader">{{item.author}}</td>
+	            <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{item.status}}</td>
+                <td class="normalSpace" data-title-text scope="col" role="gridcell" aria-labelledby="buttonHeader">
+                    <div class="tableButtonGroup">
+                      <button data-ng-click="editAffinityGroup(affinityGroup.id)" id="view{{$index}}" class="boxBtn" tabindex="-1">
+                          <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                      </button>
+                      <button data-ng-hide="assessment.locked" data-ng-click="removeAffinityGroup(affinityGroup)" id="remove{{$index}}" class="boxBtn" tabindex="-1">
+                          <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                </td>                    
+            </tr>
+        </table>
+    </div>
+</div>

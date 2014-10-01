@@ -1,0 +1,60 @@
+
+<div class="boxTitle"><h2 tabindex="-1">Computation Rule Search</h2></div>
+    <div data-searchable data-search-promise="searchComputationRules(params)" data-search-params="searchParams" 
+            data-search-response="searchResponse" data-search-post-process="postProcessComputationRules(response)">
+        <div class="fieldGroup">
+            <h5 tabindex="-1">Search Filters</h5>
+            <ul>
+                <li>
+                    <span>
+                        <label for="name" title="Name">Name:</label>
+                        <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Name" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-click="createNewComputationRule()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="name" class="headerSortUp">Name</th>
+                    <th scope="col" id="versionHeader" title="Version" data-sort-on-click data-sort-column="version">Version</th>
+                    <th scope="col" id="paramsHeader" title="Number of Parameters">Number of Parameters</th>
+                    <th scope="col" id="conversionHeader" title="Conversion Table" data-sort-on-click data-sort-column="conversionTableType">Conversion Table</th>
+                    <th scope="col" id="descriptionHeader" title="Description" data-sort-on-click data-sort-column="description">Description</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="computationRule in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="nameHeader">{{computationRule.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{computationRule.version}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="paramsHeader">{{computationRule.parameters.length}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="conversionHeader">{{computationRule.conversionTableType}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="descriptionHeader" class="ellipse" data-tooltip="{{computationRule.description}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">{{computationRule.description}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace">
+                        <div class="tableButtonGroup" data-title-text>
+                            <button data-ng-click="view(computationRule)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>
+                            <button data-ng-click="remove(computationRule)" class="boxBtn" data-ng-show="computationRule.canEdit" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>

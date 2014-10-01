@@ -1,0 +1,14 @@
+<div class="boxTitle"><h5 tabindex="-1">Segment Pools</h5></div>
+<div>
+
+<div class="tabInfo">
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.itempool.items')}" data-ng-click="goToItemPoolPage($event, 'assessmenthome.itempool.items')" data-ng-keydown="goToItemPoolPage($event, 'assessmenthome.itempool.items')" tabindex="0" title="Item Pool">Item Pool</a> |
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.itempool.groups')}" data-ng-click="goToItemPoolPage($event, 'assessmenthome.itempool.groups')" data-ng-keydown="goToItemPoolPage($event, 'assessmenthome.itempool.groups')" tabindex="0" title="Item Groups">Item Groups</a> |
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.itempool.summary')}" data-ng-click="goToItemPoolPage($event, 'assessmenthome.itempool.summary')" data-ng-keydown="goToItemPoolPage($event, 'assessmenthome.itempool.summary')" tabindex="0" title="Standards Summary">Standards Summary</a> |
+    <a data-ng-class="{selected : isActiveLink('assessmenthome.itempool.enemy')}" data-ng-click="goToItemPoolPage($event, 'assessmenthome.itempool.enemy')" data-ng-keydown="goToItemPoolPage($event, 'assessmenthome.itempool.enemy')" tabindex="0" title="Enemy List">Enemy List</a>
+</div>
+<div class="clear"></div>
+<!-- groups tab here maybe.... standards summary view here?? -->
+<div data-ui-view="item-pool-view"></div>
+    
+</div>

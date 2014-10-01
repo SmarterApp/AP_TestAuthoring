@@ -1,0 +1,82 @@
+# .hgignore - List of filenames hg should ignore
+
+# use glob syntax.
+syntax: glob
+
+# compiled code
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# mvn build output
+target/
+bin/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+.cache/
+.springBeans
+
+# Mac finder
+.DS_Store
+
+# Ignore all CVS files
+.cvsignore
+CVS/
+
+# Ignore all log files
+logs/*
+
+# Ignore backup files
+*~
+.*~
+
+# Ignore .orig files
+*.orig
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.pmd
+
+# mvn build output
+target/
+bin/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+.springBeans
+*.launch
+
+# Mac finder
+.DS_Store
+
+*.iml
+
+# checkstyle dot file
+.checkstyle
+
+!encryption/**/*
+
+encryption/.DS_Store
+
+# Grunt files
+webapp/src/main/webapp/resources/testauth/min/*.js
+webapp/src/main/webapp/resources/testauth/min/*.css
+webapp/src/main/webapp/WEB-INF/views/includes/min/*.jsp
+
+#.orig from merge conflicts
+*.orig
+
+# exclude log dirs
+log/
+logs/

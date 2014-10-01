@@ -1,0 +1,34 @@
+
+<div data-ng-transclude></div>
+<div id="tableNav" class="dataTable">
+	<table role="grid">
+		<tr role="row">
+		<th>
+			Total results found: {{pagingInfo.totalCount}} 
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Page Size: <select ng-model="searchParams.pageSize" data-search-on-change>
+			             <option style="text-align: right;">10</option>
+			             <option>25</option>
+			             <option>50</option>
+			             <option>100</option>
+			             <option>200</option>
+		               </select>
+		</th>
+		<th>
+			<ul class="tablePage" data-ng-hide="disabledSearch">
+                <li data-ng-show="pagingInfo.prevPageUrl" data-ng-click="firstPage()"><span class="tbNav tbfirst"></span> First</li>
+                <li data-ng-show="pagingInfo.prevPageUrl" data-ng-click="prevPage()"><span class="tbNav tbprev"></span> Previous</li>
+                <li>Page: <input type="text" data-ng-change="changePage()" data-ng-model="searchParams.currentPage"/> of {{totalPages(pagingInfo.totalCount, searchParams.pageSize)}}</li>
+                <li data-ng-show="pagingInfo.nextPageUrl" data-ng-click="nextPage()">Next <span class="tbNav tbnext"></span></li>
+                <li data-ng-show="pagingInfo.nextPageUrl" data-ng-click="lastPage()">Last <span class="tbNav tblast"></span></li>
+             </ul>
+             
+             <ul class="tablePage" data-ng-show="disabledSearch">
+                <li>Page: {{searchParams.currentPage}} of {{totalPages(pagingInfo.totalCount, searchParams.pageSize)}}</li>
+             </ul>
+		</th>
+		</tr>
+	</table>
+</div>
+
+	

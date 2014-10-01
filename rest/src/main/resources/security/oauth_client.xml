@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security" xmlns:oauth2="http://www.springframework.org/schema/security/oauth2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+              http://www.springframework.org/schema/security
+              http://www.springframework.org/schema/security/spring-security-3.2.xsd
+              http://www.springframework.org/schema/context
+              http://www.springframework.org/schema/context/spring-context-3.1.xsd
+              http://www.springframework.org/schema/security/oauth2
+              http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
+
+
+    <bean id="httpComponentsClientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
+
+    <!--apply the oauth client context -->
+    <oauth2:client id="oauth2ClientFilter" />
+    <oauth2:resource id="tibResource" type="saml_assertion" client-authentication-scheme="form"
+        client-id="${oauth.tib.client}"
+        client-secret="${oauth.tib.client.secret}"
+        access-token-uri="${oauth.access.url}"
+         />
+    <bean id="samlAssertionTokenProvider" class="org.opentestsystem.shared.security.oauth.client.grant.samlbearer.SamlAssertionAccessTokenProvider" />
+    <oauth2:rest-template  access-token-provider="samlAssertionTokenProvider" id="tibClientRestTemplate" resource="tibResource"/>
+
+ <!--
+ TODO this is used in a async call getting the current logged in user does not work
+    <oauth2:resource id="tsbResource" type="saml_assertion" client-authentication-scheme="form"
+        client-id="${oauth.tsb.client}"
+        client-secret="${oauth.tsb.client.secret}"
+        access-token-uri="${oauth.access.url}"
+         />
+  <oauth2:rest-template  access-token-provider="samlAssertionTokenProvider" id="tsbRestTemplate" resource="tsbResource"/>  -->
+        
+   <oauth2:resource id="tsbResource" type="password"  client-authentication-scheme="form"
+        client-id="${oauth.tsb.client}"
+        client-secret="${oauth.tsb.client.secret}"
+        access-token-uri="${oauth.access.url}" 
+        username="${oauth.tsb.batch.account}"
+        password="${oauth.tsb.batch.password}"  />
+    
+     <bean id="tsbRestTemplate" class="org.springframework.security.oauth2.client.OAuth2RestTemplate">
+         <constructor-arg ref="tsbResource"/>
+     </bean>
+</beans>

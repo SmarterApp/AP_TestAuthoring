@@ -1,0 +1,41 @@
+
+	<div class="home">
+	   <div class="menuslide" data-ng-click="slidePage('/homePostTest')" data-ng-keydown="slidePageEnter($event, '/homePostTest')" tabindex="0">
+	       <span class="icon_arrows_sprite icon_slider"></span>slide to view <b>post test-creation</b> options
+	       <div data-ng-if="assessment">Assessment:&nbsp;<b>{{assessment.name}}</b></div>
+	   </div>
+	   <span class="subtitle">Create or Modify:</span>
+	  <div data-ng-if="assessment" data-accessible-table class="navCore" role="navigation">
+	      <ol>
+	          <li class="green" data-ng-click="go('assessmentsearch')" data-ng-keydown="goEnter($event, 'assessmentsearch')" tabindex="0">Test<br><span class="assessment_icon_sprite_large icon_test_details_large"></span><p>Create or modify a test<br>(grade, subject, etc.)</p></li>
+	          <li class="navy" data-ng-click="go('assessmenthome.segment')" data-ng-keydown="goEnter($event, 'assessmenthome.segment')" tabindex="0">Test Segments<br><span class="assessment_icon_sprite_large icon_test_segment_large"></span><p>Create or modify segments which<br>are separate parts of a test</p></li>
+	          <li class="maroon" data-ng-click="go('assessmenthome.blueprint')" data-ng-keydown="goEnter($event, 'assessmenthome.blueprint')" tabindex="0">Blueprints<br><span class="assessment_icon_sprite_large icon_test_blueprint_large"></span><p>Edit the master blueprints or<br>segment blueprints for your test</p></li>
+	          <li class="navy" data-ng-click="go('assessmenthome.itempool.items')" data-ng-keydown="goEnter($event, 'assessmenthome.itempool.items')" tabindex="0">Segment Pools<br><span class="assessment_icon_sprite_large icon_test_itempool_large"></span><p>Select items based on<br>blueprint criteria</p></li>
+              <li class="maroon" data-ng-click="go('assessmenthome.formhome.formsearch')" data-ng-keydown="goEnter($event, 'assessmenthome.formhome.formsearch')" tabindex="0">Forms<br><span class="assessment_icon_sprite_large icon_test_forms_large"></span><p>Create forms and associate<br>them with items</p></li>
+              <li class="navy" data-ng-click="go('assessmenthome.masterpool.items')" data-ng-keydown="goEnter($event, 'assessmenthome.masterpool.items')" tabindex="0">Master Item Pool<br><span class="assessment_icon_sprite_large icon_test_master_large"></span><p>View all items on test and associate<br>them with affinity groups</p></li>
+	          <li class="green" data-ng-click="go('assessmenthome.scoringrule')" data-ng-keydown="goEnter($event, 'assessmenthome.scoringrule')" tabindex="0">Scoring<br><span class="assessment_icon_sprite_large icon_test_scoring_large"></span><p>Configure scoring specifications<br>for your tests</p></li>
+	          <li class="maroon" data-ng-click="go('assessmenthome.performancelevel')" data-ng-keydown="goEnter($event, 'assessmenthome.performancelevel')" tabindex="0">Performance Levels<br><span class="assessment_icon_sprite_large icon_test_performance_large"></span><p>Assign performance<br>levels for your tests</p></li>
+	          <li class="green" data-ng-click="go('assessmenthome.reportingmeasures')" data-ng-keydown="goEnter($event, 'assessmenthome.reportingmeasures')" tabindex="0">Reporting<br><span class="assessment_icon_sprite_large icon_test_reporting_large"></span><p>Define reporting categories<br>based on scoring specifications</p></li>
+	      </ol>
+	 </div>
+      <div data-ng-if="!assessment" data-accessible-table class="navCore" role="navigation">
+          <ol>
+              <li class="green" data-ng-click="go('assessmentsearch')" data-ng-keydown="goEnter($event, 'assessmentsearch')" tabindex="0">Test<br><span class="assessment_icon_sprite_large icon_test_details_large"></span><p>Create or modify a test<br>(grade, subject, etc.)</p></li>
+              <li class="disabled" >Test Segments<br><span class="assessment_icon_sprite_large icon_test_segment_large_disabled"></span><p>Create or modify segments which<br>are separate parts of a test</p></li>
+              <li class="disabled" >Blueprints<br><span class="assessment_icon_sprite_large icon_test_blueprint_large_disabled"></span><p>Edit the master blueprints or<br>segment blueprints for your test</p></li>
+              <li class="disabled" >Segment Pools<br><span class="assessment_icon_sprite_large icon_test_itempool_large_disabled"></span><p>Select items based on<br>blueprint criteria</p></li>           
+              <li class="disabled" >Forms<br><span class="assessment_icon_sprite_large icon_test_forms_large_disabled"></span><p>Create forms and associate<br>them with items</p></li>
+              <li class="disabled" >Master Item Pool<br><span class="assessment_icon_sprite_large icon_test_master_large_disabled"></span><p>View all items on test and associate<br>them with affinity groups</p></li>           
+              <li class="disabled" >Scoring<br><span class="assessment_icon_sprite_large icon_test_scoring_large_disabled"></span><p>Configure scoring specifications<br>for your tests</p></li>
+              <li class="disabled" >Performance Levels<br><span class="assessment_icon_sprite_large icon_test_performance_large_disabled"></span><p>Assign performance<br>levels for your tests</p></li>
+              <li class="disabled" >Reporting<br><span class="assessment_icon_sprite_large icon_test_reporting_large_disabled"></span><p>Define reporting categories<br>based on scoring specifications</p></li>
+          </ol>
+     </div>	 
+	 <div class="clear"></div>
+	</div>
+ <div class="footer">
+    <div data-ng-if="buildInfo.appVersion" class="footerText">
+        Version: {{buildInfo.appVersion}}
+        <span data-ng-if="buildInfo.jenkinsBuildNumber"> (build #: {{buildInfo.jenkinsBuildNumber}})</span>
+    </div>
+</div> 

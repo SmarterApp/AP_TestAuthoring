@@ -1,0 +1,78 @@
+
+<div class="boxTitle"><h2 tabindex="-1">Item Group Search</h2></div>
+    <div data-searchable data-search-promise="searchItemGroups(params)" data-search-params="searchParams" data-search-response="searchResponse"
+            data-broadcast-signal="initiate-itemGroup-search" data-search-post-process="postProcessGroup(response)">
+        <div class="fieldGroup">
+            <ul>
+                <li data-ng-show="onFormsPage()">
+                    <span>
+                        <label for="formPartition" title="Form Partition">Form Partition:</label>
+                        <select class="" data-ng-model="formPartitionId" data-ng-change="setLocation(formPartitionId)" data-ng-options="formPartition.id as formPartition.form.name + ' - ' + formPartition.name for formPartition in formPartitionList" tabindex="0" title="Form Partition">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li data-ng-hide="onFormsPage()">
+                    <span>
+                        <label for="segmentId" title="Segment">Segment:</label>
+                        <select class="" data-ng-model="segmentId" data-ng-change="setLocation(segmentId)" data-ng-options="segment.id as segment.position + ' - ' + segment.label for segment in segmentList | adaptiveSegments" tabindex="0" title="Segment"></select>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="groupName" title="Name">Name:</label>
+                        <input name="groupName" data-ng-model="searchParams.groupName" tabindex="0" alt="Name" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="addNewItemGroup()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="tripleActionColumn">                    
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="locationHeader" title="Location" data-sort-on-click data-sort-column="locationId" class="locationId">Location</th>
+                    <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="groupName">Name</th>
+                    <th scope="col" id="maxResponsesHeader" title="Max Responses" data-sort-on-click data-sort-column="maxResponses">Max Responses</th>
+                    <th scope="col" id="maxItemsHeader" title="Max Items" data-sort-on-click data-sort-column="maxitems">Max Items</th>
+                    <th scope="col" id="passageIdHeader" title="Passage Id" data-sort-on-click data-sort-column="passageId">Passage Id</th>
+                    <th scope="col" id="numItemsHeader" title="# of Items" class="noSort"># of Items</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort" scope="col" id="buttonHeader" title="Buttons">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="itemGroup in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="locationHeader">{{itemGroup.segment.label}} {{itemGroup.formPartition.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="nameHeader">{{itemGroup.groupName}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="maxResponsesHeader">{{itemGroup.maxResponses}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="maxItemsHeader">{{itemGroup.maxitems}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="passageIdHeader">{{itemGroup.passageId}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="numItemsHeader">{{itemGroup.itemCount}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text role="gridcell" id="row{{$index}}-button" aria-labelledby="buttonHeader">
+                        <div class="tableButtonGroup">
+                          <button data-ng-click="editGroup(itemGroup.id)" class="boxBtn" tabindex="{{$index == 0 ? 0 : -1}}" value="Edit" title="Edit" id="view{{$index}}">
+                              <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                          </button>
+                          <button data-ng-hide="assessment.locked" data-ng-click="removeItemGroup(itemGroup)" class="boxBtn" tabindex="-1" value="Remove" title="Remove" id="remove{{$index}}">
+                              <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                          </button>
+                        </div>
+                    </td>                    
+                </tr>
+            </table>
+            </div>
+        </div>
+ <div class="clear"></div>

@@ -1,0 +1,97 @@
+
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="boxTitle"><h2 tabindex="-1">Subject Search</h2></div>
+<div>
+    <div data-searchable data-search-promise="searchSubjects(params)" data-search-params="searchParams" 
+            data-search-response="searchResponse" data-search-post-process="postProcessSubjects(response)" data-broadcast-signal="initiate-subject-search">
+        <div class="fieldGroup">
+            <h5 tabindex="-1">Search Filters</h5>
+            <ul>
+                <li>
+                    <span>
+                        <label for="name" title="Name">Name:</label>
+                        <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Name" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="abbreviation" title="Abbrevation">Abbreviation:</label>
+                          <input name="abbreviation" data-ng-model="searchParams.abbreviation" maxlength="3" tabindex="0" alt="Abbreviation" />
+                    </span>
+                </li>
+                <li>
+                    <span> 
+                          <label for="active" title="Status">Status:</label>
+                          <select data-ng-model="searchParams.inactive" data-ng-options="item.key as item.label for item in inactiveItems" tabindex="0" title="Status">
+                        	<option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span> 
+						<label for="active" title="Publisher">Publisher:</label>
+	                    <span data-tenant-auto-complete data-on-select="changeTenant(newTenant)" data-tenant-model="selectedTenantName" data-ng-change="resetTenant()" data-tenant-type="{{selectedTenantType}}"></span>
+	                    <br />
+	                    <a class="fieldLink" data-tenant-type-modal data-selected-tenant-type="selectedTenantType" href="">
+	                        <span class="subGroup" data-ng-show="!selectedTenantType">Filter</span>
+	                        <span class="subGroup" data-ng-show="selectedTenantType">Filtered By: {{selectedTenantType}}</span>
+	                    </a>
+
+	                    <span style="float:right" class="editable-error ng-binding" >{{errorsMap['tenantId'][0]}}</span> 
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-click="createNewSubject()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="name" class="headerSortUp">Name</th>
+                    <th scope="col" id="abbreviationHeader" title="Abbreviation" data-sort-on-click data-sort-column="abbreviation">Abbreviation</th>
+                    <th scope="col" id="publisherHeader" title="Publisher" data-sort-on-click data-sort-column="tenantId">Publisher</th>
+                    <th scope="col" id="descriptionHeader" title="Description" data-sort-on-click data-sort-column="description">Description</th>
+                    <th scope="col" id="activeHeader" title="Active" data-sort-on-click data-sort-column="inactive">Active</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="subject in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="nameHeader">{{subject.name}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="abbreviationHeader">{{subject.abbreviation}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="publisherHeader">{{subject.tenantName}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="descriptionHeader">{{subject.description}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="activeHeader">{{subject.inactive ? 'INACTIVE' : 'ACTIVE'}}</td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="edit(subject)" class="boxBtn" data-ng-hide="subject.inUse" id="edit{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="view(subject)" class="boxBtn" data-ng-show="subject.inUse" id="view{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                             
+                            <button data-ng-show="!subject.inactive" data-ng-click="retireSubject(subject)" class="boxBtn" title="Inactivate" id="retire{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_node2" aria-hidden="true"></span>
+                            </button>  
+                            <button data-ng-show="subject.inactive" data-ng-click="retireSubject(subject,true)" class="boxBtn" title="Activate" id="reactivate{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_grade2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

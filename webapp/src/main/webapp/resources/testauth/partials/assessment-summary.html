@@ -1,0 +1,24 @@
+<div class="secondary">
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+<form data-editable-form name="assessmentSummaryForm">    
+    <div class="assessmentSummary fieldGroup">
+
+	    <ul data-ng-repeat="dataMap in assessmentSummaryData" data-expandable="dataMap">
+	        <li data-ng-class="dataMap.class">
+	            <span class="test">
+    	            <span style="width:30px;" data-ng-click="toggle()" data-ng-keydown="keyToggle($event)" tabindex="0" data-ng-class="iconClass" title="Expand {{dataMap.label}}"></span>
+    	            <span style="text-align:left; width:180px;">{{$index + 1}}.&nbsp;&nbsp;{{dataMap.label}}</span>
+    	            <span style="text-align:left; width:180px;" data-ng-repeat="data in dataMap.data">{{data}}</span>
+	            </span>
+	        </li>
+	        <li data-ng-show="expanded" data-ng-class="dataMap.class" class="expander">
+	           <span style="text-align:left; width:180px; padding-left:10px;" data-ng-class="expandedSummaryData" data-ng-repeat="expandData in dataMap.expandData">{{expandData}}</span>
+	        </li>
+	    </ul>
+
+    </div>
+    </form>
+</div>  
+</div>

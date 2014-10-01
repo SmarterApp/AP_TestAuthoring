@@ -1,0 +1,251 @@
+
+<div data-error-panel data-error-list="errors"></div>
+
+<div  class="formWrapper">
+<form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">    
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <h5 tabindex="-1">{{formAction}} Item Selection Algorithm<span class="control-label-required">Indicates required field</span></h5>
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="itemSelectionAlgorithm.name" title="Name">Name:</label>
+                    <span data-editable-text="itemSelectionAlgorithm.name" data-e-name="name" ><span class="viewSpanLeft">{{itemSelectionAlgorithm.name}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="itemSelectionAlgorithm.version" title="Version">Version:</label>
+                    <span data-editable-text="itemSelectionAlgorithm.version" data-e-name="version" ><span class="viewSpanLeft">{{itemSelectionAlgorithm.version}}</span></span>
+                </span>
+            </li>
+            <li>
+                <span> 
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}"  for="itemSelectionAlgorithm.itemSelectionAlgorithmType" title="Algorithm Type">Algorithm Type:</label>
+                    <span data-editable-select="itemSelectionAlgorithm.itemSelectionAlgorithmType" data-e-name="itemSelectionAlgorithmType" data-e-ng-options="itemSelectionAlgorithmType for itemSelectionAlgorithmType in availableItemSelectionAlgorithmTypes">
+                      <span class="viewSpanLeft">{{itemSelectionAlgorithm.itemSelectionAlgorithmType}}</span>
+                    </span>
+                </span>
+            </li>
+            <li><span></span></li>
+        </ul> 
+    </div>
+        <span data-ng-if="errorsMap['parameters'][0]" class="editable-error ng-binding" >{{errorsMap['parameters'][0]}}</span> 
+        <div style="text-align:left;">
+                <div data-ng-hide="paramSortingActive"  data-tabset data-vertical="false" data-justified="true" data-direction="'left'">
+                    <div data-ng-show="editableForm.$visible" data-tab data-disabled="true" data-active="never">  
+                       <div data-tab-heading data-title-text>
+                           <button type="button" class="boxBtn" data-ng-click="addItem()" title="Add Parameter" tabindex="0">
+                                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span>
+                            </button>
+                            <button data-ng-hide="itemSelectionAlgorithm.parameters.length < 2" type="button" class="boxBtn" data-ng-click="sortParams()" title="Re-order Parameters" tabindex="0">
+                                <span class="btnIcon  icon_sort_row" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div data-ng-show="itemSelectionAlgorithm.parameters !=null && itemSelectionAlgorithm.parameters.length == 0" class="noneListed">There are currently no parameters for this item selection algorithm</div>
+                        <hr data-ng-show="itemSelectionAlgorithm.parameters !=null && itemSelectionAlgorithm.parameters.length == 0">
+                    </div>
+
+                    <div data-ng-repeat="param in itemSelectionAlgorithm.parameters" data-tab data-active="param.active">                                               
+                         <div data-tab-heading>
+                          <div class="tabIcon icons icon-error" data-ng-show="editableForm.$visible && hasTabError($index)"></div>
+                          <div class="tabTitle">{{getParamModelValue($index,'parameterName')}}</div> 
+                          <button type="button" data-ng-show="editableForm.$visible" data-ng-click="removeParam($index)" class="boxBtnParam" tabindex="0"><span class="btnIcon icon_sprite_smaller icon_delete1_smaller" aria-hidden="true"></span></button>
+                          <div class="clear"></div>
+                        </div>
+                        
+                         <div class="fieldGroup half">
+
+                            <ul class="one-column">
+                                <li>
+                                    <span><strong>Parameter Details</strong></span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}"  for="param.parameterName">Name:</label>
+                                        <span data-editable-text="param.parameterName" data-e-name="{{'parameters[' + $index + '].parameterName'}}">
+                                            <span class="viewSpanLeft">{{param.parameterName}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.itemSelectionPurpose">Purpose:</label>
+                                        <span data-editable-select="param.itemSelectionPurpose" data-e-name="{{'parameters[' + $index + '].itemSelectionPurpose'}}" data-e-ng-options="itemSelectionPurpose for itemSelectionPurpose in availableItemSelectionPurposes">
+                                              <span class="viewSpanLeft">{{param.itemSelectionPurpose}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.itemSelectionPurpose">Type:</label>
+                                        <span data-editable-select="param.itemSelectionType" data-e-name="{{'parameters[' + $index + '].itemSelectionType'}}"   data-e-ng-options="itemSelectionType for itemSelectionType in availableItemSelectionTypes" data-e-ng-change="refreshItemSelectionParameter(param, $index, $data)" >
+                                              <span class="viewSpanLeft">{{param.itemSelectionType}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label  for="param.description">Description:</label>
+                                        <span data-editable-textarea="param.description" data-e-rows="4" data-e-cols="70" data-e-name="{{'parameters[' + $index + '].description'}}" >
+                                              <span class="viewSpanLeft">{{param.description}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+
+                           </div>
+
+                           <div class="fieldGroup half" data-ng-if="shouldDisplayBooleanFields($index)">
+                            <ul  class="one-column">
+                                <li>
+                                    <span><strong>Boolean Values</strong></span>
+                                </li>                            
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.defaultValue">Default Value:</label>
+                                        <span  data-editable-select="param.booleanDefaultValue" data-e-name="{{'parameters[' + $index + '].defaultValue'}}" data-e-ng-options="key as label for (key,label) in booleanOptions" >
+                                              <span class="viewSpanLeft">{{booleanOptions[param.booleanDefaultValue]}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                         </div>
+                         <div class="fieldGroup half" data-ng-if="shouldDisplayNumberRestrictions($index)">
+                            
+                            <ul  class="one-column">
+                                <li>
+                                    <span><strong>Number Values</strong></span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.defaultValue">Default Value:</label>
+                                        <span data-editable-text="param.numberDefaultValue" data-e-maxlength="18" data-e-name="{{'parameters[' + $index + '].defaultValue'}}">
+                                            <span class="viewSpanLeft">{{param.numberDefaultValue}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label for="param.minimumValue">Min Value:</label>
+                                        <span data-editable-text="param.minimumValue" data-e-maxlength="18" data-e-name="{{'parameters[' + $index + '].minimumValue'}}">
+                                            <span class="viewSpanLeft">{{param.minimumValue}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span> 
+                                        <label for="param.maximumValue">Max Value:</label>
+                                        <span data-editable-text="param.maximumValue"  data-e-maxlength="18"  data-e-name="{{'parameters[' + $index + '].maximumValue'}}">
+                                            <span class="viewSpanLeft">{{param.maximumValue}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                         </div>
+                         <div class="fieldGroup half" data-ng-if="shouldDisplayListValues($index)">
+                             <div data-ng-hide="sortParamListActive">
+                                 <ul class="one-column">
+	                                <li>
+	                                    <span><strong>List Values</strong></span>
+	                                </li>
+                                    <li>
+                                        <span>
+                                            <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.listDefaultValue">Default Value:</label>
+                                            <span data-editable-text="param.listDefaultValue" data-e-name="{{'parameters[' + $index + '].defaultValue'}}">{{param.listDefaultValue}}</span>
+                                        </span>                                         
+                                    </li>
+                                    <li>
+		                                 <ul data-ng-show="editableForm.$visible" style="width: 10%">
+											<li>
+											    <button type="button" class="boxBtn" data-ng-click="addItemSelectionListElement(param)" title="Add" style="width: 34px; height: 34px; padding: 1px 1px;" tabindex="0"><span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span></button>
+											</li>
+											<li>
+											    <button type="button" class="boxBtn" data-ng-click="sortParamList($index)" title="Reorder" style="width: 34px; height: 34px; padding: 1px 1px;" tabindex="0"><span class="btnIcon icon_sprite icon_sort_row" aria-hidden="true"></span></button>
+											</li>
+								         </ul> 
+                                    </li>                                    
+                                </ul>
+                                <span class="editable-error ng-binding" >{{errorsMap['parameters[' + $index + '].itemSelectionList'][0]}}</span> 
+                                <div data-ng-repeat="itemSelectionListElement in param.itemSelectionList" class="itemSelectionListElement">
+                                     <span data-editable-text="itemSelectionListElement.name" data-e-name="{{'parameters[' + $parent.$parent.$index + '].itemSelectionList['+$index+'].name'}}" data-e-class="item-sel-list-sort">{{itemSelectionListElement.name}}</span>
+                                     <button data-ng-show="editableForm.$visible" data-ng-click="removeItemSelectionListElement(param.itemSelectionList, $index)" class="boxBtnTiny" title="Delete" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+                                </div>
+                             </div>
+                         </div>
+                         <div  class="half" data-ng-show="sortParamListActive && editableForm.$visible">
+                           <h4 tabindex="-1">  List Values
+                                <button type="button" class="boxBtn" data-ng-click="stopSortingParamList()" tabindex="0">
+                                    <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+                                    <span class="btnText">Done</span>
+                                </button>
+                            </h4>
+                             <div data-ui-sortable="sortableParamListOptions" data-ng-model="param.itemSelectionList">
+                                <div class="sortable-row" data-ng-repeat="itemSelectionListElement in param.itemSelectionList" class="itemSelectionListElement" draggable="true" aria-grabbed="false" data-drag-drop>
+                                      <span class="sortableListIcon2" data-ng-keydown="toggleDragged($index, $event, param.itemSelectionList)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span> <span class="viewSpanLeft">
+                                          {{itemSelectionListElement.name}}
+                                      </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fieldGroup half" data-ng-if="shouldDisplayStringFields($index)">
+                            <ul  class="one-column">
+                                <li>
+                                    <span><strong>String Values</strong></span>
+                                </li>                            
+                                <li>
+                                    <span> 
+                                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="param.defaultValue">Default Value:</label>
+                                        <span data-editable-text="param.stringDefaultValue" data-e-maxlength="60" data-e-name="{{'parameters[' + $index + '].defaultValue'}}">
+                                            <span class="viewSpanLeft">{{param.stringDefaultValue}}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                         </div>
+                    </div>
+                </div>
+             
+              <div data-ng-show="paramSortingActive">
+	              <button type="button" class="boxBtn" data-ng-click="stopSorting()" tabindex="0">
+	                    <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	                    <span class="btnText">Done</span>
+	              </button>
+	              <div data-ui-sortable="sortableParamListOptions" data-ng-model="itemSelectionAlgorithm.parameters">
+	                     <div class="sortable-row" data-ng-repeat="param in itemSelectionAlgorithm.parameters" class="itemSelectionListElement" draggable="true" aria-grabbed="false" data-drag-drop>
+	                         <span class="sortableListIcon2" data-ng-keydown="toggleDragged($index, $event, itemSelectionAlgorithm.parameters)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
+	                         {{param.parameterName}} - {{param.itemSelectionPurpose}}
+	                     </div>
+	              </div>
+             </div>
+        </div>
+
+            <div class="fieldGroup">
+        <span data-ng-show="!editableForm.$visible">
+             <button data-ng-show="itemSelectionAlgorithm.canEdit" type="button" class="boxBtn" data-ng-click="edit()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible && !paramSortingActive">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                <span class="btnText">Back</span>
+            </button>
+        </span>  
+        </div>
+        </form>     
+
+    </div>

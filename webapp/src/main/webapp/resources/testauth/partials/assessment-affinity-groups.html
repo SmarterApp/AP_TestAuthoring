@@ -1,0 +1,145 @@
+<div class="boxTitle"><h2 tabindex="-1">Affinity Group Search</h2></div>
+
+<div class="tabInfo">
+    <a href="#" data-ng-click="goToTab($event, 'assessmenthome.blueprint',2)" data-ng-keydown="goToTab($event, 'assessmenthome.blueprint')" tabindex="0" title="Blueprint Standards">Standards</a> | <b>Affinity Groups</b>
+</div>
+<br/>
+<div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+<div data-searchable data-search-promise="searchAffinityGroups(params)" data-search-params="searchParams" data-search-response="searchResponse"
+        data-broadcast-signal="initiate-affinityGroup-search">
+    <div class="fieldGroup ng-class:{disabledSearch:disabledSearch}">
+        <ul>
+            <li>
+                <span>
+                    <label for="segmentId" title="Segment">Segment:</label>
+                    <select data-ng-model="searchParams.segmentId" data-ng-options="segment.id as segment.label for segment in segments" data-ng-disabled="disabledSearch" tabindex="0" title="Segment"></select>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label for="groupName" title="Name">Name:</label>
+                    <input name="groupName" data-ng-model="searchParams.groupName" data-ng-disabled="disabledSearch" alt="Name" tabindex="0" />
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label for="active" title="Active">Active:</label>
+                    <select name="active" data-ng-model="searchParams.active" data-ng-options="item.key as item.label for item in activeOptions" data-ng-disabled="disabledSearch" tabindex="0" title="Active">
+                        <option value="">Any</option>
+                    </select>
+                </span>
+            </li>
+            <li></li>
+        </ul>
+        <button type="button" type="button" class="boxBtn" data-search-on-click data-ng-disabled="disabledSearch" tabindex="0">
+            <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+            <span class="btnText">Search</span>
+        </button>
+        <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="addNewAffinityGroup()" data-ng-disabled="disabledSearch" tabindex="0">
+            <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
+        </button>
+    </div>
+    <div>
+	    <form data-editable-form name="editableForm" data-onaftersave="saveAll(searchResponse.searchResults, editableForm)" data-onshow="disableSearch();">
+        <div class="fieldGroup">
+	        <table class="dataTable" data-accessible-table role="grid">
+	            <colgroup>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+	                <col>
+                    <col data-ng-repeat="parameter in algorithms[searchParams.segmentId].blueprintParameters">
+	                <col class="tripleActionColumn">                    
+	            </colgroup>
+	            <tr role="row">
+	                <th scope="col" id="nameHeader" title="Name" data-sort-on-click data-sort-column="groupName">Name</th>
+	                <th scope="col" id="opMinHeader" title="OP Min" class="noSort">OP Min</th>
+	                <th scope="col" id="opMaxHeader" title="OP Max" class="noSort">OP Max</th>
+	                <th scope="col" id="ftMinHeader" title="FT Min" class="noSort">FT Min</th>
+	                <th scope="col" id="ftMaxHeader" title="FT Max" class="noSort">FT Max</th>
+                    <th scope="col" id="activeHeader" title="Active" class="noSort">Active</th>
+                    <th scope="col" id="paramHeader" title="Blueprint Parameters" class="normalSpace" data-ng-repeat="parameter in algorithms[searchParams.segmentId].blueprintParameters">
+                        {{parameter.parameterName}}
+                        <span data-ng-if="(parameter.itemSelectionType == 'Integer' || parameter.itemSelectionType == 'Float') && (parameter.minimumValue || parameter.maximumValue)">
+                            <br/>
+                            <em data-ng-if="parameter.minimumValue && parameter.maximumValue"><i>({{parameter.minimumValue}} - {{parameter.maximumValue}})</i></em>
+                            <em data-ng-if="parameter.minimumValue && !parameter.maximumValue"><i>(Min {{parameter.minimumValue}})</i></em>
+                            <em data-ng-if="!parameter.minimumValue && parameter.maximumValue"><i>(Max {{parameter.maximumValue}})</i></em>
+                        </span>
+                    </th>
+                    <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>
+ 	            </tr>
+	            <tr data-ng-repeat="affinityGroup in searchResponse.searchResults" role="row" id="row{{$index}}">
+	                <td scope="col" role="gridcell" aria-labelledby="nameHeader">
+	                   {{affinityGroup.groupName}}
+	                </td>
+	                <td scope="col" role="gridcell" aria-labelledby="opMinHeader" class="ng-class:{hasError:hasValidationError($index, searchParams.segmentId, 'operationalItemMinValue')}"
+	                    data-tooltip="{{hasValidationError($index, searchParams.segmentId, 'operationalItemMinValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    <span data-editable-text="affinityGroup.affinityGroupValueMap[searchParams.segmentId].operationalItemMinValue" data-e-name="operationalItemMinValue" data-e-focus-on="focusEdit" data-e-maxlength="3"><span class="viewSpanLeft">{{searchParams.segmentId == 'MASTER'?affinityGroup.masterAffinityGroupValue.operationalItemMinValue:affinityGroup.affinityGroupValueMap[searchParams.segmentId].operationalItemMinValue | convertToIntFilter}}</span></span>
+                    </td>
+	                <td scope="col" role="gridcell" aria-labelledby="opMaxHeader" class="ng-class:{hasError:hasValidationError($index, searchParams.segmentId, 'operationalItemMaxValue')}"
+	                    data-tooltip="{{hasValidationError($index, searchParams.segmentId, 'operationalItemMaxValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    <span data-editable-text="affinityGroup.affinityGroupValueMap[searchParams.segmentId].operationalItemMaxValue" data-e-name="operationalItemMaxValue" data-e-focus-on="focusEdit" data-e-maxlength="3"><span class="viewSpanLeft">{{searchParams.segmentId == 'MASTER'?affinityGroup.masterAffinityGroupValue.operationalItemMaxValue:affinityGroup.affinityGroupValueMap[searchParams.segmentId].operationalItemMaxValue | convertToIntFilter}}</span></span>
+                    </td>
+	                <td scope="col" role="gridcell" aria-labelledby="ftMinHeader" class="ng-class:{hasError:hasValidationError($index, searchParams.segmentId, 'fieldTestItemMinValue')}"
+	                    data-tooltip="{{hasValidationError($index, searchParams.segmentId, 'fieldTestItemMinValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    <span data-editable-text="affinityGroup.affinityGroupValueMap[searchParams.segmentId].fieldTestItemMinValue" data-e-name="fieldTestItemMinValue" data-e-focus-on="focusEdit" data-e-maxlength="3"><span class="viewSpanLeft">{{searchParams.segmentId == 'MASTER'?affinityGroup.masterAffinityGroupValue.fieldTestItemMinValue:affinityGroup.affinityGroupValueMap[searchParams.segmentId].fieldTestItemMinValue | convertToIntFilter}}</span></span>
+                    </td>
+	                <td scope="col" role="gridcell" aria-labelledby="ftMax" class="ng-class:{hasError:hasValidationError($index, searchParams.segmentId, 'fieldTestItemMaxValue')}"
+	                    data-tooltip="{{hasValidationError($index, searchParams.segmentId, 'fieldTestItemMaxValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    <span data-editable-text="affinityGroup.affinityGroupValueMap[searchParams.segmentId].fieldTestItemMaxValue" data-e-name="fieldTestItemMaxValue" data-e-focus-on="focusEdit" data-e-maxlength="3"><span class="viewSpanLeft">{{searchParams.segmentId == 'MASTER'?affinityGroup.masterAffinityGroupValue.fieldTestItemMaxValue:affinityGroup.affinityGroupValueMap[searchParams.segmentId].fieldTestItemMaxValue | convertToIntFilter}}</span></span>
+                    </td>
+                    <td scope="col" role="gridcell" aria-labelledby="activeHeader">
+                       <span data-editable-checkbox="affinityGroup.active">
+                           {{affinityGroup.active?"Yes":"No"}}
+                       </span>
+                    </td>
+                    <td scope="col" role="gridcell" aria-labelledby="paramHeader" data-ng-repeat="itemSelParam in algorithms[searchParams.segmentId].blueprintParameters"
+                        class="ng-class:{hasError:hasSelectionParamValidationError($parent.$parent.$index, searchParams.segmentId, itemSelParam.parameterName)}"
+                        data-tooltip="{{hasSelectionParamValidationError($parent.$parent.$index, searchParams.segmentId, itemSelParam.parameterName)}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                        <span data-ng-if="segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName] === 'Boolean'" data-editable-select="affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]" data-e-name="affinityGroups[{{$parent.$parent.$index}}].affinityGroupValueMap[{{searchParams.segmentId}}].itemSelectionParameters[{{itemSelParam.parameterName}}]" data-e-ng-options="option.value as option.label for option in [{value:'true', label:'true'}, {value:'false', label: 'false'}]">
+                            {{affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]}}
+                        </span><span data-ng-if="segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName] === 'Integer' || segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName] === 'Float' || segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName] === 'String'" data-editable-text="affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]" data-e-name="affinityGroups[{{$parent.$parent.$index}}].affinityGroupValueMap[{{searchParams.segmentId}}].itemSelectionParameters[{{itemSelParam.parameterName}}]">
+                            {{affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]}}
+                        </span><span data-ng-if="segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName] === 'List'" data-editable-select="affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]" data-e-name="affinityGroups[{{$parent.$parent.$index}}].affinityGroupValueMap[{{searchParams.segmentId}}].itemSelectionParameters[{{itemSelParam.parameterName}}]" data-e-ng-options="option.name as option.name for option in segmentParamTypeMap[searchParams.segmentId][itemSelParam.parameterName + 'List']">
+                            {{affinityGroup.affinityGroupValueMap[searchParams.segmentId].itemSelectionParameters[itemSelParam.parameterName]}}
+                        </span>
+                    </td>
+	                <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+	                    <div class="tableButtonGroup">
+	                      <button type="button" data-ng-click="editAffinityGroup(affinityGroup.id)" id="view{{$index}}" class="boxBtn" data-ng-disabled="disabledSearch" tabindex="{{$index == 0 ? 0 : -1}}">
+	                          <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+	                      </button>
+	                      <button type="button" data-ng-hide="assessment.locked" data-ng-click="removeAffinityGroup(affinityGroup)" id="remove{{$index}}" class="boxBtn" data-ng-disabled="disabledSearch" tabindex="-1">
+	                          <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+	                      </button>
+	                    </div>
+	                </td>                    
+	            </tr>
+	        </table>
+	        <span data-ng-show="!editableForm.$visible && searchResponse.searchResults.length > 0">
+	           <button type="button" class="boxBtn" data-ng-hide="assessment.locked || searchParams.segmentId == 'MASTER'" data-ng-click="edit(editableForm)" tabindex="0">
+	              <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+	              <span class="btnText">Edit</span>
+	          </button>
+	       </span>
+	       <span data-ng-show="editableForm.$visible">
+	          <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+	              <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+	              <span class="btnText">Save</span>
+	          </button>
+	          <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel(editableForm)" tabindex="0">
+	              <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	              <span class="btnText">Cancel</span>
+	          </button>
+	          <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+	              <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+	              <span class="btnText">Back</span>
+	          </button>
+	       </span>
+	    </div>
+	    </form>
+    </div>
+</div>

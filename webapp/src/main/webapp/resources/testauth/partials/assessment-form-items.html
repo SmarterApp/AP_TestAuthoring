@@ -1,0 +1,241 @@
+<div data-ng-hide="hasPartitions" class="noSegments">*This Assessment does not currently have any form partitions.</div>
+<div data-ng-show="hasPartitions">
+
+    <div data-error-panel data-relative-width="true"
+        data-error-list="errors" data-error-header="Invalid form partition data detected:" 
+        data-warning-list="warnings" data-warning-header="WARNING - Please ensure following form partition data is correct:">
+    </div>
+     
+     <div class="left_menu_hidden" data-ng-show="showTools && (!assessment.locked || searchResponse.returnCount > 20)">
+                 
+                    <h6 tabindex="-1">Tools</h6>
+                    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
+                    <div title="TIB Search" class="icons icon-search"  data-ng-hide="assessment.locked || tableform.$visible " data-ng-click="openTibSearch()"> </div>
+                    
+                    <div title="Edit Items" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked" data-ng-click="openEditor(tableform)"> </div>
+                    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()"> </div>
+                    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();"> </div>
+                    
+                    <div title="Move Items" class="icons icon-move"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openMoveItemWindow()"> </div>
+                    <div title="Delete Items" class="icons icon-trash"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openDeleteItemWindow()"> </div>
+                    
+                    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || itemErrors.length == 0" data-ng-click="toggleErrors()"> </div>
+                    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+               
+                </div>
+                <div class="left_menu_errors" data-ng-show="showErrors">
+                    <div class="tableWrapper">
+                        <h3 tabindex="-1">Item Attribute Errors</h3>
+                        <table class="errors">
+                            <tr data-ng-repeat="error in itemErrors" data-ng-class-odd="'left_menu_errors_odd'" data-ng-class-even="'left_menu_errors_even'">
+                                <td><div class="icons icon-error">&nbsp;</div></td>
+                                <td><div>{{error}}</div></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="menu_button_bar">
+                        <button type="button" class="boxBtn" data-ng-click="toggleErrors()">
+                            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                            <span class="btnText">Close</span>
+                        </button>
+                    </div>  
+                </div>
+                <div class="left_menu_visible_tib_search" data-ng-show="showTibSearch">
+                    <div data-tib-item-search data-tenant-id='assessment.tenantId' data-form-id='searchParams.formId' data-form-partition-id="searchParams.formPartitionId" data-location-type="locationType" data-form-partition-map="formPartitionMap" data-group-id="searchParams.itemGroupId" data-close-search="tibSearchClosed()" data-default-params="defaultTibParams"></div>
+                </div>
+                
+                
+                <div class="left_menu_visible_item_mover" data-ng-show="showEditWidget">
+                    <div class="itemSection">
+                        <h5 tabindex="-1">{{moveOrDelete}} Selected Items</h5>
+                        <div class="itemMove">
+                            <div data-ng-repeat="error in widgeterrors">
+                                <div><span class="icon_sprite icon_error error"></span>{{error}}</div>
+                            </div>
+	                            <div class="moverSection" data-ng-hide="isMoveOrDeleteAllowed() || operationComplete">
+	                                <div>Items need to be filtered by both a form partition and a item group to move or delete them.</div>
+	                                <button type="button" class="boxBtn" data-ng-click="closeEditBar()">
+	                                            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	                                            <span class="btnText">Cancel</span>
+	                                </button>
+	                            </div>
+	                            <div class="moverSection" data-ng-show="isMoveOrDeleteAllowed()">
+				                     <div>
+				                          <label for="moveItems" title="Selected Items"> Selected Items:</label> 
+			                              <span class="selectedItemsList">{{getSelectedItems()}}</span>
+			                         </div>
+			                         <div><a data-ng-click="checkAll()">Check All</a> - <a data-ng-click="uncheckAll()">Uncheck All</a></div>
+	                                 <div><label for="moveSegment" title="Form Partition">Form Partition:</label> <span>{{formPartitionMap[searchParams.formPartitionId].form.name}} - {{formPartitionMap[searchParams.formPartitionId].name}}</span></div>
+	                                 <div><label for="moveGroup" title="Item Group">Item Group:</label><span> {{itemGroupMap[searchParams.itemGroupId].groupName}}</span></div>
+	                            </div>
+	                            <div class="moverSection" data-ng-show="isMoveAllowed()">
+	                                        <div>
+	                                             <label for="moveSegment" title="Target Form Partition">Target Form Partition:</label>
+	                                             <select data-ng-model="moveTargetPartitionId" data-ng-change="refreshMoveGroups(moveTargetPartitionId)" data-ng-options="value.id as value.form.name + ' - ' + value.name for (key,value) in formPartitionMap" tabindex="0" title="Target Form Parition"></select>
+	                                        </div>
+	                                        <div>
+	                                            <label for="moveGroup" title="Target Item Group">Target Item Group:</label>
+	                                            <select class="itemGroupDropdown" data-ng-model="moveTargetGroupId" data-ng-options="grp.id as grp.groupName for grp in moveItemGroupList" tabindex="0" title="Target Item Group"></select>
+	                                        </div>
+	                                       <button type="button" class="boxBtn" data-ng-click="moveItems()">
+	                                           <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
+	                                           <span class="btnText">Move Selected</span>
+	                                       </button>
+	                                        <button type="button" class="boxBtn" data-ng-click="closeEditBar()">
+	                                            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	                                            <span class="btnText">Cancel</span>
+	                                        </button>
+	                            </div>
+	                            <div class="moverSection" data-ng-show="isDeleteAllowed()">
+	                                       <button type="button" class="boxBtn" data-ng-click="deleteItems()">
+	                                           <span class="btnIcon icon_sprite icon_delete3" aria-hidden="true"></span>
+	                                           <span class="btnText">Delete Selected</span>
+	                                       </button>
+	                                        <button type="button" class="boxBtn" data-ng-click="closeEditBar()">
+	                                            <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	                                            <span class="btnText">Cancel</span>
+	                                        </button>
+	                            </div>
+	                            <div class="moverSection" data-ng-show="operationComplete">
+                                      <div>
+                                          <label for="moveSegment" title="Move Segment">{{bulkEditMessage}}</label>
+                                      </div>
+                                      <div>
+	                                     <button type="button" class="boxBtn" data-ng-click="closeEditBar()">
+	                                         <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+	                                         <span class="btnText">Cancel</span>
+	                                     </button>
+                                      </div>
+	                            </div>
+	                            
+                         </div>
+                      </div>
+                    </div>
+                    
+                    
+  <form data-editable-form  name="tableform" data-onaftersave="saveAll(searchResponse.searchResults)" data-onshow="disableSearch();">
+    
+    <div data-searchable data-search-promise="searchItems(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-itempool-search" data-deactivate-initial-search="true">
+             <div class="fieldGroup ng-class:{disabledSearch:disabledSearch}">
+                    <ul>
+                        <li>
+                            <span>
+                                <label for="formPartition">Form Partition:</label>
+                                <select data-ng-disabled="disabledSearch" data-ng-model="searchParams.formPartitionId"  data-ng-change="formPartitionChanged()" data-ng-options="value.id as value.form.name + ' - ' + value.name for (key,value) in formPartitionMap" tabindex="0" title="Form Partition">
+                                </select>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <label for="primaryStandard">Standards Key:</label>
+                                <input data-ng-disabled="disabledSearch" name="primaryStandard" data-ng-model="searchParams.primaryStandard" tabindex="0" alt="Standards Key" />
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <label for="itemGroupId">Item Group:</label>
+                                <select data-ng-disabled="disabledSearch" data-ng-model="searchParams.itemGroupId"  data-search-on-change data-ng-options="value.id as value.groupName  for (key,value) in itemGroupMap" tabindex="0" title="Item Group"></select>
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <label for="tibIdentifier">Item Identifier:</label>
+                                <input data-ng-disabled="disabledSearch" name="tibIdentifier" data-ng-model="searchParams.tibIdentifier" tabindex="0" alt="Item Identifier" />
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <label for="interactionType">Interaction Type:</label>
+                                <input data-ng-disabled="disabledSearch" name="itemType" data-ng-model="searchParams.interactionType" tabindex="0" alt="Interaction Type" />
+                            </span>
+                        </li>
+                        <li>
+                            <span>
+                                <label for="grade">Grade:</label>
+                                <input data-ng-disabled="disabledSearch" name="grade" data-ng-model="searchParams.grade" tabindex="0" alt="Grade"/>
+                            </span>
+                        </li>
+                    </ul>
+                    <button type="button" type="button" class="boxBtn" data-search-on-click data-active-indicator="searchResponse.searching">
+                        <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                        <span class="btnText">Search</span>
+                    </button>
+                </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+        <div><a data-ng-class="{selected : details}" data-ng-click="viewDetails()">View Item Details</a> - <a data-ng-class="{selected : !details}" data-ng-click="viewAttributes()">View Item Attributes</a></div>
+        <div class="tableWrapper">
+                <table class="dataTable withHeader" role="grid">
+                   <colgroup>
+                        <col style="width:18%">
+                        <col style="width:15%">
+                        <col>
+                        
+                        <col data-ng-if="details">
+                        <col data-ng-if="details">
+                        <col data-ng-if="details">
+                        <col data-ng-if="details">
+                        
+                        <col data-ng-if="!details">
+                        <col data-ng-if="!details">
+                        <col data-ng-if="!details">
+                        <col data-ng-if="!details">
+                        <col data-ng-if="!details">
+                         
+                        <col style="width:22%">
+                   </colgroup>
+                   <tr role="row">
+                        <th scope="col" id="standardKeyHeader" title="Standard Key" data-sort-column="primaryStandard">Standard Key</th>
+                        <th scope="col" id="itemIdHeader" title="Item Identifier" data-sort-column="tibIdentifier">Item Identifier</th>
+                        <th scope="col" id="typeHeader" title="Type" data-sort-column="interactionType">Interaction Type</th>
+
+                        <th scope="col" id="versionHeader" title="Version" data-ng-if="details" data-sort-column="version">Version</th>
+                        <th scope="col" id="gradeHeader" title="Grade" data-ng-if="details" data-sort-column="intendedGrade">Grade</th>
+                        <th scope="col" id="subjectHeader" title="Subject" data-ng-if="details" data-sort-column="subject">Subject</th>
+                        <th scope="col" id="statusHeader" title="Status" data-ng-if="details" data-sort-column="status">Status</th>
+                        
+                        <th scope="col" id="adminHeader" title="Admin Required" data-ng-if="!details" data-sort-column="adminRequired">Admin Required</th>
+                        <th scope="col" id="responseHeader" title="Response Required" data-ng-if="!details" data-sort-column="responseRequired">Response Required</th>
+                        <th scope="col" id="activeHeader" title="Active" data-ng-if="!details" data-sort-column="active">Active</th>
+                        <th scope="col" id="fieldTestHeader" title="Field Test Item" data-ng-if="!details" data-sort-column="fieldTestItem">Field Test Item</th>
+                        <th scope="col" id="blockIdHeader" title="Block Id" data-ng-if="!details" data-sort-column="blockId">Block Id</th>
+                        <th scope="col" id="locationHeader" title="Location">Location</th>
+                   </tr>
+                   <tbody data-ng-repeat="item in searchResponse.searchResults">
+                      <tr data-ng-class="{ 'selectedItemRow': item.segmentId == segment.id || selectedItems[item.id] }" role="row" id="row{{$index}}">
+                        <td scope="col" role="gridcell" aria-labelledby="standardKeyHeader">{{item.primaryStandard}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="itemIdHeader">{{item.tibIdentifier}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="typeHeader">{{item.interactionType}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="versionHeader" data-ng-if="details">{{item.version}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="gradeHeader" data-ng-if="details">{{item.intendedGrade}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="subjectHeader" data-ng-if="details">{{item.subject}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="statusHeader" data-ng-if="details">{{item.status}}</td>
+                        <td scope="col" role="gridcell" aria-labelledby="adminHeader" data-ng-if="!details">
+                            <a href="#" data-editable-checkbox="getLocation(item).adminRequired">{{ getLocation(item).adminRequired ? "Yes" : "No" }}</a>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="responseHeader" data-ng-if="!details">
+                            <a href="#" data-editable-checkbox="getLocation(item).responseRequired">{{ getLocation(item).responseRequired ? "Yes" : "No" }}</a>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="activeHeader" data-ng-if="!details">
+                            <a href="#" data-editable-checkbox="getLocation(item).active">{{ getLocation(item).active ? "Yes" : "No" }}</a>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="fieldTestHeader" data-ng-if="!details">
+                            <a href="#" data-editable-checkbox="getLocation(item).fieldTestItem">{{ getLocation(item).fieldTestItem ? "Yes" : "No" }}</a>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="blockIdHeader" data-ng-if="!details">
+                            <span data-editable-text="getLocation(item).blockId">{{getLocation(item).blockId}}</span>
+                        </td>
+                        <td scope="col" role="gridcell" aria-labelledby="locationHeader" class="normalSpace">
+                            <div class="moveselector">
+                                 <input data-ng-show="showItemSelectors" data-ng-model="itemCheckboxMap[item.tibIdentifier]" type="checkbox" value="item.id" tabindex="0" alt="Show Item Selectors"/> {{getLocationName(item)}}
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+            </table>
+            <div id="bottomOfTable"></div>  
+        </div>
+        </div>
+        <div data-ng-show="searchResponse.searchResults.length == 0"><strong>No items assigned to the form.</strong></div>
+    </div>  
+  </form>
+ </div>

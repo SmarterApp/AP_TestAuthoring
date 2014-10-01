@@ -1,0 +1,8 @@
+<input type="text" 
+    placeholder="Select..." 
+    data-ng-model="itemModel"
+    data-typeahead="availableItem as availableItem ? limitText(availableItem.tibIdentifier + (availableItem.description?(' - ' + availableItem.description):'')) : '' for availableItem in filterItems($viewValue)" 
+    data-typeahead-wait-ms="200" 
+    data-typeahead-editable="false"
+    data-typeahead-min-length="-1"
+    data-typeahead-on-select="onSelect({newItem:$item,newItemLabel:$label})" tabindex="0" alt="Available Item" />

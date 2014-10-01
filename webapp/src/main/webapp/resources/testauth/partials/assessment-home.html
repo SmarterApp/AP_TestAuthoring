@@ -1,0 +1,67 @@
+   <div class="secondary">
+        <div data-ng-if="assessment.id && !isPostTest" data-accessible-table class="navCore" role="navigation">
+            <ol>
+                <li class="green" data-ng-class="{selected : isActive('assessmenthome.detailhome.edit')}" data-ng-click="goToTab($event, 'assessmenthome.detailhome.edit')" data-ng-keydown="goToTab($event, 'assessmenthome.detailhome.edit')" tabindex="0">Test<span class="assessment_icon_sprite_small icon_test_details_small" title="Test"></span></li>
+                <li class="navy"  data-ng-class="{selected : isActive('assessmenthome.segment')}" data-ng-click="goToTab($event, 'assessmenthome.segment')" data-ng-keydown="goToTab($event, 'assessmenthome.segment')" tabindex="0">Test Segments<span class="assessment_icon_sprite_small icon_test_segment_small" title="Test Segments"></span></li>
+                <li class="maroon" data-ng-class="{selected : isActive('assessmenthome.blueprint')}" data-ng-click="goToTab($event, 'assessmenthome.blueprint')" data-ng-keydown="goToTab($event, 'assessmenthome.blueprint')" tabindex="0">Blueprints<span class="assessment_icon_sprite_small icon_test_blueprint_small" title="Blueprints"></span></li>
+                <li class="navy" data-ng-class="{selected : isActive('assessmenthome.itempool.items')}" data-ng-click="goToTab($event, 'assessmenthome.itempool.items')" data-ng-keydown="goToTab($event, 'assessmenthome.itempool.items')" tabindex="0">Segment Pools<span class="assessment_icon_sprite_small icon_test_itempool_small" title="Segment Pools"></span></li>
+                <li class="maroon" data-ng-class="{selected : isActive('assessmenthome.formhome.formsearch')}" data-ng-click="goToTab($event, 'assessmenthome.formhome.formsearch')" data-ng-keydown="goToTab($event, 'assessmenthome.formhome.formsearch')" tabindex="0">Forms<span class="assessment_icon_sprite_small icon_test_forms_small" title="Forms"></span></li>
+                <li class="navy" data-ng-class="{selected : isActive('assessmenthome.masterpool.items')}" data-ng-click="goToTab($event, 'assessmenthome.masterpool.items')" data-ng-keydown="goToTab($event, 'assessmenthome.masterpool.items')" tabindex="0">Master Item Pool<span class="assessment_icon_sprite_small icon_test_master_small" title="Master Item Pool"></span></li>
+                <li class="green" data-ng-class="{selected : isActive('assessmenthome.scoringrule')}" data-ng-click="goToTab($event, 'assessmenthome.scoringrule')" data-ng-keydown="goToTab($event, 'assessmenthome.scoringrule')" tabindex="0">Scoring<span class="assessment_icon_sprite_small icon_test_scoring_small" title="Scoring"></span></li>
+                <li class="maroon" data-ng-class="{selected : isActive('assessmenthome.performancelevel')}" data-ng-click="goToTab($event, 'assessmenthome.performancelevel')" data-ng-keydown="goToTab($event, 'assessmenthome.performancelevel')" tabindex="0">Performance Levels<span class="assessment_icon_sprite_small icon_test_performance_small" title="Performance Levels"></span></li>
+                <li class="green" data-ng-class="{selected : isActive('assessmenthome.reportingmeasures')}" data-ng-click="goToTab($event, 'assessmenthome.reportingmeasures')" data-ng-keydown="goToTab($event, 'assessmenthome.reportingmeasures')" tabindex="0">Reporting<span class="assessment_icon_sprite_small icon_test_reporting_small" title="Reporting"></span></li>
+             </ol>   
+            <div class="submenuslideText" >slide to show <b>post test-creation</b></div>
+            <div class="submenuslide" data-ng-click="showPostTest(true, false)" data-ng-keydown="showPostTestEnter(true, false)" tabindex="0" title="slide to show post test-creation">
+                <div class="icon_arrows_sprite_submenu icon_slider_submenu"></div>
+            </div>                                   
+        </div>
+        <div data-ng-if="assessment.id && isPostTest" data-accessible-table class="navCore" role="navigation">
+            <div class="submenuslidePostTest" data-ng-click="showPostTest(false, false)" data-ng-keydown="showPostTestEnter(false, false)" tabindex="0" title="slide to show test-creation">
+                <div class="icon_arrows_sprite_submenu icon_slider_submenuPostTest"></div>
+            </div>    
+            <div class="submenuslidePostTestText" >slide to show <b> test-creation</b></div>
+            <ol>
+                <li class="maroon" data-ng-class="{selected : isActive('assessmenthome.simulation')}" data-ng-click="goToTab($event, 'assessmenthome.simulation')" data-ng-keydown="goToTab($event, 'assessmenthome.simulation')" tabindex="0">Upload Simulation Information<span class="assessment_icon_sprite_small icon_test_simulate_small" title="Upload Simulation Information"></span></li> 
+                <li class="green" data-ng-class="{selected : isActive('assessmenthome.publishinghome.publishing')}" data-ng-click="goToTab($event, 'assessmenthome.publishinghome.publishing')" data-ng-keydown="goToTab($event, 'assessmenthome.publishinghome.publishing')" tabindex="0">Publish<span class="assessment_icon_sprite_small icon_test_publishing_small" title="Publish"></span></li>
+                <li class="blue" data-ng-class="{selected : isActive('assessmenthome.psychometric')}" data-ng-click="goToTab($event, 'assessmenthome.psychometric')" data-ng-keydown="goToTab($event, 'assessmenthome.psychometric')" tabindex="0">Upload Psychometric Information<span class="assessment_icon_sprite_small icon_test_psychometric_small" title="Upload Psychometric Information"></span></li>
+            </ol>                                    
+        </div>        
+        <div data-ng-if="!assessment.id && !isPostTest" data-accessible-table class="navCore" role="navigation">            
+            <ol>
+                <li class="green" data-ng-click="goToTab($event, 'assessmenthome.detailhome.edit')" data-ng-keydown="goToTab($event, 'assessmenthome.detailhome.edit')" tabindex="0">Test<span class="assessment_icon_sprite_small icon_test_details_small" title="Test"></span></li>
+                <li class="disabled" >Test Segments<span class="assessment_icon_sprite_small icon_test_segment_small_disabled"></span></li>
+                <li class="disabled" >Blueprints<span class="assessment_icon_sprite_small icon_test_blueprint_small_disabled"></span></li>
+                <li class="disabled" >Segment Pools<span class="assessment_icon_sprite_small icon_test_itempool_small_disabled"></span></li>
+                <li class="disabled" >Forms<span class="assessment_icon_sprite_small icon_test_forms_small_disabled"></span></li>
+                <li class="disabled" >Master Item Pools<span class="assessment_icon_sprite_small icon_test_master_small_disabled"></span></li>
+                <li class="disabled" >Scoring<span class="assessment_icon_sprite_small icon_test_scoring_small_disabled"></span></li>
+                <li class="disabled" >Performance Levels<span class="assessment_icon_sprite_small icon_test_performance_small_disabled"></span></li>
+                <li class="disabled" >Reporting<span class="assessment_icon_sprite_small icon_test_reporting_small_disabled"></span></li>
+            </ol>   
+            <div class="submenuslideText" >slide to show <b>post test-creation</b></div>
+            <div class="submenuslide" data-ng-click="showPostTest(true, true)" data-ng-keydown="showPostTestEnter(true, true)" tabindex="0" title="slide to show post test-creation">
+                <div class="icon_arrows_sprite_submenu icon_slider_submenu"></div>
+            </div>                       
+       </div>   
+        <div data-ng-if="!assessment.id && isPostTest" class="navCore">
+            <div class="submenuslidePostTest" data-ng-click="showPostTest(false, true)" data-ng-keydown="showPostTestEnter(false, true)" tabindex="0" title="slide to show test-creation">
+                <div class="icon_arrows_sprite_submenu icon_slider_submenuPostTest"></div>
+            </div>         
+            <div class="submenuslidePostTestText" >slide to show <b> test-creation</b></div>
+            <ol>
+                <li class="disabled" >Upload Simulation Information<span class="assessment_icon_sprite_small icon_test_simulate_small_disabled"></span></li>
+                <li class="disabled" >Publish<span class="assessment_icon_sprite_small icon_test_publishing_small_disabled"></span></li>
+                <li class="disabled" >Upload Psychometric Information<span class="assessment_icon_sprite_small icon_test_psychometric_small_disabled"></span></li>
+            </ol>              
+       </div>             
+       <a href="javascript:void(0);" class="slider-arrow" data-menu-slider title="Menu Slider">&raquo;</a>
+    <div class="secContent">
+    <div data-ng-controller="HomeController" class="content"> 
+	<h2 data-ng-hide="assessment.locked" tabindex="-1">Assessment: {{assessment.name}}</h2>
+	<h2 data-ng-show="assessment.locked" class="editable-error" tabindex="-1">Assessment: {{assessment.name}} is LOCKED because of its publish state.</h2>
+	
+	<div data-ui-view="assessment-tab-view"></div>
+    </div>
+</div>
+<div class="clear"></div>

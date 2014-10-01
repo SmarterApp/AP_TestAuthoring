@@ -1,0 +1,72 @@
+<div data-error-panel data-error-list="errors"></div>
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+        <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+        <h5 tabindex="-1">Affinity Group<span class="control-label-required">Indicates required field</span></h5>
+        <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span data-ng-show="!editableForm.$visible">
+                        <span>
+                            <label class="control-label" title="Type">Type:</label>
+                            <span class="propertyBox">{{affinityGroupType == 'sock'?'SOCK':'Ad Hoc'}}</span>
+                        </span>
+                    </span>
+                    <span data-ng-show="editableForm.$visible">
+                        <label class="control-label" for="affinityGroupType" title="Type">Type:</label>
+                        <select data-ng-show="editableForm.$visible" data-ng-model="affinityGroupType" name="affinityGroupType" title="Affinity Group Type" tabindex="0">
+                            <option value="adhoc">Ad Hoc</option>
+                            <option value="sock">SOCK</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                </li>
+	            <li data-ng-show="affinityGroupType == 'adhoc'">
+	                <span>
+	                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="affinityGroup.groupName" title="Group Name">Group Name:</label>
+	                    <span data-e-maxlength="60" data-editable-text="affinityGroup.groupName" data-e-name="groupName" data-e-focus-on="focusEdit">
+	                       <span class="viewSpanLeft">{{affinityGroup.groupName}}</span>
+	                    </span>
+	                </span>
+	            </li>
+	            <li data-ng-show="affinityGroupType == 'sock' && socks.length > 0">
+                    <span>
+                        <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="sock" title="SOCK">SOCK:</label>
+                        <span data-editable-select="affinityGroup.sock" data-e-name="sock" data-e-ng-options="sock.description as sock.description for sock in socks">
+                           <span data-ng-repeat="sock in socks"><span data-ng-if="sock.description == affinityGroup.groupName">{{sock.description}}</span></span>
+                        </span>
+                    </span>
+	            </li>
+	            <li data-ng-show="affinityGroupType == 'sock' && socks.length == 0">
+	               No SOCKs available
+	            </li>
+	            <li></li>
+            </ul>
+            <span data-ng-show="!editableForm.$visible">
+                <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="edit()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                    <span class="btnText">Edit</span>
+                </button>
+                <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="back()" tabindex="0">
+                        <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                        <span class="btnText">Back</span>
+                </button>
+            </span>
+            <span data-ng-show="editableForm.$visible">
+                <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting || (affinityGroupType == 'sock' && socks.length == 0)" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                    <span class="btnText">Save</span>
+                </button>
+                <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancel()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                    <span class="btnText">Cancel</span>
+                </button>
+                <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="back()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>

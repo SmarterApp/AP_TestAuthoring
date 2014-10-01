@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mongo="http://www.springframework.org/schema/data/mongo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.3.xsd">
+
+    <mongo:repositories base-package="org.opentestsystem.authoring.testauth.persistence" factory-class="org.opentestsystem.shared.search.persistence.SearchableRepositoryFactoryBean" />
+
+	<mongo:mapping-converter id="mongoMappingConverter" db-factory-ref="mongoDbFactory" base-package="org.opentestsystem.authoring.testauth.domain" />
+
+    <mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory" converter-ref="mongoMappingConverter" write-concern="SAFE" />
+
+	<mongo:gridFsTemplate id="gridFsTemplate" db-factory-ref="mongoDbFactory" converter-ref="mongoMappingConverter" />
+
+    <bean class="org.opentestsystem.authoring.testauth.config.MongoMapKeyDotReplacementPostProcessor" />
+
+    <bean id="jsr303Validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+</beans>

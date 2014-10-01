@@ -1,0 +1,62 @@
+
+<div>
+    <div data-searchable data-search-promise="searchFormPartitions(params)" data-search-params="searchParams" data-search-response="searchResponse" data-broadcast-signal="initiate-formpartition-search">
+        <div class="fieldGroup">
+            <ul>
+                <li>
+	                <span>
+	                    <label for="searchParams.formId" title="Form">Form:</label>
+	                    <select data-ng-model="searchParams.formId" data-ng-options="form.id as form.name for form in formList" tabindex="0" title="Form">
+	                        <option value="">Any</option>
+	                    </select>
+	                </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="name" title="Form Partition Name">Form Partition Name:</label>
+                        <input name="name" data-ng-model="searchParams.name" tabindex="0" alt="Form Partition Name" />
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
+            <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="createNewItem()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> 
+                <span class="btnText">New</span>
+            </button>
+        </div>
+        <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
+            <table class="dataTable" data-accessible-table role="grid">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col class="doubleActionColumn">
+                </colgroup>
+                <tr role="row">
+                    <th scope="col" id="formHeader" title="Form" class="noSort">Form</th>
+                    <th scope="col" id="partitionNameHeader" title="Partition Name" data-sort-on-click data-sort-column="name">Partition Name</th>
+                    <th scope="col" id="segmentHeader" title="Segment" class="noSort">Segment</th>
+	                <th scope="col" id="actionHeader" title="Action" class="noSort">Action</th>                    
+                </tr>
+                <tr data-ng-repeat="formPartition in searchResponse.searchResults" role="row" id="row{{$index}}">
+                    <td scope="col" role="gridcell" aria-labelledby="formHeader"><span>{{formPartition.form.name}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="partitionNameHeader"><span>{{formPartition.name}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="segmentHeader"><span>{{formPartition.segment.position}} - {{formPartition.segment.label}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(formPartition)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>                        
+                            <button data-ng-click="remove(formPartition)" class="boxBtn" data-ng-show="!assessment.locked" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

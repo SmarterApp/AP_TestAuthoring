@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="PhantomJS 1.9.1 (Mac OS X)" package="undefined" timestamp="2014-01-22T16:04:58" id="0" hostname="mstern-flexion-mbp.local" tests="197" errors="0" failures="0" time="1.143">
+    <properties>
+      <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.1 Safari/534.34"/>
+    </properties>
+    <testcase name="calls correct service when searchBlueprintElements() called" time="0.025" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="does not call service saveAll() called with empty list" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls service for each blueprintElement when saveAll() called" time="0.009" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="collapses blueprint element correctly" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="collapses blueprint element in different grades correctly" time="0.01" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="expands blueprint element correctly" time="0.013" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="expands missing blueprint element correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="checks if parent is collapsed" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls activate grade service when useWidget() called with activate action" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls deactivate grade service when useWidget() called with deactivate action" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls blueprintElementService when useWidget() called with copy action" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="validates fromSegmentId is populated when useWidget() called with copy action" time="0.003" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="validates fromSegmentId and toSegmentId is populated when useWidget() called with copy action" time="0.008" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls blueprintElementService when useWidget() called with remaining action" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="validates fillSegmentId is populated when useWidget() called with remaining action" time="0.013" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls blueprintElementService when useWidget() called with clear action" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="validates clearSegmentId is populated when useWidget() called with clear action" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="returns unique and sorted array when uniqueSortedCopy() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintController "/>
+    <testcase name="calls correct service when searchBlueprintSocks() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentBlueprintSockController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.009" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="populates form correctly when save() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="handles errors correctly when AssessmentService.save() fails" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="populates publication list with results of service call" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="clears publication list when no subject/publisher selected" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="does not clear selected publication when loadPublications(false) is invoked" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="clears selected publication when loadPublications(true) is invoked" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="populates grade list with results of service call" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="clears grade list when no subject/publication selected" time="0.019" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="does not clear selected grade when loadGrades(false) is invoked" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="clears selected grade when loadGrades(true) is invoked" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentEditController "/>
+    <testcase name="transitions to correct tab view with assessmentId populated when goToTab() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentHomeController "/>
+    <testcase name="transitions to search screen when cancel() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentHomeController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentItemPoolController"/>
+    <testcase name="populates form correctly when save() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentItemPoolController"/>
+    <testcase name="handles errors correctly when itemPoolService.save() fails" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentItemPoolController"/>
+    <testcase name="removes items from temporary item pool correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentItemPoolController"/>
+    <testcase name="stringifies items from an item map correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentItemPoolController"/>
+    <testcase name="calls correct service when search() called" time="0.007" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="transitions to new assessment page when createNewItem() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="transitions to assessment details page when view() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="deletes assessment by calling service and removing from search results" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="handles delete errors correctly" time="0.003" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="publishes assessment by calling service" time="0.009" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="handles publish errors correctly" time="0.007" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSearchController "/>
+    <testcase name="calls correct service when searchSegments() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentController "/>
+    <testcase name="transitions to new segment page when createNewItem() called" time="0.021" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentController "/>
+    <testcase name="transitions to segment details page when view() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentController "/>
+    <testcase name="deletes segment by calling service and searching again" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentController "/>
+    <testcase name="handles delete errors correctly" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentEditController "/>
+    <testcase name="populates form correctly when save() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentEditController "/>
+    <testcase name="handles errors correctly when segmentService.save() fails" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentEditController "/>
+    <testcase name="removes items from temporary item pool correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentEditController "/>
+    <testcase name="stringifies items from an item map correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).AssessmentSegmentEditController "/>
+    <testcase name="verify we saved the asset group successfully" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Home Controller "/>
+    <testcase name="retrieves a list of items with searchItems() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Test ItemSearchController"/>
+    <testcase name="adds item to temporary item pool correctly" time="0.009" classname="PhantomJS 1.9.1 (Mac OS X).Test ItemSearchController"/>
+    <testcase name="get existing item ids for item pool correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Test ItemSearchController"/>
+    <testcase name="toggles saving indicator when save() is called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmFormController "/>
+    <testcase name="populates form correctly when save() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmFormController "/>
+    <testcase name="handles errors correctly when itemSelectionAlgorithmService.save() fails" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmFormController "/>
+    <testcase name="deletes itemSelectionAlgorithm by calling service and removing from search results" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="handles delete errors correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="searches itemSelectionAlgorithms by calling service" time="0.003" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="post processes searched itemSelectionAlgorithms by calling service" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="transitions to create view with searchParams copied when createNewItemSelectionAlgorithm() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="transitions to edit view with itemSelectionAlgorithmId populated when edit() called" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithmSearchController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="populates form correctly when save() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="handles errors correctly when publicationService.save() fails" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="populates publication list with results of service call" time="0.027" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="clears publication list when no subject/publisher selected" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="does not clear selected publication when loadCsPublications(false) is invoked" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="clears selected publication when loadCsPublications(true) is invoked" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="populates subject list with results of service call" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="clears subject list when no publisher selected" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="does not clear selected subject when loadCsSubjects(false) is invoked" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="clears selected subject when loadCsSubjects(true) is invoked" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="converts empty subject list to empty select2 array" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="converts empty subject list to empty select2 array" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="displays core standards publication correctly" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationFormController "/>
+    <testcase name="deletes publication by calling service and removing from search results" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="handles delete errors correctly" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="searches publications by calling service" time="0.007" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="transitions to create view with searchParams copied when createNewPublication() called" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="transitions to edit view with publicationId populated when edit() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="post processes searched publications by calling service" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="genererates a viewer-friendly string from when subjectDisplay() is called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).PublicationSearchController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionFormController "/>
+    <testcase name="populates form correctly when save() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionFormController "/>
+    <testcase name="handles errors correctly when scoringFunctionService.save() fails" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionFormController "/>
+    <testcase name="deletes scoringFunction by calling service and removing from search results" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="handles delete errors correctly" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="searches scoringFunctions by calling service" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="post processes searched scoringFunctions by calling service" time="0.003" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="transitions to create view with searchParams copied when createNewScoringFunction() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="transitions to edit view with scoringFunctionId populated when edit() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunctionSearchController "/>
+    <testcase name="toggles saving indicator when save() is called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).SubjectFormController "/>
+    <testcase name="populates form correctly when save() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).SubjectFormController "/>
+    <testcase name="handles errors correctly when subjectService.save() fails" time="0.009" classname="PhantomJS 1.9.1 (Mac OS X).SubjectFormController "/>
+    <testcase name="searches subjects by calling service" time="0.033" classname="PhantomJS 1.9.1 (Mac OS X).SubjectSearchController "/>
+    <testcase name="post processes searched subjects by calling service" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).SubjectSearchController "/>
+    <testcase name="transitions to create view with searchParams copied when createNewSubject() called" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).SubjectSearchController "/>
+    <testcase name="transitions to edit view with subjectId populated when edit() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).SubjectSearchController "/>
+    <testcase name="deletes subject by calling service and searching again" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).SubjectSearchController "/>
+    <testcase name="loads user assets correctly on page start" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).Test User Controller "/>
+    <testcase name="should make PUT request when saving an existing assessment" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make POST request when saving a new assessment" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make correct GET request when searching for assessments" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make correct GET request when searching for assessments2" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make correct DELETE request when removing assessment" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make correct GET request when publishing by assessment id" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should handle publish errors correctly from http responses" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Assessment Service"/>
+    <testcase name="should make PUT request when saving an existing blueprintElement" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make POST request when saving a new blueprintElement" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make correct GET request when finding by blueprintElement id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make correct GET request when searching for blueprintElements" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make correct GET request when searching for blueprintElements2" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make correct DELETE request when removing blueprintElement" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when synchronizing with core standards" time="0.008" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when activating blueprint element grades" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when adding segment blueprint without clone" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when adding segment blueprint with clone" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when filling remaining segment blueprint values ignoring inactives" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when filling remaining segment blueprint values including inactives" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when clearing blueprint" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when updateCollection() called" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should handle error after updateCollection()" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should handle multiple errors after updateCollection()" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Element Service"/>
+    <testcase name="should make PUT request when saving an existing blueprintSock" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should make POST request when saving a new blueprintSock" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should make correct GET request when finding by blueprintSock id" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should make correct GET request when searching for blueprintSocks" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should make correct GET request when searching for blueprintSocks2" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should make correct DELETE request when removing blueprintSock" time="0.04" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Blueprint Sock Service"/>
+    <testcase name="set and get tenantId" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Current User Service"/>
+    <testcase name="should make PUT request when saving an existing item pool" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should make POST request when saving a new item pool" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should make correct GET request when finding by item pool id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should make correct GET request when searching for item pools" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should make correct DELETE request when removing item pools" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Item Pool Service"/>
+    <testcase name="should make PUT request when saving an existing itemSelectionAlgorithm" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make POST request when saving a new itemSelectionAlgorithm" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when finding by itemSelectionAlgorithm id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when searching for itemSelectionAlgorithms" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when searching for itemSelectionAlgorithms2" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct DELETE request when removing itemSelectionAlgorithm" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when retrieving itemSelectionAlgorithmTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when retrieving itemSelectionPurposes" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when retrieving itemSelectionTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ItemSelectionAlgorithm Service"/>
+    <testcase name="should make correct GET request when finding by item id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).User Service"/>
+    <testcase name="should make correct GET request when searching for items" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).User Service"/>
+    <testcase name="clear me" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Navigation Service"/>
+    <testcase name="add nav link" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Navigation Service"/>
+    <testcase name="clear me" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Navigation Service"/>
+    <testcase name="should make GET request when searching for tenants" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Progman Service"/>
+    <testcase name="should make correct GET request when searching for tenants 2" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Progman Service"/>
+    <testcase name="should make correct GET request when finding tenant by id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Progman Service"/>
+    <testcase name="should make correct GET request when loading tenant types" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Progman Service"/>
+    <testcase name="should make PUT request when saving an existing publication" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make POST request when saving a new publication" time="0.008" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make correct GET request when finding by publication id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make correct GET request when searching for publications" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make correct GET request when searching for publications2" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make correct DELETE request when removing publication" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Publication Service"/>
+    <testcase name="should make PUT request when saving an existing scoringFunction" time="0.007" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make POST request when saving a new scoringFunction" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when finding by scoringFunction id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when searching for scoringFunctions" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when searching for scoringFunctions2" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct DELETE request when removing scoringFunction" time="0.05" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.006" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when retrieving conversionTableTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when retrieving computationRuleTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when retrieving computationRuleMultiplicityTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make correct GET request when retrieving dictionaryIndexTypes" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).ScoringFunction Service"/>
+    <testcase name="should make PUT request when saving an existing segment" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make POST request when saving a new segment" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make correct GET request when finding by segment id" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make correct GET request when searching for segments" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make correct GET request when searching for segments2" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make correct DELETE request when removing segment" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Segment Service"/>
+    <testcase name="should make PUT request when saving an existing subject" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make POST request when saving a new subject" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make correct GET request when finding by subject id" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make correct GET request when searching for subjects" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make correct GET request when searching for subjects2" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make correct DELETE request when removing subject" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should handle errors correctly from http responses" time="0.004" classname="PhantomJS 1.9.1 (Mac OS X).Subject Service"/>
+    <testcase name="should make correct GET request when getting user assets" time="0.005" classname="PhantomJS 1.9.1 (Mac OS X).User Service"/>
+    <system-out><![CDATA[
+]]></system-out>
+    <system-err/>
+  </testsuite>
+</testsuites>

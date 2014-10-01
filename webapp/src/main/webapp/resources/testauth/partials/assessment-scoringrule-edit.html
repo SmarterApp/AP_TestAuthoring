@@ -1,0 +1,193 @@
+<div class="boxTitle"><h5 tabindex="-1">Scoring<span class="control-label-required">Indicates required field</span></h5></div>
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+	<div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <div class="fieldGroup">
+    <h3 tabindex="-1">{{formAction}} Scoring Rule</h3>
+        <ul>
+            <li>
+                <span>
+                    <label for="scoringRule.order" title="Order">Order:</label>
+                    <input type="hidden" data-ng-model="scoringRule.order" tabindex="0" alt="Order"><span class="propertyBox">{{scoringRule.order}}</span>
+                </span>
+            </li>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="scoringRule.label" title="Label">Label:</label>
+                    <span data-editable-text="scoringRule.label" data-e-maxlength="60" data-e-name="label" data-e-focus-on="focusEdit"><span class="propertyBox">{{scoringRule.label}}</span></span>                    
+                 </span>
+            </li>
+            <li>
+                <span>  
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="scoringRule.computationRuleId" title="Computation Rule">Computation Rule:</label>
+                    <span data-editable-select="scoringRule.computationRule.id" data-e-name="computationRuleId" 
+                        data-e-ng-options="computationRule.id as (computationRule.name+'/'+computationRule.version) for computationRule in computationRules"
+                        data-e-ng-change="loadComputationRuleChoice(true, $data)">
+                        <span class="propertyBox">{{scoringRule.computationRule.name}} / {{scoringRule.computationRule.version}}</span>
+                    </span>                    
+                </span>
+            </li>
+            <li>                
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="scoringRule.blueprintReferenceType" title="BP Reference Type">BP Reference Type:</label>
+                    <span data-editable-select="scoringRule.blueprintReferenceType" data-e-name="blueprintReferenceType" 
+                        data-e-ng-options="blueprintReferenceType for blueprintReferenceType in availableBlueprintReferenceTypes"
+                        data-e-ng-change="loadReferenceNames(true, $data)">
+                        <span class="propertyBox"> {{scoringRule.blueprintReferenceType}}</span>
+                    </span>                        
+                </span>
+            </li>
+            <li data-ng-if="showDenotation">
+            </li>
+            <li data-ng-if="showDenotation">
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="scoringRule.blueprintDenotationType" title="BP Denotation">BP Denotation:</label>
+                    <span data-editable-select="scoringRule.blueprintDenotationType" data-e-name="blueprintDenotationType" 
+                        data-e-ng-options="blueprintDenotationType for blueprintDenotationType in blueprintDenotationTypes"
+                        data-e-ng-change="loadDenotationChoice(true, $data)">
+                        <span class="propertyBox"> {{scoringRule.blueprintDenotationType}}</span>
+                    </span>                        
+                </span>
+            </li>
+            <li data-ng-if="showReferenceName">
+            </li>
+            <li data-ng-if="showReferenceName">
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="scoringRule.blueprintReferenceId" title="MP Reference">BP Reference:</label>
+                    <span data-editable-select="scoringRule.blueprintReferenceId" data-e-name="blueprintReferenceId" 
+                        data-e-ng-options="blueprintReference.id as blueprintReference.name for blueprintReference in blueprintReferenceNames">
+                        <span data-ng-repeat="blueprintReference in blueprintReferenceNames"><span class="viewSpanLeft" data-ng-show="blueprintReference.id == scoringRule.blueprintReferenceId">{{blueprintReference.name}}</span></span>
+                    </span>                    
+                </span> 
+            </li>
+        </ul>
+   </div>
+    <div class="entryArea fieldGroup">
+            <div data-ng-show="showValueConversionTable">
+                <ul>
+ 				   <li style="width: 35%;" data-ng-hide="scoringRule.valueConversionTableFilename" data-ng-disabled="!editScoringRule" class="file-btn fileinput-button">
+				        <input type="file" data-ng-disabled="!editScoringRule" name="conversionTableFile" data-ng-click="setTableType('value')" data-uploadurl="conversionTableUrl('value')" data-uploadfile tabindex="0" alt="Add Value Conversion"><span class="button-text">Add Value Conversion Table...</span>
+				    </li>
+			        <li>
+			            <span class="editable-error ng-binding" >{{errorsMap['valueConversionTableGridFsId'][0]}}</span>
+			        </li>
+			    </ul> 
+				<ul data-ng-hide="!scoringRule.valueConversionTableFilename || valueInQueue">
+                    <li><label for="scoringRule.valueConversionTableFilename" title="Value Conversion Table">Value Conversion Table:</label></li>
+			     	<li style="text-align: left"><a target="_blank" href="{{conversionTableBaseUrl}}{{scoringRule.valueConversionTableGridFsId}}">{{scoringRule.valueConversionTableFilename}}</a> <button type="button" style="margin-top:0em;" class="boxBtnTiny" data-ng-hide="!editScoringRule" data-ng-click="deleteFile('value')" tabindex="0"><span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span></button></li>
+				</ul>
+				<ul>
+				    <li style="width: 35%;" data-ng-hide="!showStandardErrorConversionTable || scoringRule.standardErrorConversionTableFilename" data-ng-disabled="!editScoringRule" class="file-btn fileinput-button">
+				        <input type="file" data-ng-disabled="!editScoringRule" name="conversionTableFile" data-ng-click="setTableType('standardError')" data-uploadurl="conversionTableUrl('standardError')" data-uploadfile tabindex="0" alt="Add Standard Error Conversion Table"><span class="button-text">Add Standard Error Conversion Table...</span>
+				    </li>
+				    <li>
+    			        <span class="editable-error ng-binding" >{{errorsMap['standardErrorConversionTableGridFsId'][0]}}</span>
+    			    </li> 
+				</ul>
+				<ul data-ng-hide="!scoringRule.standardErrorConversionTableFilename || standardErrorInQueue">
+                    <li><label class="side2" for="scoringRule.standardErrorConversionTableFilename" title="Standard Error Conversion Table">Standard Error Conversion Table:</label></li>
+			     	<li style="text-align: left"><a target="_blank" href="{{conversionTableBaseUrl}}{{scoringRule.standardErrorConversionTableGridFsId}}">{{scoringRule.standardErrorConversionTableFilename}}</a> <button type="button" style="margin-top:0em;" class="boxBtnTiny" data-ng-hide="!editScoringRule" data-ng-click="deleteFile('standardError')" tabindex="0"><span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span></button></li>
+				</ul>
+			    <ul data-ng-hide="!editScoringRule || !queue.length">
+                    <li><label title="Upload Queue">Upload Queue:</label></li>
+                    <li>
+                        <ul style="white-space: normal;">
+                            <li style="width: 100%; text-align: left;" data-ng-repeat="file in queue">
+			                    <span class="propertyBox" style="display: inline">{{file.files[0].name}} 
+			                    <a href="#" data-ng-click="removeFile($index)"> Remove</a>
+			                    </span>
+                            </li>
+                        </ul>
+                    </li>
+			    </ul>
+			    <span>
+				     <button data-ng-hide="!editScoringRule || !queue.length" style="width: 22%" type="button" class="boxBtn" data-ng-disabled="!editScoringRule || !queue.length" data-ng-click="upload()" tabindex="0">
+				         <span class="btnIcon icon_sprite icon_upload2" aria-hidden="true"></span>
+				         <span class="btnText">Upload</span>
+				     </button>
+			     </span>
+			     <ul data-ng-show="uploadMessage">
+			         <li></li>
+			         <li>{{uploadMessage}}</li>
+			     </ul>
+            </div>
+    <div class="parameterGroup">
+         <div data-ng-repeat="param in scoringRule.parameters" class="ng-class:{hasError:hasRowError($index)}" data-ng-init="parameterIndex = $index">
+            <label data-tooltip="{{selectedComputationRuleParams[param.computationRuleParameterName]['description']}}" data-tooltip-placement="right" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200" title="Parameter">{{param.computationRuleParameterName}}
+            <br data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Integer' || selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Float'"/>
+            <span class="subText" data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Integer' || selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Float'">
+            	<span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['minimumValue'] != '' && selectedComputationRuleParams[param.computationRuleParameterName]['maximumValue'] != ''">
+	                <em><i>({{selectedComputationRuleParams[param.computationRuleParameterName]['minimumValue']}} - {{selectedComputationRuleParams[param.computationRuleParameterName]['maximumValue']}})</i></em>
+            	</span>
+            	<span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['minimumValue'] != '' && selectedComputationRuleParams[param.computationRuleParameterName]['maximumValue'] == ''">
+	                <em><i>(Minimum {{selectedComputationRuleParams[param.computationRuleParameterName]['minimumValue']}})</i></em>
+            	</span>
+            	<span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['minimumValue'] == '' && selectedComputationRuleParams[param.computationRuleParameterName]['maximumValue'] != ''">
+	                <em><i>(Maximum {{selectedComputationRuleParams[param.computationRuleParameterName]['maximumValue']}})</i></em>
+            	</span>
+            </span>
+            </label>
+		    <div data-ng-show="param.computationRuleParameterMultiplicity == 'Scalar'"  class="parameterElement ng-class:{hasError:hasGridFieldError($index, 'scalarValue')}">
+		        <span class="sortable-row-heading" data-ng-class="{'control-label-param-required' : editableForm.$visible}">Value</span><span class="sortable-row-heading"></span><span class="sortable-row-heading"></span>
+				<div class="default-cursor sortable-row">
+                    <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Boolean'" data-e-class="scalar" data-e-name="scalarValue" data-tooltip="{{fieldErrorText('parameters['+$index+'].scalarValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"
+                      data-editable-select="param.scalarValue" data-e-ng-options="k as v for (k,v) in {false:'FALSE',true:'TRUE'}">
+                      {{param.scalarValue}}
+                    </span>
+                    <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] != 'Boolean'" data-editable-text="param.scalarValue" data-e-maxlength="60" data-e-class="scalar" data-e-name="scalarValue" data-tooltip="{{fieldErrorText('parameters['+$index+'].scalarValue')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                    	<span class="propertyBox">{{param.scalarValue}}</span>
+                    </span>                    
+			    </div>
+		    </div>
+            <div data-ng-show="param.computationRuleParameterMultiplicity == 'Dictionary'" class="parameterElement ng-class:{hasError:hasGridFieldError($index, 'dictionaryValue')}">
+                <span class="sortable-row-heading" data-ng-class="{'control-label-param-required' : editableForm.$visible}">Key</span><span class="sortable-row-heading" data-ng-class="{'control-label-param-required' : editableForm.$visible}">Value</span>
+                <button type="button" data-ng-hide="!editScoringRule" data-ng-click="addDictionaryItem(param, parameterIndex)" class="boxBtnTiny" tabindex="0"><span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span></button><span class="sortable-row-heading"></span>
+                <div data-ui-sortable="sortableScoringRuleParamDictionaryOptions" data-ng-model="param.dictionaryValue">
+                    <div class="sortable-row" data-ng-repeat="dictionaryElement in param.dictionaryValue">
+                        <span class="ng-class:{hasError:hasDictionaryFieldError(parameterIndex, $index, 'key')}" data-editable-text="dictionaryElement.key" data-e-maxlength="60" data-e-name="dictionaryElement.key" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].key')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    	<span class="propertyBox">{{dictionaryElement.key}}</span>
+                        </span>
+ 	                    <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Boolean'" data-e-name="dictionaryElement.value" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].value')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"
+	                      data-editable-select="dictionaryElement.value" data-e-ng-disabled="assessment.locked" 
+	                      data-e-ng-options="k as v for (k,v) in {false:'FALSE',true:'TRUE'}">
+	                      {{dictionaryElement.value}}
+	                    </span>
+                         <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] != 'Boolean'" class="ng-class:{hasError:hasDictionaryFieldError(parameterIndex, $index, 'value')}" data-editable-text="dictionaryElement.value" data-e-maxlength="60" data-e-name="dictionaryElement.value" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].value')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+	                    	<span class="propertyBox" style="text-align: right;">{{dictionaryElement.value}}</span>
+                        </span>                                                
+                        <span data-ng-hide="!editScoringRule || param.dictionaryValue.length == 1" class="sortableListIcon2"></span>
+                        <button data-ng-hide="!editScoringRule || param.dictionaryValue.length == 1" data-ng-click="removeDictionaryItem(parameterIndex,$index)" class="boxBtn smallButton" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" class="boxBtn" data-ng-hide="assessment.locked" data-ng-click="openEditor()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="cancelEditor()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span> 
+   </div>
+   </form>
+</div>

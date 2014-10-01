@@ -1,0 +1,109 @@
+<div class="boxTitle"><h5 tabindex="-1">Performance Levels<span class="control-label-required">Indicates required field</span></h5></div>
+<div data-error-panel data-error-list="errors"></div>
+
+<div class="formWrapper">
+    <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
+    <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
+    <h3 tabindex="-1">{{formAction}} Performance Level</h3>
+
+    <div class="fieldGroup">
+        <ul>
+            <li>
+                <span>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="performanceLevel.blueprintReferenceType" title="BP Reference Type">BP Reference Type:</label>
+                    <span data-e-ng-disabled="assessment.locked" data-editable-select="performanceLevel.blueprintReferenceType" data-e-name="blueprintReferenceType" 
+                        data-e-ng-options="blueprintReferenceType for blueprintReferenceType in blueprintReferenceTypes" data-focus-on="focusEdit"
+                        data-e-ng-change="loadReferenceNames(true, $data)">
+                        <span class="propertyBox"> {{performanceLevel.blueprintReferenceType}}</span>
+                    </span>                         
+                </span>
+            </li>
+            <li></li>
+            <li>
+                <span data-ng-if="performanceLevel.blueprintReferenceType && performanceLevel.blueprintReferenceType != 'Assessment'">
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" for="performanceLevel.blueprintReferenceId" title="BP Reference">BP Reference:</label>
+                    <span data-e-class="bp-ref-input" data-e-ng-disabled="assessment.locked" data-editable-select="performanceLevel.blueprintReferenceId" data-e-name="blueprintReferenceId" 
+                        data-e-ng-options="blueprintReference.id as blueprintReference.name for blueprintReference in blueprintReferenceNames">
+                        <span data-ng-repeat="blueprintReference in blueprintReferenceNames"><span class="viewSpanLeft bp-ref-input" data-ng-show="blueprintReference.id == performanceLevel.blueprintReferenceId">{{blueprintReference.name}}</span></span>                        
+                    </span>                           
+                </span>
+            </li>
+            <li></li>
+        </ul>
+        <div class="tableWrapper centered" style="width:70%">
+            <table class="sortableTable" role="grid">
+                   <colgroup>
+                       <col width="actionColumn">
+                       <col width="50%">
+                       <col width="50%">
+                       <col class="doubleActionColumn">
+                   </colgroup>
+                   <thead>
+                       <tr role="row">
+                           <th scope="col" id="levelHeader" title="Level">Level</th>
+                           <th scope="col" id="scaledLoHeader" title="Scaled Lo">Scaled Lo</th>
+                           <th scope="col" id="scaledHiHeader" title="Scaled Hi">Scaled Hi</th>
+                           <th scope="col" id="addItemHeader" title="Add Item">                               
+                                <div class="tableButtonGroup" data-ng-hide="!editPerformanceLevel" >
+                                    <button type="button" data-ng-click="addItem()" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span></button>
+                               </div>
+                           </th>
+                       </tr>
+                   </thead>
+                   <tbody data-ui-sortable="sortablePerformanceLevelValueOptions" data-ng-model="performanceLevel.performanceLevelValues" data-drag-drop>
+                       <tr data-ng-repeat="performanceLevelValue in performanceLevel.performanceLevelValues" class="{{editPerformanceLevel ? 'move-cursor' : 'default-cursor'}}" data-ng-class="{hasError:hasRowError($index)}" role="row" id="row{{$index}}" draggable="true" aria-grabbed="false">
+                           <td scope="col" role="gridcell" aria-labelledby="levelHeader" class="normalSpace ng-class:{hasError:hasGridFieldError($index, 'level')}" data-tooltip="{{fieldErrorText('performanceLevelValues['+$index+'].level')}}" data-tooltip-placement="top" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                                <span class="property">{{$index + 1}}</span>
+                           </td>
+                           <td scope="col" role="gridcell" aria-labelledby="scaledLoHeader" class="ng-class:{hasError:hasGridFieldError($index, 'scaledLo')}" data-tooltip="{{fieldErrorText('performanceLevelValues['+$index+'].scaledLo')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+			                    <span data-editable-text="performanceLevelValue.scaledLo" data-e-maxlength="19" data-e-name="scaledLo" data-focus-on="focusNewParam">
+			                    	<span class="propertyBox">{{performanceLevelValue.scaledLo}}</span>
+			                    </span>
+                           </td>
+                           <td scope="col" role="gridcell" aria-labelledby="scaledHiHeader" class="ng-class:{hasError:hasGridFieldError($index, 'scaledHi')}" data-tooltip="{{fieldErrorText('performanceLevelValues['+$index+'].scaledHi')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+			                    <span data-editable-text="performanceLevelValue.scaledHi" data-e-maxlength="19" data-e-name="scaledHi">
+			                    	<span class="propertyBox">{{performanceLevelValue.scaledHi}}</span>
+			                    </span>
+                           </td>
+                           <td scope="col" role="gridcell" aria-labelledby="addItemHeader" class="normalSpace">                           
+                               <div class="tableButtonGroup" >
+                                    <span data-ng-hide="isSortHidden()" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, performanceLevel.performanceLevelValues)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
+                                    <button data-ng-hide="!editPerformanceLevel" data-ng-click="removeItem($index)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
+                               </div>
+                           </td>
+                           
+                       </tr>
+                   </tbody>
+            </table>
+        </div>
+        <span class="editable-error ng-binding" >{{errorsMap['performanceLevelValues'][0]}}</span>
+        <br>
+        <span data-ng-show="!editableForm.$visible">
+             <button type="button" data-ng-hide="assessment.locked" class="boxBtn" data-ng-click="editableForm.$show();openEditor()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_edit2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Edit</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>
+        <span data-ng-show="editableForm.$visible">
+             <button type="submit" class="boxBtn" data-ng-disabled="editableForm.$waiting" tabindex="0">
+                <span class="btnIcon icon_sprite icon_save2 ng-class:{ajax_indicator:savingIndicator}" aria-hidden="true"></span>
+                <span class="btnText">Save</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-hide="isNew" data-ng-click="editableForm.$cancel();cancelEditor()" tabindex="0">
+                <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
+                <span class="btnText">Cancel</span>
+            </button>
+            <button type="button" class="boxBtn" data-ng-disabled="editableForm.$waiting" data-ng-show="isNew" data-ng-click="returnToSearch()" tabindex="0">
+                    <span class="btnIcon icon_sprite icon_reTry2" aria-hidden="true"></span>
+                    <span class="btnText">Back</span>
+            </button>
+        </span>    
+     </div>
+     </form>
+</div>
+ 
+
