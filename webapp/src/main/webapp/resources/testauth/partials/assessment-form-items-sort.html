@@ -21,7 +21,7 @@
               <div data-ng-show="sortedGroupedItems.length > 0">
                   <div data-ui-sortable="sortableOptions" data-ng-model="sortedGroupedItems" class="sortableContainer" data-ng-class="{disabledSortableGroup:assessment.locked}">
                       <div data-ng-repeat="group in sortedGroupedItems" class="sortableGroup" draggable="true" aria-grabbed="false" data-drag-drop>
-                            <div class="itemGroupHeader"><span data-ng-if="!assessment.locked" class="sortableListIcon2" data-ng-keydown="toggleDragged($index, $event, sortedGroupedItems)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span> Item Group</div>
+                            <div class="itemGroupHeader"><span data-ng-if="!assessment.locked" class="sortableListIcon2" data-ng-keydown="toggleDragged($index, $event, sortedGroupedItems); setUpdated();" data-ng-blur="unfocusDragged($event)" tabindex="0"></span> Item Group</div>
 	                        <div class="sortableItemsGroup">
 	                           <ul data-ng-if="isMultiItemGroup(group)" data-ui-sortable="sortableOptions" data-ng-model="group">
 		                        <li data-ng-repeat="itemLocation in group"  class="multiItemGroup">

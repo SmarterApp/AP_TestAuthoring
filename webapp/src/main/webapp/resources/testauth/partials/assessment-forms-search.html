@@ -33,7 +33,7 @@
                 </tr>
                 <tr data-ng-repeat="form in searchResponse.searchResults" role="row" id="row{{$index}}">
                     <td scope="col" role="gridcell" aria-labelledby="nameHeader"><span>{{form.name}}</span></td>
-                    <td scope="col" role="gridcell" aria-labelledby="languageHeader"><span>{{formatLanguage(form.language)}}</span></td>
+                    <td scope="col" role="gridcell" aria-labelledby="languageHeader"><span>{{form.language}}</span></td>
                     <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
                         <div class="tableButtonGroup">
                             <button data-ng-click="view(form)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">

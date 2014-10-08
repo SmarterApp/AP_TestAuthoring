@@ -85,6 +85,7 @@ testauth.controller('AssessmentFormEditController',['$scope','$state', 'loadedDa
             $scope.errors = [];
 			$scope.messages = {};
 			$scope.form = angular.copy($scope.originalFormData);
+			$(".select2-chosen").text($scope.originalFormData.language);
 //            $scope.editableForm.language.$setViewValue($scope.originalFormData.language);
             $scope.editableForm.$cancel();
             $scope.editableForm.$setPristine();

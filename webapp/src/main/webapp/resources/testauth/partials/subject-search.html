@@ -76,10 +76,10 @@
                     <td scope="col" role="gridcell" aria-labelledby="activeHeader">{{subject.inactive ? 'INACTIVE' : 'ACTIVE'}}</td>
                     <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
                         <div class="tableButtonGroup">
-                            <button data-ng-click="edit(subject)" class="boxBtn" data-ng-hide="subject.inUse" id="edit{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                            <button data-ng-click="edit(subject)" class="boxBtn" data-ng-hide="subject.inUse" id="edit{{$index}}" tabindex="-1">
                                 <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
                             </button>                        
-                            <button data-ng-click="view(subject)" class="boxBtn" data-ng-show="subject.inUse" id="view{{$index}}" tabindex="-1">
+                            <button data-ng-click="view(subject)" class="boxBtn" data-ng-show="subject.inUse" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
                                 <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
                             </button>                             
                             <button data-ng-show="!subject.inactive" data-ng-click="retireSubject(subject)" class="boxBtn" title="Inactivate" id="retire{{$index}}" tabindex="-1">

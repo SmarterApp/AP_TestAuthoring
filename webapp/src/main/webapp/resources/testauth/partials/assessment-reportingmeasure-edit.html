@@ -28,32 +28,36 @@
 	        </li>
 	        <li data-ng-show="showScoringRule">
                 <span>
-                    <label style="float:left;" title="Available Scoring Rules">Available Scoring Rules:</label>
-                    <br>
+                    <label title="Available Scoring Rules">Available Scoring Rules:</label>
                     <select data-ng-disabled="!editReportingMeasure" data-ng-model="reportingMeasure.availableSelectedScoringRules" data-ng-change="setInclude()" data-ng-options="availScoringRule as availScoringRule.label for availScoringRule in availableScoringRules" multiple="multiple" style="height: 200px;" tabindex="0" title="Available Scoring Rules">
                     </select>
                 </span>
 	        </li>
 	        <li data-ng-show="showScoringRule">
                 <span>
-                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" style="float:left;" title="Selected Scoring Rules">Selected Scoring Rules:</label>
-                    <br>
+                    <label data-ng-class="{'control-label-required' : editableForm.$visible, 'control-label' : !editableForm.$visible}" title="Selected Scoring Rules">Selected Scoring Rules:</label>
                     <select data-ng-disabled="!editReportingMeasure" data-ng-model="reportingMeasure.requestedSelectedScoringRules" data-ng-change="setExclude()" data-ng-options="reqScoringRule as reqScoringRule.label for reqScoringRule in requestedScoringRules" multiple="multiple" style="height: 200px;" class="dropdown-mid" tabindex="0" title="Selected Scoring Rules">
                     </select>
                     <span class="editable-error ng-binding" >{{errorsMap['scoringRuleIdList'][0]}}</span> 
                 </span>
 	        </li>
-	        <li style="text-align:right;" data-ng-show="showScoringRule">
-			     <button data-ng-hide="!editReportingMeasure || !includeActive" type="button" class="boxBtn" style="width:27%;" data-ng-click="include()" tabindex="0">
+	        <li data-ng-show="showScoringRule">
+                <span>
+                    <label></label>
+			     <button data-ng-disabled="!editReportingMeasure || !includeActive" type="button" class="boxBtn" style="width:33%;" data-ng-click="include()" tabindex="0">
 			         <span class="btnIcon icon_sprite icon_saveAdd2 ng-class:{ajax_indicator:savingIndicator}" style="width:25%;" aria-hidden="true"></span>
 			         <span class="btnText" style="width:67%; text-align: left;" >Add</span>
 			     </button>
+			     </span>
 	        </li>
-	        <li style="text-align:right;" data-ng-show="showScoringRule">
-			     <button data-ng-hide="!editReportingMeasure || !excludeActive" type="button" class="boxBtn" style="width:27%;" data-ng-click="exclude()" tabindex="0">
+	        <li data-ng-show="showScoringRule">
+                <span>
+                    <label></label>
+			     <button data-ng-disabled="!editReportingMeasure || !excludeActive" type="button" class="boxBtn" style="width:33%;" data-ng-click="exclude()" tabindex="0">
 			         <span class="btnIcon icon_sprite icon_delete2 ng-class:{ajax_indicator:savingIndicator}" style="width:25%;" aria-hidden="true"></span>
 			         <span class="btnText" style="width:67%; text-align: left;" >Remove</span>
 			     </button>
+			     </span>
 	        </li>
 	    </ul>
         <span data-ng-show="!editableForm.$visible">

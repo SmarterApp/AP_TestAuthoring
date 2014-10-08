@@ -21,6 +21,10 @@ testauth.controller('AssessmentPerformanceLevelEditController',['$scope','$state
             return !$scope.editPerformanceLevel || $scope.performanceLevel.performanceLevelValues.length == 1;
         };
         
+        $scope.setUpdated = function() {
+        	$scope.editableForm.$setDirty();
+        };
+        
         $scope.addItem = function() {
             $scope.editableForm.$setDirty();
             if (!$scope.performanceLevel.performanceLevelValues) {

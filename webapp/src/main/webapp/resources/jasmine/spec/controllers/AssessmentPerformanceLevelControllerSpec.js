@@ -61,6 +61,7 @@ describe('AssessmentPerformanceLevelController ', function() {
             $window : windowMock,
             loadedData : { errors: [], data: [] },
             loadedBlueprintReferenceTypes: {data:{"searchResults" : []}, errors:[]},
+            loadedBlueprintReferences: {data: []},
             performanceLevelService: PerformanceLevelService
       });
         

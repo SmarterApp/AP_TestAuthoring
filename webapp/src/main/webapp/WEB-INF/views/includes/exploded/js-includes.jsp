@@ -55,6 +55,8 @@
 
     <script src="resources/testauth/js/testauth.js"></script>
 
+    <script src="resources/testauth/js/redirect.js"></script>
+
     <script src="resources/testauth/js/controllers/AssessmentAffinityGroupFormController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentAffinityGroupItemController.js"></script>
@@ -165,6 +167,8 @@
 
     <script src="resources/testauth/js/directives/accessibleTable.js"></script>
 
+    <script src="resources/testauth/js/directives/enter.js"></script>
+
     <script src="resources/testauth/js/directives/dragDrop.js"></script>
 
     <script src="resources/testauth/js/directives/errorPanel.js"></script>
@@ -194,6 +198,8 @@
     <script src="resources/testauth/js/directives/tibMetadataAutoComplete.js"></script>
 
     <script src="resources/testauth/js/directives/upload.js"></script>
+
+    <script src="resources/testauth/js/directives/widgetNavigation.js"></script>
 
     <script src="resources/testauth/js/services/AffinityGroupService.js"></script>
     

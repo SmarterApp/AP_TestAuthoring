@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opentestsystem.authoring</groupId>
     <artifactId>test-auth-parent</artifactId>
-    <version>R01.00.00</version>
+    <version>R01.00.01</version>
     <name>Smarter Balanced #11 Test Auth - Parent Project</name>
     <packaging>pom</packaging>
 
@@ -25,9 +25,9 @@
     </properties>
 
     <scm>
-        <connection>scm:hg:https://bitbucket.org/sbacoss/testauthoring</connection>
-        <developerConnection>scm:hg:https://bitbucket.org/sbacoss/testauthoring</developerConnection>
-        <url>https://bitbucket.org/sbacoss/testauthoring</url>
+        <connection>scm:hg:https://bitbucket.org/sbacoss/testauthoring_release</connection>
+        <developerConnection>scm:hg:https://bitbucket.org/sbacoss/testauthoring_release</developerConnection>
+        <url>https://bitbucket.org/sbacoss/testauthoring_release</url>
     </scm>
 
     <!-- needed to bootstrap the parent -->
@@ -198,13 +198,5 @@
         </dependency>
     
     </dependencies>
-    
-    <distributionManagement>
-       <repository>
-            <id>central</id>
-            <name>libs-releases</name>
-            <url>http://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
-        </repository>
-    </distributionManagement>
 
 </project>

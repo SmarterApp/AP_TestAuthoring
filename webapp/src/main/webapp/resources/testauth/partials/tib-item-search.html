@@ -41,19 +41,19 @@
                     <li data-ng-show="importToSegment()">
                         <span> 
                             <label for="name" title="Segment">Segment:</label>
-                            <select class="" data-ng-model="segmentId" data-ng-change="refreshItemGroups(segmentId)" data-ng-options="segment.id as segment.position + ' - ' + segment.label for (key, segment) in segmentMap" tabindex="0" title="Segment"></select>
+                            <select class="fixedInputField" data-ng-model="segmentId" data-ng-change="refreshItemGroups(segmentId)" data-ng-options="segment.id as segment.position + ' - ' + segment.label for (key, segment) in segmentMap" tabindex="0" title="Segment"></select>
                         </span>
                     </li>
                     <li data-ng-show="importToPartition()">
                         <span>
                             <label for="formPartition" title="Form Partition">Form Partition:</label>
-                            <select class="" data-ng-model="formPartitionId" data-ng-change="refreshItemGroups(formPartitionId)" data-ng-options="key as value.form.name + ' - ' +value.name for (key,value) in formPartitionMap" tabindex="0" title="Form Partition"></select>
+                            <select class="fixedInputField" data-ng-model="formPartitionId" data-ng-change="refreshItemGroups(formPartitionId)" data-ng-options="key as value.form.name + ' - ' +value.name for (key,value) in formPartitionMap" tabindex="0" title="Form Partition"></select>
                         </span>
                     </li>
                     <li>
                         <span> 
                             <label for="itemGroup" title="Item Group">Item Group:</label>
-                            <select class="" data-ng-model="itemGroupId" data-ng-options="value.id as value.groupName  for (key,value) in itemGroupMap" tabindex="0" title="Item Group"></select>
+                            <select class="fixedInputField" data-ng-model="itemGroupId" data-ng-options="value.id as value.groupName  for (key,value) in itemGroupMap" tabindex="0" title="Item Group"></select>
                         </span>
                     </li>
                 </ul>
@@ -83,6 +83,12 @@
                         <span> 
                             <label title="Items Imported">Items Imported:</label>
                             <span class="displayText">{{importResponse.itemsImported}}</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span> 
+                            <label title="Associated Items Imported">Associated Items Imported:</label>
+                            <span class="displayText">{{importResponse.associatedItemsImported}}</span>
                         </span>
                     </li>
                     <li>
@@ -129,7 +135,7 @@
         <div data-ng-hide="importScreenVisible || previewVisible" >
             <div class="fieldGroup">
                 <div class="buttons">
-                    <button data-ng-hide="paramErrors || metadataErrors" type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                    <button data-ng-hide="paramErrors || metadataErrors" type="button" type="button" class="boxBtn" data-search-on-click tabindex="0" data-focus-watch="showTibSearch">
                         <span class="btnIcon icon_search ng-class:{ajax_indicator:searchingTib}" aria-hidden="true"></span>
                         <span class="btnText">Search</span>
                     </button>
@@ -182,23 +188,23 @@
                         <col class="actionColumn">
                         <col style="width:40%">
                         <col style="width:10%">
-                        <col style="width:25%">
-                        <col style="width:25%">
+                        <col>
+                        <col>
                         <col style="width:10%">
                     </colgroup>
                     <tr role="row">
                         <th scope="col" id="expanderHeader" title="Expander"></th>
                         <th scope="col" id="standardHeader" title="Primary Standard" data-sort-on-click data-sort-column="primaryStandard">Primary Standard</th>
-                        <th scope="col" id="gradeHeader" title="Grade" data-sort-on-click data-sort-column="grade">Grade</th>
-                        <th scope="col" id="itemHeader" title="Item" data-sort-on-click data-sort-column="identifier">Item</th>
+                        <th scope="col" id="gradeHeader" title="Grade" data-sort-on-click data-sort-column="grade">Intended Grade</th>
+                        <th scope="col" id="itemHeader" title="Item" data-sort-on-click data-sort-column="identifier">Item Identifier</th>
                         <th scope="col" id="typeHeader" title="Interaction Type" data-sort-on-click data-sort-column="interactionType">Interaction Type</th>
                         <th scope="col" id="statusHeader" title="Status" data-sort-on-click data-sort-column="status">Status</th>
                     </tr>
                     <tbody data-ng-repeat="item in itemSearchResponse.searchResults" data-expandable="item">
                         <tr role="row" id="row{{$index}}">
-                            <td scope="col" role="gridcell" aria-labelledby="expanderHeader"><span data-ng-click="toggle()" data-ng-keydown="keyToggle($event)" data-ng-class="iconClass" tabindex="0" title="Expand {{item.primaryStandard}}"></span></td>
-                            <td scope="col" role="gridcell" aria-labelledby="standardHeader">{{item.primaryStandard}}</td>
-                            <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{item.grade}}</td>
+                            <td scope="col" role="gridcell" aria-labelledby="expanderHeader"><span data-ng-click="toggle()" data-ng-keydown="keyToggle($event)" data-ng-class="iconClass" tabindex="0" title="Expand for details"></span></td>
+                            <td scope="col" role="gridcell" aria-labelledby="standardHeader"><span data-ng-repeat="itemStandardPublication in item.itemStandardPublicationList" style="display: table;">Primary: {{itemStandardPublication['PrimaryStandard']}} Secondary: {{itemStandardPublication['SecondaryStandard']}}</span></td>
+                            <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{item.intendedGrade}}</td>
                             <td scope="col" role="gridcell" aria-labelledby="itemHeader">{{item.identifier}}</td>
                             <td scope="col" role="gridcell" aria-labelledby="typeHeader">{{item.interactionType}}</td>
                             <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{item.status}}</td>
@@ -207,7 +213,7 @@
                             <td colspan="6">
                                 <ul class="itemDetails fieldGroup">
                                     <li>
-                                        <label for="publicationKey" title="Publication Key">Publication Key:</label><span>{{item.publicationKey}}</span>
+                                        <label for="publicationKey" title="Publication Key">Publication Key:</label><span data-ng-repeat="itemStandardPublication in item.itemStandardPublicationList" style="display: table;">Primary: {{itemStandardPublication['PrimaryStandard']}} Secondary: {{itemStandardPublication['SecondaryStandard']}}</span>
                                     </li>
                                     <li>
                                         <label for="subject" title="Subject">Subject:</label><span>{{item.subject}}</span>
@@ -216,22 +222,19 @@
                                         <label for="interactionType" title="Interaction Type">Interaction Type:</label><span>{{item.interactionType}}</span>
                                     </li>
                                     <li>
-                                        <label for="source" title="Source">Source:</label><span>{{item.source}}</span>
+                                        <label for="educationalDifficulty" title="Educational Difficulty">Educational Difficulty:</label><span>{{item.allIncludedMetatdata['EducationalDifficulty']}}</span>
                                     </li>
                                     <li>
-                                        <label for="author" title="Author">Author:</label><span>{{item.author}}</span>
+                                        <label for="depthOfKnowledge" title="Depth Of Knowledge">Depth Of Knowledge:</label><span>{{item.allIncludedMetatdata['DepthOfKnowledge']}}</span>
                                     </li>
                                     <li>
-                                        <label for="itemDifficulty" title="Difficulty">Difficulty:</label><span>{{item.itemDifficulty}}</span>
+                                        <label for="stimulusFormat" title="Stimulus Format">Stimulus Format:</label><span>{{item.allIncludedMetatdata['StimulusFormat']}}</span>
                                     </li>
                                     <li>
-                                        <label for="stimulusName" title="Stimulus Name">Stimulus Name:</label><span>{{item.stimulusName}}</span>
+                                        <label for="associatedStimulus" title="Associated Stimulus">Associated Stimulus:</label><span>{{item.associatedStimulus == '' || item.associatedStimulus == null ? 'N/A' : item.associatedStimulus}}</span>
                                     </li>
                                     <li>
-                                        <label for="associatedStimulus" title="Assoc. Stimulus">Assoc. Stimulus:</label><span>{{item.associatedStimulus}}</span>
-                                    </li>
-                                    <li>
-                                        <label for="description" title="Description">Description:</label><span class="longDetails">{{item.description}}</span>
+                                        <label for="version" title="Version">Version:</label><span>{{item.version}}</span>
                                     </li>
                                     <li></li>
                                 </ul>

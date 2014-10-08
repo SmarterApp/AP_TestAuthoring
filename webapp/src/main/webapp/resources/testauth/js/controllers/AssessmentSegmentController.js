@@ -3,6 +3,7 @@ testauth.controller('AssessmentSegmentController',['$scope','$state', 'loadedDat
 		$scope.errors = loadedData.errors;
 		$scope.assessment = loadedData.data;
         $scope.segmentList = segmentList.data.searchResults;
+        $scope.positionChanged = false;
 
 		if (!$state.current.searchParams) {
             $scope.searchParams = {"assessmentId": $scope.assessment.id != null ? $scope.assessment.id : "INVALID_ID", "sortKey":"position", "sortDir":"asc", "currentPage": 1, "pageSize":10};
@@ -24,6 +25,25 @@ testauth.controller('AssessmentSegmentController',['$scope','$state', 'loadedDat
 			segment.position++;
 			savePositionChange(segment);
         };
+        
+        $scope.isSortHidden = function() {
+            return $scope.sortableSegmentOptions.length == 1;
+        };
+        
+        $scope.setUpdated = function(event) {
+        	// if space bar pressed
+        	if(event.keyCode == 32) {
+        		$scope.positionChanged = true;
+        	}
+        };
+        
+		$scope.sortableSegmentOptions = {
+			cursor: $scope.assessment.locked ? "default" : "move",
+			disabled: $scope.assessment.locked,
+			update: function(e, ui) {
+				$scope.positionChanged = true;
+			}
+		};
 
         function savePositionChange(segment) {
 			$scope.savingIndicator = true;
@@ -38,6 +58,26 @@ testauth.controller('AssessmentSegmentController',['$scope','$state', 'loadedDat
 		            $scope.$broadcast('initiate-segment-search');
 				}
 			});
+        };
+        
+        $scope.savePosition = function() {          
+			$scope.updateIndicator = true;
+			$scope.segments = [];
+        	for (var i = 0; i < $scope.searchResponse.searchResults.length; i++) {
+				var segment = $scope.searchResponse.searchResults[i];
+				segment.position = i+1;
+        		$scope.segments.push(segment);
+        	}
+        	
+            SegmentService.updateCollection($scope.segments).then( function(response) {
+                $scope.errors = response.errors;
+				$scope.messages = response.messages;
+    			$scope.updateIndicator = false;
+				if ($scope.errors.length == 0) {
+	                $scope.$broadcast('initiate-segment-search');
+					$scope.positionChanged = false;
+				}
+            });
         };
 
         $scope.createNewItem = function() {

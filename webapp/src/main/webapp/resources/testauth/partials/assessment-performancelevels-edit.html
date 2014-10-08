@@ -67,7 +67,7 @@
                            </td>
                            <td scope="col" role="gridcell" aria-labelledby="addItemHeader" class="normalSpace">                           
                                <div class="tableButtonGroup" >
-                                    <span data-ng-hide="isSortHidden()" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, performanceLevel.performanceLevelValues)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
+                                    <span data-ng-hide="isSortHidden()" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, performanceLevel.performanceLevelValues); setUpdated();" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
                                     <button data-ng-hide="!editPerformanceLevel" data-ng-click="removeItem($index)" class="boxBtn" tabindex="0"><span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span></button>
                                </div>
                            </td>

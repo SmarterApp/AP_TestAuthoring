@@ -1,10 +1,11 @@
 testauth.controller('AssessmentMasterPoolSummaryController',['$scope','$state','$filter','loadedData', 'loadedSegments', 'AffinityGroupService', 'AssessmentService',
       function($scope, $state, $filter, loadedData, loadedSegments, AffinityGroupService, AssessmentService) {
+        var masterKey = '';
         $scope.searchResponse = {};
   		$scope.errors = loadedData.errors;
   		$scope.assessment = loadedData.data;
         $scope.segmentList = loadedSegments.data.searchResults ? loadedSegments.data.searchResults : [];
-        $scope.selectedSegmentId = "";
+        $scope.selectedSegmentId = masterKey;
         $scope.itemCountsMap = {};
         
         // initial search
@@ -22,15 +23,16 @@ testauth.controller('AssessmentMasterPoolSummaryController',['$scope','$state','
                 
         // get actual item counts
         AssessmentService.getAffinityGroupItemCounts($scope.assessment.id).then(function(response) {
-            // key = affinityGroupId
-            // statsMap = Map<String,Long> ... fieldName -> itemCount
-            angular.forEach(response.data, function(statsMap, key) {
-                if(!$scope.itemCountsMap[key]) {
-                    $scope.itemCountsMap[key] = {};
-                }           
-                $scope.itemCountsMap[key]["opCount"] = statsMap.opCount;
-                $scope.itemCountsMap[key]["ftCount"] = statsMap.ftCount;
-                $scope.itemCountsMap[key]["totalCount"] = statsMap.opCount + statsMap.ftCount;                       
+            $scope.itemCountsMap = response.data;
+
+            angular.forEach(response.data, function(affinityGroupMap,affinityGroupId) {
+                angular.forEach(affinityGroupMap, function(segmentMap,segmentId) {
+                    if(!$scope.itemCountsMap[affinityGroupId][masterKey]) {
+                        $scope.itemCountsMap[affinityGroupId][masterKey] = { opCount:0, ftCount:0 };
+                    } 
+                    $scope.itemCountsMap[affinityGroupId][masterKey]["opCount"] = $scope.itemCountsMap[affinityGroupId][masterKey]["opCount"] + segmentMap.opCount;
+                    $scope.itemCountsMap[affinityGroupId][masterKey]["ftCount"] = $scope.itemCountsMap[affinityGroupId][masterKey]["ftCount"] + segmentMap.ftCount;
+                });
             });
         });
         	

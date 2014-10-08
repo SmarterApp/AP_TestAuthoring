@@ -6,11 +6,11 @@
 
         <div data-error-panel data-error-list="errors" data-always-expanded="true"></div>
 
-		<div class="left_menu_hidden" data-ng-show="showTools && !assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+		<div class="left_menu_hidden" data-ng-show="showTools && !assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}" data-widget-navigation>
 		    <h6 tabindex="-1">Tools</h6>
-		    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
-		    <div title="Missing Rules For Blueprint Standards" class="icons icon-list"  data-ng-hide="assessment.locked" data-ng-click="toggleMissingRules()"> </div>
-		    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+		    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()" tabindex="-1"> </div>
+		    <div title="Missing Rules For Blueprint Standards" class="icons icon-list"  data-ng-hide="assessment.locked" data-ng-click="toggleMissingRules()" tabindex="0" data-focus-watch="showToolsFocus"> </div>
+		    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()" tabindex="-1"> </div>
 		</div>
 
         <div class="left_menu_visible_item_count" data-ng-show="showStats">
@@ -19,7 +19,7 @@
                     <div data-ng-repeat="error in widget.errors">
                         <div><span class="icon_sprite icon_error error"></span>{{error}}</div>
                     </div>
-                    <button type="button" class="boxBtn" data-ng-click="openTools()" tabindex="0">
+                    <button type="button" class="boxBtn" data-ng-click="openTools()" tabindex="0" data-focus-watch="showStats">
                         <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
                         <span class="btnText">Close</span>
                     </button>
@@ -60,20 +60,46 @@
         </div>
 
         <div class="fieldGroup">
+            <ul>
+                <li>
+                    <span> 
+                          <label for="name" title="Label">Label:</label>
+                          <input name="name" data-ng-model="searchParams.label" tabindex="0" alt="Label" />
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="searchParams.blueprintReferenceType" title="BP Reference Type">BP Reference Type:</label>
+                        <select data-ng-model="searchParams.blueprintReferenceType" data-ng-options="blueprintReferenceType for blueprintReferenceType in blueprintReferenceTypes" tabindex="0" title="BP Reference Type">
+                            <option value="">Any</option>
+                        </select>
+                    </span>
+                </li>
+                <li>
+                    <span>
+                        <label for="searchParams.blueprintReferenceId" title="BP Reference">BP Reference:</label>
+                        <input type="text" id="blueprintReferenceId" name="searchParams.blueprintReferenceId" data-ng-model="searchParams.blueprintReferenceId" data-typeahead-editable="false" data-typeahead="bpRef as bpRef.name for bpRef in blueprintReferences | filter:{name:$viewValue, blueprintReferenceType:(searchParams.blueprintReferenceType?searchParams.blueprintReferenceType:'')}">
+                    </span>
+                </li>
+            </ul>
+            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">
+                <span class="btnIcon icon_search ng-class:{ajax_indicator:searchResponse.searching}" aria-hidden="true"></span>
+                <span class="btnText">Search</span>
+            </button>
             <button type="button" type="button" class="boxBtn" data-ng-hide="assessment.locked || assessment.id == null" data-ng-click="createNewScoringRule()" tabindex="0">
                 <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span> <span class="btnText">New</span>
             </button>
-            <span data-ng-hide="orderChanged || assessment.locked || (searchResponse.searchResults.length < 2)" >Drag row to reorder scoring rules.</span>
-            <span data-ng-hide="!orderChanged" >
+            <span data-ng-hide="orderChanged || assessment.locked || (searchResponse.searchResults.length < 2) || !showFullList" >Drag row to reorder scoring rules.</span>
+            <span data-ng-hide="!orderChanged || !showFullList" >
 	            <button type="button" type="button" class="boxBtn" data-ng-click="saveOrder()" tabindex="0">
 	                <span style="white-space: nowrap;"><span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span><span class="btnText">Save Order Changes</span></span>
 	            </button>
             </span>
         </div>
         <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()">
-            <table class="sortableTable scoringRuleTable" data-accessible-table role="grid">
+            <table class="scoringRuleTable sortableTable" data-accessible-table role="grid">
                 <colgroup>
-                    <col style="width: 150px;">
+                    <col data-ng-show="showFullList" style="width: 150px;">
                     <col style="width: 150px;">
                     <col style="width: 150px;">
                     <col style="width: 160px;">
@@ -83,7 +109,7 @@
                 </colgroup>
                 <thead>
                 <tr role="row">
-                    <th scope="col" id="orderHeader" title="Type" class="noSort">Order</th>
+                    <th data-ng-show="showFullList" scope="col" id="orderHeader" title="Type" class="noSort">Order</th>
                     <th scope="col" id="labelHeader" title="Type" class="noSort">Label</th>
                     <th scope="col" id="computationRuleNameHeader" title="Type" class="noSort">Computation Rule Name</th>
                     <th scope="col" id="computationRuleVersionHeader" title="Type" class="noSort">Computation Rule Version</th>
@@ -92,8 +118,27 @@
 	                <th scope="col" id="actionHeader" title="Type" class="noSort">Action</th>                    
                 </tr>
                 </thead>
-		        <tbody data-ui-sortable="sortableScoringRuleOptions" data-ng-model="searchResponse.searchResults" data-drag-drop>
-                <tr data-ng-repeat="scoringRule in searchResponse.searchResults" class="{{assessment.locked ? 'default-cursor' : 'move-cursor'}}" role="row" id="row{{$index}}" draggable="true" aria-grabbed="false">
+		        <tbody data-ng-show="!showFullList" data-ng-model="searchResponse.searchResults">
+                <tr data-ng-show="!showFullList" data-ng-repeat="scoringRule in searchResponse.searchResults" class="{{assessment.locked || !showFullList ? 'default-cursor' : 'move-cursor'}}" role="row" id="row{{$index}}" draggable="true" aria-grabbed="false">
+                    <td style="width: 150px;" scope="col" role="gridcell" aria-labelledby="labelHeader">{{scoringRule.label}}</td> 
+                    <td style="width: 150px;" scope="col" role="gridcell" aria-labelledby="computationRuleNameHeader">{{scoringRule.computationRule.name}}</td>
+                    <td style="width: 160px;" scope="col" role="gridcell" aria-labelledby="computationRuleVersionHeader">{{scoringRule.computationRule.version}}</td>
+                    <td style="width: 160px;" scope="col" role="gridcell" aria-labelledby="bpReferenceTypeHeader">{{scoringRule.blueprintReferenceType}}{{scoringRule.blueprintReferenceType == 'Blueprint Standard' ? ('/' + scoringRule.blueprintDenotationType) : ''}}</td>
+                    <td style="width: 160px;" scope="col" role="gridcell" aria-labelledby="bpReferenceHeader">{{scoringRule.blueprintReferenceName}}</td>
+                    <td style="width: 130px;" scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
+                        <div class="tableButtonGroup">
+                            <button data-ng-click="view(scoringRule)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
+                                <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
+                            </button>
+                            <button data-ng-click="remove(scoringRule)" class="boxBtn" data-ng-show="!assessment.locked" id="remove{{$index}}" tabindex="-1">
+                                <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+		        </tbody>
+		        <tbody data-ng-show="showFullList" data-ui-sortable="sortableScoringRuleOptions" data-ng-model="searchResponse.searchResults" data-drag-drop>
+                <tr data-ng-show="showFullList" data-ng-repeat="scoringRule in searchResponse.searchResults" class="{{assessment.locked || !showFullList ? 'default-cursor' : 'move-cursor'}}" role="row" id="row{{$index}}" draggable="true" aria-grabbed="false">
                     <td style="width: 150px;" scope="col" role="gridcell" aria-labelledby="orderHeader">{{scoringRule.order}}</td>
                     <td style="width: 150px;" scope="col" role="gridcell" aria-labelledby="labelHeader">{{scoringRule.label}}</td> 
                     <td style="width: 150px;" scope="col" role="gridcell" aria-labelledby="computationRuleNameHeader">{{scoringRule.computationRule.name}}</td>
@@ -102,7 +147,7 @@
                     <td style="width: 160px;" scope="col" role="gridcell" aria-labelledby="bpReferenceHeader">{{scoringRule.blueprintReferenceName}}</td>
                     <td style="width: 130px;" scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text>
                         <div class="tableButtonGroup">
-                        <span data-ng-hide="isSortHidden()" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, searchResponse.searchResults)" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
+                        <span data-ng-hide="isSortHidden()" class="sortableListIcon" data-ng-keydown="toggleDragged($index, $event, searchResponse.searchResults); setUpdated($event);" data-ng-blur="unfocusDragged($event)" tabindex="0"></span>
                             <button data-ng-click="view(scoringRule)" class="boxBtn" id="view{{$index}}" tabindex="{{$index == 0 ? 0 : -1}}">
                                 <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
                             </button>

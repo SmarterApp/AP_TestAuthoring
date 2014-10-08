@@ -1,8 +1,9 @@
-testauth.controller('AssessmentPerformanceLevelController',['$scope','$state', 'loadedData', 'loadedBlueprintReferenceTypes', 'PerformanceLevelService',
-    function($scope, $state, loadedData, loadedBlueprintReferenceTypes, PerformanceLevelService) {
+testauth.controller('AssessmentPerformanceLevelController',['$scope','$state', 'loadedData', 'loadedBlueprintReferenceTypes', 'loadedBlueprintReferences', 'PerformanceLevelService',
+    function($scope, $state, loadedData, loadedBlueprintReferenceTypes, loadedBlueprintReferences, PerformanceLevelService) {
 		$scope.errors = loadedData.errors;
 		$scope.assessment = loadedData.data;
 		$scope.blueprintReferenceTypes = loadedBlueprintReferenceTypes.data;
+		$scope.blueprintReferences = loadedBlueprintReferences.data;
 		$scope.selectedCellId = "view0";
 		
 		if (!$state.current.searchParams) {
@@ -13,6 +14,19 @@ testauth.controller('AssessmentPerformanceLevelController',['$scope','$state', '
         $scope.searchResponse = {};
 
         $scope.searchPerformanceLevels = function(params) {
+        	if ($("#blueprintReferenceId").val() && !params.blueprintReferenceId) {
+        		var ids = [];
+        		for (var i = 0; i < $scope.blueprintReferences.length; i++) {
+        			if (!params.blueprintReferenceType || params.blueprintReferenceType == $scope.blueprintReferences[i].blueprintReferenceType) {
+	        			if ($scope.blueprintReferences[i].name.toLowerCase().indexOf($("#blueprintReferenceId").val().toLowerCase()) > -1) {
+	        				ids.push($scope.blueprintReferences[i].id);
+	        			}
+        			}
+        		}
+        		params.blueprintReferenceId = ids;
+        	} else if (params.blueprintReferenceId) {
+        		params.blueprintReferenceId = params.blueprintReferenceId.id;
+        	}
             return PerformanceLevelService.search(params);
         };
         

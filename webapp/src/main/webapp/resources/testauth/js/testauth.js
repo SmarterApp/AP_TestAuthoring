@@ -17,8 +17,21 @@ function safeApply($scope, fn) {
 
 var testauth = angular.module('testauth', ['ui.state','ui.bootstrap', 'ngCookies','ui.select2','xeditable','ui.sortable', 'blueimp.fileupload']);
 
+testauth.run(function($rootScope, editableOptions) {
+	editableOptions.theme = 'bs2';
+	var pageLoad = false;
+		  
+    $rootScope.$on('$locationChangeSuccess', function() {
+    	var returnUrl = sessionStorage.getItem("returnUrl");
+    	if(pageLoad && (returnUrl == null || returnUrl == undefined || returnUrl == "null" || returnUrl !== document.URL)) {
+	    	sessionStorage.setItem("returnUrl", document.URL);
+    	} else {
+    		pageLoad = true;
+    	}
+    });
+});
 
-testauth.config(['$stateProvider','$urlRouterProvider','$provide','$httpProvider', function($stateProvider, $urlRouterProvider, $provide,$httpProvider) {
+testauth.config(['$stateProvider','$urlRouterProvider','$provide','$httpProvider', function($stateProvider, $urlRouterProvider, $provide, $httpProvider) {
     // necessary fix to get select2 <input> tags to work
     // taken from: https://github.com/angular/angular.js/issues/5219
     $provide.decorator('inputDirective', ['$delegate', function($delegate) {
@@ -46,12 +59,8 @@ testauth.config(['$stateProvider','$urlRouterProvider','$provide','$httpProvider
   	});
   $httpProvider.interceptors.push('myHttpInterceptor');
   
-testauth.run(function(editableOptions) {
-		  editableOptions.theme = 'bs2';
-});
-    
-$urlRouterProvider.when('/assessmenthome/:assessmentId', '/assessmenthome/:assessmentId/edit');  
-    
+$urlRouterProvider.when('/assessmenthome/:assessmentId', '/assessmenthome/:assessmentId/edit');
+
 $stateProvider
 .state('home', {
         url: "/home", 
@@ -64,6 +73,17 @@ $stateProvider
                 controller: 'HomeController'
             }
         }
+	}).state('/', {
+	    url: "/", 
+	    resolve: {
+	    	navLinks :homeSearchNavResolver
+	    }, 
+	    views: {
+	        "testauthview": {
+	        	templateUrl: 'resources/testauth/partials/home.html',
+	            controller: 'HomeController'
+	        }
+	    }
     }).state('homePostTest', {
         url: "/homePostTest", 
         resolve: {
@@ -328,9 +348,6 @@ $stateProvider
         }
     }).state('assessmenthome.formhome.formsearch', {
         url: "/search",
-        resolve: {
-            loadedLanguages:formLanguagesResolver
-        },
         views: {
             "forms-home-view": {
                 templateUrl: 'resources/testauth/partials/assessment-forms-search.html',
@@ -461,6 +478,10 @@ $stateProvider
         }
     }).state('assessmenthome.scoringrule', {
         url: "/scoringRule",
+        resolve: {
+            loadedBlueprintReferenceTypes:blueprintReferenceTypeResolver,
+            loadedBlueprintReferences:scoringRuleBlueprintReferenceResolver
+        },
         views: {
             "assessment-tab-view": {
                 templateUrl: 'resources/testauth/partials/assessment-scoringrules.html',
@@ -484,7 +505,8 @@ $stateProvider
     }).state('assessmenthome.performancelevel', {
         url: "/performancelevel",
         resolve: {
-            loadedBlueprintReferenceTypes:blueprintReferenceTypeResolver
+            loadedBlueprintReferenceTypes:blueprintReferenceTypeResolver,
+            loadedBlueprintReferences:performanceLevelBlueprintReferenceResolver
         },
         views: {
             "assessment-tab-view": {
@@ -1049,6 +1071,14 @@ var scoringRuleListResolver = ['$stateParams','ScoringRuleService', function ($s
 
 var blueprintReferenceTypeResolver = ['$stateParams','ScoringRuleService', function ($stateParams, ScoringRuleService) {
     return ScoringRuleService.getBlueprintReferenceTypes();
+}];
+
+var scoringRuleBlueprintReferenceResolver = ['$stateParams','ScoringRuleService', function ($stateParams, ScoringRuleService) {
+	return ScoringRuleService.getBlueprintReferences({"assessmentId": $stateParams.assessmentId, "pageSize": 1000});
+}];
+
+var performanceLevelBlueprintReferenceResolver = ['$stateParams','PerformanceLevelService', function ($stateParams, PerformanceLevelService) {
+	return PerformanceLevelService.getBlueprintReferences({"assessmentId": $stateParams.assessmentId, "pageSize": 1000});
 }];
 
 var blueprintDenotationTypeResolver = ['$stateParams','ScoringRuleService', function ($stateParams, ScoringRuleService) {

@@ -6,6 +6,7 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
   		$scope.searchResponse = {};
   		
   		$scope.showTools = true;
+  		$scope.showToolsFocus = false;
 		$scope.showWidgets = false;
 		$scope.showTibSearch = false;
         
@@ -88,7 +89,7 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
         };
         
         $scope.moveToTop = function() {
-	       	$location.hash('top');
+        	$location.hash('topOfPage');
 	       	$anchorScroll();
         };
 
@@ -126,11 +127,20 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
 			$scope.openTools();
 			$scope.refreshItemGroups();
 		};
+		
+		$scope.openTools = function(){
+			$scope.toggleTools("tools");
+		};
+		
+        $scope.focusTools = function() {
+        	$scope.openTools();
+        	$scope.showToolsFocus = true;
+        };
 		//end tib search widget
 		
 		// edit widget
 		$scope.closeEditBar = function(){
-			$scope.toggleTools('tools');
+			$scope.focusTools();
 			$scope.showItemSelectors = false;
 		};
 		
@@ -283,6 +293,7 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
  
         $scope.toggleTools = function(option) {
 			$scope.showTools = false;
+			$scope.showToolsFocus = false;
 			$scope.showTibSearch = false;
 			$scope.showEditWidget = false;
 			
@@ -322,10 +333,14 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
     		tableform.$show();
     		$scope.viewAttributes();
     		$scope.disableSearch();
+    		$scope.editorOpen = true;
+    		$scope.showToolsFocus = false;
     	};
     	
     	$scope.cancelEditor =  function(){
     		$scope.disabledSearch = false;
+    		$scope.editorOpen = false;
+    		$scope.focusTools();
     	};
     	
         $scope.disableSearch = function() {

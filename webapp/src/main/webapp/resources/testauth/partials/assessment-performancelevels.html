@@ -14,8 +14,8 @@
                 </li>
                 <li>
                     <span>
-                        <label for="searchParams.blueprintReferenceName" title="BP Reference">BP Reference:</label>
-                        <input name="searchParams.blueprintReferenceName" data-ng-model="searchParams.blueprintReferenceName" tabindex="0" alt="BP Reference" />
+                        <label for="searchParams.blueprintReferenceId" title="BP Reference">BP Reference:</label>
+                        <input type="text" id="blueprintReferenceId" name="searchParams.blueprintReferenceId" data-ng-model="searchParams.blueprintReferenceId" data-typeahead-editable="false" data-typeahead="bpRef as bpRef.name for bpRef in blueprintReferences | filter:{name:$viewValue, blueprintReferenceType:(searchParams.blueprintReferenceType?searchParams.blueprintReferenceType:'')}">
                     </span>
                 </li>
             </ul>

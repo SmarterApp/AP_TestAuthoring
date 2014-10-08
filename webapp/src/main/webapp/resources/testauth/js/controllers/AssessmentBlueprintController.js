@@ -18,6 +18,7 @@ testauth.controller('AssessmentBlueprintController',['$scope','$filter','$state'
 		$scope.toggleWidgets = function(){
 			$scope.showWidgets = !$scope.showWidgets;
 			$scope.showTools = !$scope.showTools;
+			$scope.showToolsFocus = $scope.showTools;
 			$scope.showConfirmation = false;
 			$scope.widget = {};
 		};
@@ -25,6 +26,7 @@ testauth.controller('AssessmentBlueprintController',['$scope','$filter','$state'
 		$scope.toggleStats = function(){
 			$scope.showStats = !$scope.showStats;
 			$scope.showTools = !$scope.showTools;
+			$scope.showToolsFocus = $scope.showTools;
 		};
 		
         $scope.getDefaultSearchParams = function() {
@@ -38,6 +40,7 @@ testauth.controller('AssessmentBlueprintController',['$scope','$filter','$state'
         $scope.toggleErrors = function(){
         	 $scope.showErrors = !$scope.showErrors;
         	 $scope.showTools = !$scope.showTools;
+        	 $scope.showToolsFocus = $scope.showTools;
         };
         
         $scope.changeWidth = function(params){
@@ -129,6 +132,8 @@ testauth.controller('AssessmentBlueprintController',['$scope','$filter','$state'
             $scope.originalBlueprintErrorMap = angular.copy($scope.blueprintErrorMap);
             $scope.originalErrors = angular.copy($scope.errors);
             frm.$show();
+            $scope.editorOpen = true;
+            $scope.showToolsFocus = false;
         };
         
         $scope.clearErrors = function() {
@@ -141,6 +146,8 @@ testauth.controller('AssessmentBlueprintController',['$scope','$filter','$state'
             $scope.errors = $scope.originalErrors;
             $scope.blueprintErrorMap = $scope.originalBlueprintErrorMap;
             $scope.searchResponse.searchResults = $scope.originalBlueprints;
+            $scope.editorOpen = false;
+            $scope.showToolsFocus = true;
         };
         
         $scope.closeEditor = function() {

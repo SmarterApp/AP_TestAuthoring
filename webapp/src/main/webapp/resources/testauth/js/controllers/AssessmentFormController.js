@@ -1,9 +1,7 @@
-testauth.controller('AssessmentFormController',['$scope','$state', 'loadedData', 'loadedLanguages', 'FormService',
-    function($scope, $state, loadedData, loadedLanguages, FormService) {
+testauth.controller('AssessmentFormController',['$scope','$state', 'loadedData', 'FormService',
+    function($scope, $state, loadedData, FormService) {
 		$scope.errors = loadedData.errors;
 		$scope.assessment = loadedData.data;
-        $scope.languageMap = loadedLanguages.data;
-        $scope.languages = [];
 
 		if (!$state.current.searchParams) {
             $scope.searchParams = {"assessmentId": $scope.assessment.id != null ? $scope.assessment.id : "INVALID_ID", "currentPage": 1, "pageSize":"50"};
@@ -14,21 +12,6 @@ testauth.controller('AssessmentFormController',['$scope','$state', 'loadedData',
 
         $scope.searchForms = function(params) {
             return FormService.search(params);
-        };
-        
-        for (languageKey in $scope.languageMap) {
-			if ($scope.languageMap.hasOwnProperty(languageKey)) {
-    			$scope.languages.push({id : languageKey, text : $scope.languageMap[languageKey] + ' (' + languageKey.toUpperCase() + ')'});
-			}
-		}
-
-        $scope.formatLanguage = function(language) {
-        	for (var i = 0; i < $scope.languages.length; i++) {
-				var formattedLanguage = $scope.languages[i];
-				if (formattedLanguage.id == language) {
-					return formattedLanguage.text;
-				}
-			}
         };
         
         $scope.createNewItem = function() {

@@ -39,7 +39,13 @@ testauth.factory("ScoringRuleService", function($http) {
     	
     	findConversionTableFileById : function(id) {
     		return  this.getHttp().get(this.getBaseUrl() + this.getResource() + '/conversionTableFile/' + id + '?_=' + Math.random()).then(this.successHandler, this.errorHandler);
-    	}
+    	},
+		
+		getBlueprintReferences : function(params) {
+			params['_'] = Math.random();
+			var url = this.getBaseUrl() + this.getResource() + '/blueprintReferences/';
+            return $http.get(url,  {params:params}).then(this.successHandler, this.errorHandler);
+		}
     };
 
 	var service = angular.extend({}, BaseService);

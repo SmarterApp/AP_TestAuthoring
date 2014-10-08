@@ -9,6 +9,7 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         $scope.baseSimulationUrl = PublishingRecordService.getBaseUrl() + PublishingRecordService.getResource() + '/' + $scope.publishingRecord.id + '/simulate?purpose=';
         $scope.isAdminUser = false;
         $scope.allowLevel2 = true;
+        $scope.assessmentlocked = false;
 		if (!$state.current.searchParams) {
 			$scope.searchParams = {"assessmentId": $scope.assessment.id, "sortKey":"version", "sortDir":"DESC", "pageSize" : 10, "currentPage": 1};
 		} else {
@@ -42,7 +43,7 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         };
   		
   		$scope.getLatestApprovals = function() {
-  			if($scope.publishingRecord) {
+  			if ($scope.publishingRecord) {
 		  		ApprovalService.retrieveLatestApprovals($scope.publishingRecord.id).then(function(response) {
 		  			$scope.currentApprovals = response.data;
 		  		});
@@ -87,12 +88,7 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         $scope.cancelApproval = function() {
         	if (confirmSave('cancel')) {
             	$scope.publishingRecord.publishingStatus = 'Rejected';
-            	$scope.assessment.status = 'Rejected';
-            	AssessmentService.update($scope.assessment).then(function(response) {
-                    $scope.errors = response.errors;
-    				$scope.messages = response.messages;
-            		processSave();
-            	});
+        		processSave();
         	}
         };
   		
@@ -153,11 +149,11 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         }
         
         $scope.refreshInfo = function() {
-			if ($scope.resetAssessment) {
-				AssessmentService.findById($scope.assessment.id).then(function (response) {
-				    $scope.resetAssessment(response.data);
-				});
-			}
+			AssessmentService.findById($scope.assessment.id).then(function (response) {
+			    $scope.assessment.locked = response.data.locked;
+			    $scope.assessment.status = response.data.status;
+			    
+			});
 			$scope.getLatestApprovals();
         };
 

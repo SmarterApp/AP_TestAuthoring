@@ -105,14 +105,14 @@
                     <td scope="col" role="gridcell" aria-labelledby="categoryHeader">{{test.category}}</td>
                     <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{test.status}}</td>
                     <td scope="col" role="gridcell" aria-labelledby="actionHeader" class="normalSpace" data-title-text role="gridcell" id="row{{$index}}-button" aria-labelledby="buttonHeader">
-                        <div class="tableButtonGroup">
+                        <div class="tableButtonGroup" style="white-space: nowrap; padding-right: 15px;">
                             <button data-ng-click="edit(test)" class="boxBtn" tabindex="{{$index == 0 ? 0 : -1}}" value="Edit" title="Edit" id="view{{$index}}" tabindex="0">
                                 <span class="btnIcon icon_sprite icon_preview2" aria-hidden="true"></span>
                             </button>                        
                             <button data-ng-click="copy(test)" class="boxBtn" tabindex="-1" value="Copy" title="Copy" id="copy{{$index}}" tabindex="0">
                                 <span class="btnIcon icon_sprite icon_copy2" aria-hidden="true"></span>
                             </button>                        
-                            <button data-ng-click="remove(test)" class="boxBtn" data-ng-hide="test.locked" tabindex="-1" value="Remove" title="Remove" id="remove{{$index}}" tabindex="0">
+                            <button data-ng-click="remove(test)" class="boxBtn" data-ng-hide="test.locked || test.version != '1.0'" tabindex="-1" value="Remove" title="Remove" id="remove{{$index}}" tabindex="0">
                                 <span class="btnIcon icon_sprite icon_delete2" aria-hidden="true"></span>
                             </button>
                         </div>

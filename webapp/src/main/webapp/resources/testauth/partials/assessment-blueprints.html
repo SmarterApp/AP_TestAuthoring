@@ -75,16 +75,16 @@
         
         <div data-pageable data-paging-info="searchResponse" data-search-params="searchParams" data-change-page="changePage()" data-disabled-search="{{disabledSearch}}">
             <form data-editable-form name="tableform" data-onaftersave="saveAll(searchResponse.searchResults)" data-onshow="disableSearch();">
-                <div class="left_menu_hidden" data-ng-show="showTools" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+                <div class="left_menu_hidden" data-ng-show="showTools || editorOpen)" data-ng-style="menuHidden && {'margin-left': '-221px'}" data-widget-navigation>
 				    <h6 tabindex="-1">Tools</h6>
-				    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
-				    <div title="Edit Blueprint Elements" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked && searchParams.selectedBlueprint != 'MASTER'" data-ng-click="openEditor(tableform)"> </div>
-				    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()"> </div>
-				    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();"> </div>
-				    <div title="Widgets" class="icons icon-gear"  data-ng-hide="tableform.$visible || assessment.locked" data-ng-click="toggleWidgets()"> </div>
-				    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || blueprintErrors.length == 0" data-ng-click="toggleErrors()"> </div>
-				    <div title="Informational Stats" class="icons icon-list"  data-ng-hide="tableform.$visible" data-ng-click="toggleStats()"> </div>
-				    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+				    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()" tabindex="-1"> </div>
+				    <div title="Edit Blueprint Elements" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked && searchParams.selectedBlueprint != 'MASTER'" data-ng-click="openEditor(tableform)" tabindex="-1"> </div>
+				    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()" tabindex="-1" data-focus-watch="editorOpen"> </div>
+				    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();" tabindex="-1"> </div>
+				    <div title="Widgets" class="icons icon-gear"  data-ng-hide="tableform.$visible || assessment.locked" data-ng-click="toggleWidgets()" tabindex="0" data-focus-watch="showToolsFocus"> </div>
+				    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || blueprintErrors.length == 0" data-ng-click="toggleErrors()" tabindex="-1"> </div>
+				    <div title="Informational Stats" class="icons icon-list"  data-ng-hide="tableform.$visible" data-ng-click="toggleStats()" tabindex="-1"> </div>
+				    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()" tabindex="-1"> </div>
 				</div>
 				
                 <div class="left_menu_errors" data-ng-show="showErrors">
@@ -125,7 +125,7 @@
                                 <li>
                                     <span>
                                         <label for="grade" title="Action">Action:</label>
-                                        <select data-ng-model="widget.action" tabindex="0" title="Action">
+                                        <select data-ng-model="widget.action" tabindex="0" title="Action" data-focus-watch="showWidgets">
                                             <option value="">- Select Action -</option>
                                             <option value="clear">Zero Out Segment Values</option>
                                             <option value="activate">Activate Grade</option>
@@ -215,7 +215,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <button type="button" class="boxBtn" data-ng-click="toggleStats()" tabindex="0">
+                            <button type="button" class="boxBtn" data-ng-click="toggleStats()" tabindex="0" data-focus-watch="showStats">
                                 <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
                                 <span class="btnText">Close</span>
                             </button>                    

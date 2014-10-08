@@ -18,6 +18,11 @@ testauth.controller('HomeController', ['$scope','$location', '$state', 'Assessme
 			}
 		};
 		
+		$scope.expandSystemsDropdown = function() {
+			debugger;
+			document.getElementById("systemsDropdown").addParameter("display", "block");
+		};
+		
 	    $scope.go = function(path){
 	    	if (path == "/home") {
 	    		$location.path(path);

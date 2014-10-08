@@ -458,5 +458,6 @@ testauth.controller('AssessmentScoringRuleEditController',['$scope','$state', 'l
             $scope.scoringRule.order = $scope.scoringRuleList.length + 1;
             focus('focusEdit');
             $scope.isNew = true;
+            $scope.sortableScoringRuleParamDictionaryOptions.disabled = false;
         }
 }]);

@@ -3,25 +3,25 @@
 
     <div data-error-panel data-error-list="errors" data-error-header="Invalid item pool data detected:" data-relative-width="false"></div>
        
-    <div class="left_menu_hidden" data-ng-show="showTools && !assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+    <div class="left_menu_hidden" data-ng-show="(showTools || editorOpen) && !assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}" data-widget-navigation>
                     <h6 tabindex="-1">Tools</h6>
-                    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
-                    <div title="TIB Search" class="icons icon-search"  data-ng-hide="assessment.locked || tableform.$visible " data-ng-click="openTibSearch()"> </div>
+                    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()" data-enter="moveToTop()" tabindex="-1"> </div>
+                    <div title="TIB Search" class="icons icon-search"  data-ng-hide="assessment.locked || tableform.$visible " data-ng-click="openTibSearch()" data-enter="openTibSearch()" tabindex="0" data-focus-watch="showToolsFocus"> </div>
                     
-                    <div title="Edit Items" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked" data-ng-click="openEditor(tableform)"> </div>
-                    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()"> </div>
-                    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();"> </div>
+                    <div title="Edit Items" id="editItems" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked" data-ng-click="openEditor(tableform)" data-enter="openEditor(tableform)" tabindex="-1"> </div>
+                    <div title="Save" id="saveItems" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()" data-enter="tableform.$submit()" tabindex="0" data-focus-watch="editorOpen"> </div>
+                    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor()" data-enter="tableform.$cancel();cancelEditor();" tabindex="-1"> </div>
                     
-                    <div title="Move Items" class="icons icon-move"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openMoveItemWindow()"> </div>
-                    <div title="Delete Items" class="icons icon-trash"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openDeleteItemWindow()"> </div>
+                    <div title="Move Items" class="icons icon-move"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openMoveItemWindow()" data-enter="openMoveItemWindow()" tabindex="-1"> </div>
+                    <div title="Delete Items" class="icons icon-trash"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openDeleteItemWindow()" data-enter="openDeleteItemWindow()" tabindex="-1"> </div>
                       
-                    <div title="Missing Items" class="icons icon-list"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="toggleMissingStats()"> </div>
-                    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || itemErrors.length == 0" data-ng-click="toggleErrors()"> </div>
-                    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+                    <div title="Missing Items" class="icons icon-list"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="toggleMissingStats()" data-enter="toggleMissingStats()" tabindex="-1"> </div>
+                    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || itemErrors.length == 0" data-ng-click="toggleErrors()" data-enter="toggleErrors()" tabindex="-1"> </div>
+                    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()" data-enter="moveToBottom()" tabindex="-1"> </div>
                 </div>
-                
+
                 <div class="left_menu_visible_tib_search" data-ng-show="showTibSearch">
-                    <div data-tib-item-search data-tenant-id='assessment.tenantId' data-segment-id='searchParams.segmentId'  data-segment-map="segmentMap"  data-location-type="locationType" data-group-id="searchParams.itemGroupId" data-close-search="tibSearchClosed()" data-default-params="defaultTibParams"></div>
+                    <div data-tib-item-search data-tenant-id="assessment.tenantId" data-segment-id="searchParams.segmentId" data-segment-map="segmentMap"  data-location-type="locationType" data-group-id="searchParams.itemGroupId" data-close-search="tibSearchClosed()" data-default-params="defaultTibParams"></div>
                 </div>
                 
                 <div class="left_menu_errors" data-ng-show="showErrors">
@@ -48,7 +48,7 @@
                             <div data-ng-repeat="error in widget.errors">
                                 <div><span class="icon_sprite icon_error error"></span>{{error}}</div>
                             </div>
-                            <button type="button" class="boxBtn" data-ng-click="openTools()" tabindex="0">
+                            <button type="button" class="boxBtn" data-ng-click="focusTools()" tabindex="0" data-focus-watch="showStats">
                                 <span class="btnIcon icon_sprite icon_cancel2" aria-hidden="true"></span>
                                 <span class="btnText">Close</span>
                             </button>
@@ -77,7 +77,7 @@
                                             <td scope="col" role="gridcell" aria-labelledby="missingItemsFtHeader">{{itemMap.ftItems}}</td>
                                             <td scope="col" role="gridcell" aria-labelledby="missingItemsActionHeader" class="normalSpace">
                                                 <div class="tableButtonGroup">
-                                                    <button data-ng-click="searchWithStandardsKeys(itemMap.standard,itemMap.grade)" class=boxBtnTiny tabindex="0">
+                                                    <button data-ng-click="searchWithStandardsKeys(itemMap.standard,itemMap.grade)" class="boxBtnTiny" tabindex="0">
                                                         <span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span>
                                                     </button>
                                                 </div>
@@ -115,13 +115,13 @@
                                 <div class="moverSection" data-ng-show="isMoveAllowed()">
                                             <div>
                                                  <label for="moveSegment" title="Target Segment">Target Segment:</label>
-                                                 <select data-ng-model="moveTargetSegmentId" data-ng-change="refreshMoveGroups(moveTargetSegmentId)" data-ng-options="value.id as value.label for (key,value) in segmentMap" tabindex="0" title="Target Segment"></select>
+                                                 <select data-ng-model="moveTargetSegmentId" data-ng-change="refreshMoveGroups(moveTargetSegmentId)" data-ng-options="value.id as value.label for (key,value) in segmentMap" tabindex="0" title="Target Segment" data-focus-watch="showEditWidget"></select>
                                             </div>
                                             <div>
                                                 <label for="moveGroup" title="Target Item Group">Target Item Group:</label>
                                                 <select class="itemGroupDropdown" data-ng-model="moveTargetGroupId" data-ng-options="grp.id as grp.groupName for grp in moveItemGroupList" tabindex="0" title="Target Item Group"></select>
                                             </div>
-                                           <button type="button" class="boxBtn" data-ng-click="moveItems()" tabindex="0">
+                                           <button type="button" class="boxBtn" data-ng-click="moveItems()" tabindex="0" data-ng-disabled="moveDeleteControlsNotAllowed()" data-ng-show="showMoveDeleteButton">
                                                <span class="btnIcon icon_sprite icon_save2" aria-hidden="true"></span>
                                                <span class="btnText">Move Selected</span>
                                            </button>
@@ -131,7 +131,7 @@
                                             </button>
                                 </div>
                                 <div class="moverSection" data-ng-show="isDeleteAllowed()">
-                                           <button type="button" class="boxBtn" data-ng-click="deleteItems()" tabindex="0">
+                                           <button type="button" class="boxBtn" data-ng-click="deleteItems()" tabindex="0" data-focus-watch="showEditWidget" data-ng-disabled="moveDeleteControlsNotAllowed()" data-ng-show="showMoveDeleteButton">
                                                <span class="btnIcon icon_sprite icon_delete3" aria-hidden="true"></span>
                                                <span class="btnText">Delete Selected</span>
                                            </button>
@@ -193,7 +193,7 @@
                         <li>
                             <span>
                                 <label for="grade">Grade:</label>
-                                <input data-ng-disabled="disabledSearch" name="grade" data-ng-model="searchParams.grade" tabindex="0" alt="Grade"/>
+                                <input data-ng-disabled="disabledSearch" name="grade" data-ng-model="searchParams.intendedGrade" tabindex="0" alt="Grade"/>
                             </span>
                         </li>
                     </ul>

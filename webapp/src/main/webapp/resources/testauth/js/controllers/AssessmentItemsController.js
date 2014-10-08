@@ -7,9 +7,11 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
   		
   		$scope.syncIndicator = true;
   		$scope.showTools = true;
+  		$scope.showToolsFocus = false;
   		$scope.showStandardSearch = false;
 		$scope.showWidgets = false;
 		$scope.showConfirmation = false;
+		$scope.showMoveDeleteButton = true;
 		$scope.showTibSearch = false;
 		$scope.segmentList = [];
 		
@@ -30,7 +32,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
                 });
             });
         };
-		
+        
 		$scope.refreshItemGroupMap = function(itemGroups){
 			var currentSelection = $scope.searchParams.itemGroupId;
 			$scope.itemGroupMap = {};
@@ -148,7 +150,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
         };
         
         $scope.moveToTop = function() {
-	       	$location.hash('top');
+        	$location.hash('topOfPage');
 	       	$anchorScroll();
         };
 
@@ -160,6 +162,11 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 		$scope.openTools = function(){
 			$scope.toggleTools("tools");
 		};
+		
+        $scope.focusTools = function() {
+        	$scope.openTools();
+        	$scope.showToolsFocus = true;
+        };
         
 		$scope.openStandardSearch = function() {
 			$scope.toggleTools("standardSearch");
@@ -194,6 +201,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
         
         $scope.toggleTools = function(option) {
 			$scope.showTools = false;
+			$scope.showToolsFocus = false;
 			$scope.showStandardSearch = false;
 			$scope.showTibSearch = false;
 			$scope.showStats = false;
@@ -222,8 +230,9 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
         
     	// edit widget
 		$scope.closeEditBar = function(){
-			$scope.toggleTools('tools');
 			$scope.showItemSelectors = false;
+			$scope.showToolsFocus = true;
+			$scope.focusTools();
 		};
 		
 		$scope.openEditWidget = function(){
@@ -298,10 +307,14 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
     		tableform.$show();
     		$scope.viewAttributes();
     		$scope.disableSearch();
+    		$scope.editorOpen = true;
+    		$scope.showToolsFocus = false;
     	};
     	
     	$scope.cancelEditor =  function(){
     		$scope.disabledSearch = false;
+    		$scope.editorOpen = false;
+    		$scope.focusTools();
     	};
     	
         $scope.disableSearch = function() {
@@ -373,6 +386,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 		
 		$scope.moveItems = function(){
 			if($scope.moveTargetSegmentId != null && $scope.moveTargetGroupId != null){
+				$scope.showMoveDeleteButton = false;
 				var items = [];
 				angular.forEach($scope.itemCheckboxMap, function(value, key){
 					if(value == true){
@@ -400,6 +414,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 				}
 			});
 			if(items.length > 0){
+				$scope.showMoveDeleteButton = false;
 				var deleteRequest = {
 						"sourceLocationId": $scope.searchParams.segmentId,
 						"sourceGroupId" :  $scope.searchParams.itemGroupId,
@@ -409,6 +424,17 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 			}else{
 				$scope.widgeterrors = ['Please select items to delete.'];
 			}
+		};
+
+		$scope.moveDeleteControlsNotAllowed = function() {
+			selectedItemCount = [];
+			for (key in $scope.itemCheckboxMap) {
+				if ($scope.itemCheckboxMap[key] == true) {
+					selectedItemCount.push($scope.itemCheckboxMap[key]);
+					break;
+				}
+			}
+			return selectedItemCount.length == 0;
 		};
 		
 		$scope.bulkEditMessage = "";
@@ -429,6 +455,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 				$scope.$broadcast('initiate-itempool-search');
 				$scope.validateItemPools();
 			}
+			$scope.showMoveDeleteButton = true;
 		};
     	//edit edit widget
 		

@@ -29,7 +29,10 @@ testauth.directive("searchable",['$http','$parse', function($http, $parse){
 						$scope.errors = [];
 						$scope.searchResponse = response.data;
 						$scope.searchResponse.currentPage = ($scope.searchResponse.currentPage *1) +1;
-						$scope.searchResponse.lastPage = parseInt((($scope.searchResponse.totalCount*1) / ($scope.searchResponse.pageSize*1))) + 1;
+						var tCount = $scope.searchResponse.totalCount*1;
+						var pSize = $scope.searchResponse.pageSize*1;
+						var lPage = parseInt(tCount / pSize);
+						$scope.searchResponse.lastPage = tCount % pSize > 0 ? lPage + 1 : lPage;
 						if ($scope.searchPostProcess) {
 							if($scope.searchResponse.searchResults) {
 	    						$.each($scope.searchResponse.searchResults, function(index,result) {

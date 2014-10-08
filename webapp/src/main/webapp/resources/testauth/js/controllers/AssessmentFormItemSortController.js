@@ -49,6 +49,10 @@ testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$fil
 			return true;
 		};
 		
+        $scope.setUpdated = function() {
+        	$scope.sortChanged = true;
+        };
+		
 		$scope.formPartitionChanged = function() {
 			$scope.refreshGroups();
 			$scope.refreshItems();

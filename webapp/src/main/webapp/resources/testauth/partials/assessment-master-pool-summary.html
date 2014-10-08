@@ -43,9 +43,9 @@
                 <td scope="col" role="gridcell" aria-labelledby="opMaxHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).operationalItemMaxValue}}</td>
                 <td scope="col" role="gridcell" aria-labelledby="ftMinHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).fieldTestItemMinValue}}</td>
                 <td scope="col" role="gridcell" aria-labelledby="ftMaxHeader">{{getAffinityGroupValue(affinityGroup,selectedSegmentId).fieldTestItemMaxValue}}</td>                             
-                <td scope="col" role="gridcell" aria-labelledby="opItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['opCount']}}</td>     
-                <td scope="col" role="gridcell" aria-labelledby="ftItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['ftCount']}}</td>             
-                <td scope="col" role="gridcell" aria-labelledby="totalItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id]['totalCount']}}</td>                                        
+                <td scope="col" role="gridcell" aria-labelledby="opItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id][selectedSegmentId]['opCount']}}</td>     
+                <td scope="col" role="gridcell" aria-labelledby="ftItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id][selectedSegmentId]['ftCount']}}</td>             
+                <td scope="col" role="gridcell" aria-labelledby="totalItemsHeader" class="itemstat">{{itemCountsMap[affinityGroup.id][selectedSegmentId]['opCount'] + itemCountsMap[affinityGroup.id][selectedSegmentId]['ftCount']}}</td>                                        
             </tr>
         </table>  
     </div>  

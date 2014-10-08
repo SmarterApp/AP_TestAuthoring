@@ -144,7 +144,7 @@
             <div data-ng-show="param.computationRuleParameterMultiplicity == 'Dictionary'" class="parameterElement ng-class:{hasError:hasGridFieldError($index, 'dictionaryValue')}">
                 <span class="sortable-row-heading" data-ng-class="{'control-label-param-required' : editableForm.$visible}">Key</span><span class="sortable-row-heading" data-ng-class="{'control-label-param-required' : editableForm.$visible}">Value</span>
                 <button type="button" data-ng-hide="!editScoringRule" data-ng-click="addDictionaryItem(param, parameterIndex)" class="boxBtnTiny" tabindex="0"><span class="btnIcon icon_sprite icon_saveAdd2" aria-hidden="true"></span></button><span class="sortable-row-heading"></span>
-                <div data-ui-sortable="sortableScoringRuleParamDictionaryOptions" data-ng-model="param.dictionaryValue">
+                <div style="overflow-y: scroll" data-ui-sortable="sortableScoringRuleParamDictionaryOptions" data-ng-model="param.dictionaryValue">
                     <div class="sortable-row" data-ng-repeat="dictionaryElement in param.dictionaryValue">
                         <span class="ng-class:{hasError:hasDictionaryFieldError(parameterIndex, $index, 'key')}" data-editable-text="dictionaryElement.key" data-e-maxlength="60" data-e-name="dictionaryElement.key" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].key')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
 	                    	<span class="propertyBox">{{dictionaryElement.key}}</span>
@@ -152,9 +152,9 @@
  	                    <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] == 'Boolean'" data-e-name="dictionaryElement.value" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].value')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200"
 	                      data-editable-select="dictionaryElement.value" data-e-ng-disabled="assessment.locked" 
 	                      data-e-ng-options="k as v for (k,v) in {false:'FALSE',true:'TRUE'}">
-	                      {{dictionaryElement.value}}
+	                        <span class="propertyBox" style="text-align: right;">{{dictionaryElement.value}}</span>
 	                    </span>
-                         <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] != 'Boolean'" class="ng-class:{hasError:hasDictionaryFieldError(parameterIndex, $index, 'value')}" data-editable-text="dictionaryElement.value" data-e-maxlength="60" data-e-name="dictionaryElement.value" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].value')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
+                        <span data-ng-if="selectedComputationRuleParams[param.computationRuleParameterName]['computationRuleType'] != 'Boolean'" class="ng-class:{hasError:hasDictionaryFieldError(parameterIndex, $index, 'value')}" data-editable-text="dictionaryElement.value" data-e-maxlength="60" data-e-name="dictionaryElement.value" data-focus-on="{{parameterIndex}}-focusNewParam" data-ng-disabled="!editScoringRule" data-tooltip="{{fieldErrorText('parameters['+parameterIndex+'].dictionaryValue['+$index+'].value')}}" data-tooltip-placement="left" data-tooltip-append-to-body="true" data-tooltip-popup-delay="200">
 	                    	<span class="propertyBox" style="text-align: right;">{{dictionaryElement.value}}</span>
                         </span>                                                
                         <span data-ng-hide="!editScoringRule || param.dictionaryValue.length == 1" class="sortableListIcon2"></span>

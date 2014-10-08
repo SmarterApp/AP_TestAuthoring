@@ -27,6 +27,7 @@ testauth.directive("tibItemSearch",['$http','$parse', 'TibItemService','ItemServ
 			$scope.importScreenVisible = false;
 			$scope.previewVisible = false;
 			$scope.importingItems = false;
+			$scope.showTibSearch = true;
 		
 			var AUTO_ASSIGN = "AUTO_ASSIGN";
 			$scope.importToSegment = function(){
@@ -107,7 +108,7 @@ testauth.directive("tibItemSearch",['$http','$parse', 'TibItemService','ItemServ
 				var prettyString = "";
 				var paramsArrayMap = {};
 				angular.forEach(params, function(param,index){
-					if(param.filterValue && param.filterValue.length >0){
+					if(param.filterValue && param.filterValue.trim().length >0){
 						if(paramsArrayMap[param.filterName]  == null){
 							paramsArrayMap[param.filterName] = [];
 						}
@@ -120,13 +121,14 @@ testauth.directive("tibItemSearch",['$http','$parse', 'TibItemService','ItemServ
 					}
 				});
 				angular.forEach(paramsArrayMap, function(values, paramName){
-					if(prettyString.length > 0) prettyString += " and ";
-					if(values.length > 1){
-						prettyString += " " + paramName + " is one of (" +values +")";	
-					}else{
-						prettyString += " " + paramName + " is '" + values +"'";
+					if(paramName != null && paramName != "null" && paramName != "undefined") {
+						if(prettyString.length > 0) prettyString += " and ";
+						if(values.length > 1){
+							prettyString += " " + paramName + " is one of (" +values +")";	
+						}else{
+							prettyString += " " + paramName + " is '" + values +"'";
+						}
 					}
-					
 				});
 				return  prettyString;
 			};

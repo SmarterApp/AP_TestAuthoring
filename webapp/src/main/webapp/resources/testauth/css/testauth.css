@@ -293,7 +293,6 @@ h5 span{
 
 .tableButtonGroup {
     display:inline-block;
-    white-space:nowrap;
 }
 
 .dataTable .boxBtn, .itemPoolSelectTable .boxBtn {
@@ -323,7 +322,7 @@ table .icon_sprite {
 }
 
 table .doubleActionColumn {
-    width:90px;
+    width:10%;
     white-space:normal;
 }
 
@@ -699,6 +698,12 @@ a.fieldLink {
 
 span.displayText{
 	padding-left: 3px;
+}
+
+.fieldGroup span.masterpoolErrors {
+	padding-left: 3px;
+	float: none;
+	text-align: left;
 }
 
 .filterHeader {
@@ -1288,7 +1293,7 @@ div.warningBox div.offset{
 }
 
 .parameterGroup { white-space:nowrap; vertical-align:top; width: 100%; }
-.parameterGroup label { display:inline-block; float:none; vertical-align:top; width:20%; text-align: right; white-space: nowrap; }
+.parameterGroup label { display:inline-block; float:none; vertical-align:top; width:10%; text-align: right; white-space: nowrap; }
 .parameterGroup select, .parameterGroup input, .parameterGroup textarea, .parameterGroup span.propertyBox {
 	display:inline-block;
 	vertical-align:middle;
@@ -1323,6 +1328,10 @@ div.warningBox div.offset{
 .parameterGroup div .hasError {
     color:#FF8F8F;
     background-color:#FFDBDB;
+}
+
+div.parameterGroup {
+	text-align: left;
 }
 
 .parameterElement {
@@ -1823,6 +1832,17 @@ ul.wide-filters {
 ul.wide-filters li span {
     width: 95%;
 }
+li.masterpool-filters {
+	width: 100%;
+	color: red;
+	font-weight: bold;
+}
+.fieldGroup li.masterpool-filters label {
+	font-weight: bold;
+}
+ul.masterpool-filters li span {
+    width: 100%;
+}
 i.removeFilter {
     height: 16px;
     width: 19px;
@@ -1852,4 +1872,8 @@ i.removeFilter {
 .boxBtn:hover .ajax_indicator {
     background-position:0px 0px;
     background-image:url(../images/ajax-indicator-green.gif);
+}
+
+.fixedInputField {
+	width:600px;
 }

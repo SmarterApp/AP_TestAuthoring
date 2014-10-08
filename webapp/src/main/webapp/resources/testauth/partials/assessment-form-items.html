@@ -6,21 +6,21 @@
         data-warning-list="warnings" data-warning-header="WARNING - Please ensure following form partition data is correct:">
     </div>
      
-     <div class="left_menu_hidden" data-ng-show="showTools && (!assessment.locked || searchResponse.returnCount > 20)">
+     <div class="left_menu_hidden" data-ng-show="showTools && (!assessment.locked || searchResponse.returnCount > 20)" data-widget-navigation>
                  
                     <h6 tabindex="-1">Tools</h6>
-                    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
-                    <div title="TIB Search" class="icons icon-search"  data-ng-hide="assessment.locked || tableform.$visible " data-ng-click="openTibSearch()"> </div>
+                    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()" tabindex="-1"> </div>
+                    <div title="TIB Search" class="icons icon-search"  data-ng-hide="assessment.locked || tableform.$visible " data-ng-click="openTibSearch()" tabindex="0" data-focus-watch="showToolsFocus"> </div>
                     
-                    <div title="Edit Items" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked" data-ng-click="openEditor(tableform)"> </div>
-                    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()"> </div>
-                    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();"> </div>
+                    <div title="Edit Items" class="icons icon-edit" data-ng-show="!tableform.$visible && !assessment.locked" data-ng-click="openEditor(tableform)" tabindex="-1"> </div>
+                    <div title="Save" class="icons icon-save" data-ng-show="tableform.$visible && !assessment.locked" data-ng-click="tableform.$submit()" tabindex="0" data-focus-watch="editorOpen"> </div>
+                    <div title="Cancel"  class="icons icon-remove"  data-ng-show="tableform.$visible && !assessment.locked" data-ng-disabled="tableform.$waiting" data-ng-click="tableform.$cancel();cancelEditor();" tabindex="-1"> </div>
                     
-                    <div title="Move Items" class="icons icon-move"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openMoveItemWindow()"> </div>
-                    <div title="Delete Items" class="icons icon-trash"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openDeleteItemWindow()"> </div>
+                    <div title="Move Items" class="icons icon-move"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openMoveItemWindow()" tabindex="-1"> </div>
+                    <div title="Delete Items" class="icons icon-trash"  data-ng-hide="assessment.locked || tableform.$visible" data-ng-click="openDeleteItemWindow()" tabindex="-1"> </div>
                     
-                    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || itemErrors.length == 0" data-ng-click="toggleErrors()"> </div>
-                    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+                    <div title="Errors" class="icons icon-error" data-ng-hide="tableform.$visible || itemErrors.length == 0" data-ng-click="toggleErrors()" tabindex="-1"> </div>
+                    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()" tabindex="-1"> </div>
                
                 </div>
                 <div class="left_menu_errors" data-ng-show="showErrors">
@@ -71,7 +71,7 @@
 	                            <div class="moverSection" data-ng-show="isMoveAllowed()">
 	                                        <div>
 	                                             <label for="moveSegment" title="Target Form Partition">Target Form Partition:</label>
-	                                             <select data-ng-model="moveTargetPartitionId" data-ng-change="refreshMoveGroups(moveTargetPartitionId)" data-ng-options="value.id as value.form.name + ' - ' + value.name for (key,value) in formPartitionMap" tabindex="0" title="Target Form Parition"></select>
+	                                             <select data-ng-model="moveTargetPartitionId" data-ng-change="refreshMoveGroups(moveTargetPartitionId)" data-ng-options="value.id as value.form.name + ' - ' + value.name for (key,value) in formPartitionMap" tabindex="0" title="Target Form Parition" data-focus-watch="showEditWidget"></select>
 	                                        </div>
 	                                        <div>
 	                                            <label for="moveGroup" title="Target Item Group">Target Item Group:</label>
@@ -87,7 +87,7 @@
 	                                        </button>
 	                            </div>
 	                            <div class="moverSection" data-ng-show="isDeleteAllowed()">
-	                                       <button type="button" class="boxBtn" data-ng-click="deleteItems()">
+	                                       <button type="button" class="boxBtn" data-ng-click="deleteItems()" data-focus-watch="showEditWidget">
 	                                           <span class="btnIcon icon_sprite icon_delete3" aria-hidden="true"></span>
 	                                           <span class="btnText">Delete Selected</span>
 	                                       </button>
@@ -152,7 +152,7 @@
                         <li>
                             <span>
                                 <label for="grade">Grade:</label>
-                                <input data-ng-disabled="disabledSearch" name="grade" data-ng-model="searchParams.grade" tabindex="0" alt="Grade"/>
+                                <input data-ng-disabled="disabledSearch" name="grade" data-ng-model="searchParams.intendedGrade" tabindex="0" alt="Grade"/>
                             </span>
                         </li>
                     </ul>

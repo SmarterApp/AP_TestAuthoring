@@ -19,11 +19,11 @@
         <input type="hidden" id="testauthComponentName" value="${testauthComponentName}" />
         <div id="topOfPage"></div>
         <div id="top" class="container" data-ng-controller="UserController">
-            <a id="skipNavigation" class="skipToContent" data-ng-click="mainContent" href="#mainContent">Skip to Main Content</a>
+            <a id="skipNavigation" class="skipToContent" data-ng-click="#mainContent" href="#mainContent" target="_self">Skip to Main Content</a>
             <div class="header" >
                 <div class="info">            
                     <ul>
-                    <li id="systemsDropdown" data-ng-show="showSettings"><span class="icon_sprite icon_setup2" ></span>Settings
+                    <li id="systemsDropdown" data-ng-show="showSettings" tabindex="0" data-ng-focus="expandSystemsDropdown()"><span class="icon_sprite icon_setup2" ></span>Settings
                         <ul data-ng-controller="HomeController">
                             <li><a href="" data-ng-click="go('subjectsearch');" tabindex="0" title="Subjects">Subjects</a></li>
                             <li><a href="" data-ng-click="go('publicationsearch')" tabindex="0" title="Standards Publications">Standards Publications</a></li>
@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 <div class="banner" data-ng-controller="HomeController">                           
-	                <span class="logo"><a data-ng-click="go('/home')"><img data-ng-src="{{logoImage}}" class="thumbnail" alt="Logo" name="SBAC_logo" tabindex="1"></a></span>
+	                <span class="logo"><a data-ng-click="go('/home')" data-enter="go('/home')" tabindex="1"><img data-ng-src="{{logoImage}}" class="thumbnail" alt="Logo" name="SBAC_logo"></a></span>
 	                <div class="title"><h1>Test Authoring</h1></div>
 	                <div class="clear"></div>
                 </div>

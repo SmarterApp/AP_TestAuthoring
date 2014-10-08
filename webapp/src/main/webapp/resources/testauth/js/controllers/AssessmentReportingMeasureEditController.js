@@ -42,6 +42,7 @@ testauth.controller('AssessmentReportingMeasureEditController',['$scope','$state
 		};
 
         $scope.loadReferenceNames = function(clearSelection, data, deno) {
+    		$scope.configuredBlueprintReferenceNames = [];
         	$scope.reportingMeasure.blueprintReferenceType = data;
         	if (deno) {
             	$scope.reportingMeasure.blueprintDenotationType = deno;
@@ -51,7 +52,6 @@ testauth.controller('AssessmentReportingMeasureEditController',['$scope','$state
         		$scope.reportingMeasure.blueprintReferenceName = null;
         		$scope.reportingMeasure.blueprintDenotationType = null;
         		$scope.reportingMeasure.blueprintReferenceId = null;
-        		$scope.configuredBlueprintReferenceNames = [];
         		$scope.requestedScoringRules = [];
     		}
             $scope.showReferenceName = $scope.reportingMeasure.blueprintReferenceType != null;

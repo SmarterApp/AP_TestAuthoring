@@ -4,7 +4,7 @@
     <div class="leftAligned" data-ng-class="{pageWidth:!isRelativeWidth()}">
         <div data-ng-if="!isAlwaysExpanded()">
             {{errorHeader ? errorHeader : 'Please fix errors in order to save information:'}}
-            <i data-ng-click="toggleErrors()" class="treeExpander {{showErrors ? 'expanded' : 'collapsed'}}"></i>
+            <i data-ng-click="toggleErrors()" data-enter="toggleErrors()" class="treeExpander {{showErrors ? 'expanded' : 'collapsed'}}" tabindex="0"></i>
         </div>
 
         <div data-ng-class="{offset:!isAlwaysExpanded(), leftAlign:!isAlwaysExpanded() || isRelativeWidth()}">

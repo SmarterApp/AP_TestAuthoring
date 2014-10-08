@@ -126,6 +126,8 @@ describe('AssessmentScoringRuleController ', function() {
             $scope : scope,
             $window : windowMock,
             loadedData : { errors: [], data: {id : "assessment_id"} },
+            loadedBlueprintReferenceTypes: {data:{"searchResults" : []}, errors:[]},
+            loadedBlueprintReferences: {data: []},
             scoringRuleService: ScoringRuleService
       });
         

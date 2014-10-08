@@ -15,7 +15,7 @@
 		               </select>
 		</th>
 		<th>
-			<ul class="tablePage" data-ng-hide="disabledSearch">
+			<ul class="tablePage" data-ng-hide="disabledSearch || (totalPages(pagingInfo.totalCount, searchParams.pageSize) <= 0)">
                 <li data-ng-show="pagingInfo.prevPageUrl" data-ng-click="firstPage()"><span class="tbNav tbfirst"></span> First</li>
                 <li data-ng-show="pagingInfo.prevPageUrl" data-ng-click="prevPage()"><span class="tbNav tbprev"></span> Previous</li>
                 <li>Page: <input type="text" data-ng-change="changePage()" data-ng-model="searchParams.currentPage"/> of {{totalPages(pagingInfo.totalCount, searchParams.pageSize)}}</li>
@@ -23,7 +23,7 @@
                 <li data-ng-show="pagingInfo.nextPageUrl" data-ng-click="lastPage()">Last <span class="tbNav tblast"></span></li>
              </ul>
              
-             <ul class="tablePage" data-ng-show="disabledSearch">
+             <ul class="tablePage" data-ng-show="disabledSearch && (totalPages(pagingInfo.totalCount, searchParams.pageSize) > 0)">
                 <li>Page: {{searchParams.currentPage}} of {{totalPages(pagingInfo.totalCount, searchParams.pageSize)}}</li>
              </ul>
 		</th>

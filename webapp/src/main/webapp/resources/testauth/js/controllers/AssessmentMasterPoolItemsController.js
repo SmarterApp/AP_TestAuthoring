@@ -1,8 +1,9 @@
-testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$filter','loadedData', 'segmentListData', 'formPartitionListData', 'itemGroupListData', 'itemMetadataKeyData', 'affinityGroupListData', 'ItemService', 'AffinityGroupService',
-      function($scope, $state, $filter, loadedData, segmentListData, formPartitionListData, itemGroupListData, itemMetadataKeyData, affinityGroupListData, ItemService, AffinityGroupService) {
+testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$filter','loadedData', 'segmentListData', 'formPartitionListData', 'itemGroupListData', 'itemMetadataKeyData', 'affinityGroupListData', 'ItemService', 'AffinityGroupService', '$location', '$anchorScroll', 
+      function($scope, $state, $filter, loadedData, segmentListData, formPartitionListData, itemGroupListData, itemMetadataKeyData, affinityGroupListData, ItemService, AffinityGroupService, $location, $anchorScroll) {
 		$scope.assessment = loadedData.data;
 		$scope.searchParams = {};
 		$scope.searchResponse = {};
+		$scope.showToolsFocus = false;
 
 		$scope.segmentMap = {};
 		angular.forEach(segmentListData.data.searchResults, function(segment) {
@@ -34,6 +35,27 @@ testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$
             $scope.metadataParams.splice(index, 1);
 		};
 		
+		$scope.checkFilterErrors = function(params){
+			$scope.paramErrors = null;
+			var prettyString = "";
+			var paramsArrayMap = {};
+			angular.forEach(params, function(param,index){
+				if(param.filterValue && param.filterValue.trim().length > 0) {
+					if(paramsArrayMap[param.filterName]  == null){
+						paramsArrayMap[param.filterName] = [];
+					}
+					if(paramsArrayMap[param.filterName].indexOf(param.filterValue) != -1) {
+						//duplicate parameter found
+						$scope.paramErrors = "Please remove duplicate search params before searching.";
+						prettyString = "Please remove duplicate search params before searching.";
+					} else {
+						paramsArrayMap[param.filterName].push(param.filterValue);
+					}
+				}
+			});
+			return prettyString;
+		};
+		
         $scope.searchAssessmentItems = function(params) {
             angular.forEach($scope.metadataParams, function(metaFilter) {
                 params[metaFilter.filterName] = metaFilter.filterValue;
@@ -52,9 +74,14 @@ testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$
         
         $scope.validateAffinityGroups = function () {
             $scope.errors = [];
+            $scope.warnings = [];
             AffinityGroupService.getValidationResults($scope.assessment.id).then(function(response){                
                 angular.forEach(response.data, function(validationResult){
-                    $scope.errors.push(validationResult.message);
+                    if (validationResult.validationLevel == 'warning') {
+                        $scope.warnings.push(validationResult.message);
+                    } else {
+                        $scope.errors.push(validationResult.message);
+                    }
                 });
             });
         };
@@ -99,11 +126,13 @@ testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$
       //~ assign to affinity group code----------------------------
         $scope.closeEditWidget = function(){
             $scope.showEditWidget = false;
+            $scope.showToolsFocus = true;
             $scope.showItemSelectors = false;
         };
         
         $scope.openEditWidget = function(){
             $scope.showEditWidget = true;
+            $scope.showToolsFocus = false;
             $scope.showItemSelectors = true;
             $scope.operationComplete = false;
             $scope.itemCheckboxMap = {};
@@ -112,7 +141,17 @@ testauth.controller('AssessmentMasterPoolItemsController', ['$scope','$state','$
             $scope.selectedAction = 'attach';
             $scope.bulkEditMessage = "";
         };
-        
+
+        $scope.moveToTop = function() {
+        	$location.hash('topOfPage');
+	       	$anchorScroll();
+        };
+
+        $scope.moveToBottom = function() {
+	       	$location.hash('bottomOfTable');
+	       	$anchorScroll();
+        };
+
         $scope.getSelectedItems = function() {
             var selectedItemString = "";
             angular.forEach($scope.itemCheckboxMap, function(value, key){

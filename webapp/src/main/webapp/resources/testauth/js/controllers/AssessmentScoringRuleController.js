@@ -1,19 +1,41 @@
 
-testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loadedData', 'ScoringRuleService',
-	function ($scope, $state, loadedData, ScoringRuleService) {
+testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loadedData', 'loadedBlueprintReferenceTypes', 'loadedBlueprintReferences', 'ScoringRuleService',
+	function ($scope, $state, loadedData, loadedBlueprintReferenceTypes, loadedBlueprintReferences, ScoringRuleService) {
 		$scope.errors = loadedData.errors;
 		$scope.messages = loadedData.messages;
 		$scope.assessment = loadedData.data;
+		$scope.blueprintReferenceTypes = loadedBlueprintReferenceTypes.data;
+		$scope.blueprintReferences = loadedBlueprintReferences.data;
   		$scope.showTools = true;
+  		$scope.showToolsFocus = false;
+  		$scope.showFullList = true;
 	
 		if (!$state.current.searchParams) {
-			$scope.searchParams = {"assessmentId": $scope.assessment.id != null ? $scope.assessment.id : "INVALID_ID", "sortKey":"order", "sortDir":"asc", "pageSize" : 50, "currentPage": 1};
+			$scope.searchParams = {"assessmentId": $scope.assessment.id != null ? $scope.assessment.id : "INVALID_ID", "sortKey":"order", "sortDir":"asc", "pageSize" : 200, "currentPage": 1};
 		} else {
 			$scope.searchParams = $state.current.searchParams;
 		}
   		$scope.searchResponse = {};
 	
   		$scope.searchScoringRules = function(params) {
+        	if ($("#blueprintReferenceId").val() && !params.blueprintReferenceId) {
+        		var ids = [];
+        		for (var i = 0; i < $scope.blueprintReferences.length; i++) {
+        			if (!params.blueprintReferenceType || params.blueprintReferenceType == $scope.blueprintReferences[i].blueprintReferenceType) {
+	        			if ($scope.blueprintReferences[i].name.toLowerCase().indexOf($("#blueprintReferenceId").val().toLowerCase()) > -1) {
+	        				ids.push($scope.blueprintReferences[i].id);
+	        			}
+        			}
+        		}
+        		params.blueprintReferenceId = ids;
+        	} else if (params.blueprintReferenceId) {
+        		params.blueprintReferenceId = params.blueprintReferenceId.id;
+        	}
+        	if (params.blueprintReferenceId || params.blueprintReferenceType || params.label || $scope.searchParams.pageSize < $scope.searchResponse.totalCount) {
+        		$scope.showFullList = false;
+        	} else {
+        		$scope.showFullList = true;
+        	}
   			return ScoringRuleService.search(params);
   		};
 
@@ -23,10 +45,17 @@ testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loa
         $scope.isSortHidden = function() {
             return $scope.sortableScoringRuleOptions.length == 1;
         };
+
+        $scope.setUpdated = function(event) {
+        	// if space bar pressed
+        	if(event.keyCode == 32) {
+        		$scope.orderChanged = true;
+        	}
+        };
 		
 		$scope.sortableScoringRuleOptions = {
 			cursor: $scope.assessment.locked ? "default" : "move",
-			disabled: $scope.assessment.locked,
+			disabled: $scope.assessment.locked || $scope.fullListNotShown,
 			update: function(e, ui) {
 				$scope.orderChanged = true;
 			}
@@ -111,11 +140,13 @@ testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loa
         
         $scope.toggleTools = function(option) {
 			$scope.showTools = false;
+			$scope.showToolsFocus = true;
 			$scope.showStats = false;
 			
 			switch(option) {
 			case "tools":
 				$scope.showTools = true;
+				$scope.showToolsFocus = true;
 				break;
 			case "stats":
 				$scope.showStats = true;

@@ -28,6 +28,7 @@ testauth.controller('ComputationRuleSearchController', ['$scope', '$state', 'Com
                     $scope.errors = response.errors;
                     var index = $scope.searchResponse.searchResults.indexOf(computationRule);
                     $scope.searchResponse.searchResults.splice(index, 1);
+                    $scope.$broadcast('initiate-computationrule-search');
                 });
             };
         };

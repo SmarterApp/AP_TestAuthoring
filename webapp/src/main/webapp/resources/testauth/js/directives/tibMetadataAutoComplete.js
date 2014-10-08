@@ -14,12 +14,14 @@ testauth.directive("tibMetadataAutoComplete", function(TibItemService,$timeout) 
         controller : function($scope, $attrs) {
             $scope.searchParams = {"page":"1", "pageSize":"10", "pageSort":"metadataValue", "pageSortDir":"asc"};
             $scope.filterMetadataValues = function(searchVal) {
-                $scope.searchParams.tenantId = $scope.tenantId;
-                $scope.searchParams.metadataKey = $scope.metadataKey;
-                $scope.searchParams.metadataValue = searchVal;
-                return TibItemService.getItemMetadataValues($scope.searchParams).then( function(loadedData) {
-                    return loadedData.data.searchResults;
-                });
+            	if($scope.metadataKey) {
+	                $scope.searchParams.tenantId = $scope.tenantId;
+	                $scope.searchParams.metadataKey = $scope.metadataKey;
+	                $scope.searchParams.metadataValue = searchVal ? searchVal.trim() : "";
+	                return TibItemService.getItemMetadataValues($scope.searchParams).then( function(loadedData) {
+	                    return loadedData.data.searchResults;
+	                });
+            	}
             };
         },
         link : function(scope, element, attrs, ctrls) {        

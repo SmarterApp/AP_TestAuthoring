@@ -94,6 +94,7 @@ describe('AssessmentPublishingController ', function() {
       httpMock.expectGET(/approval\/current/).respond(savedApproval);
       httpMock.expectPUT(/publishingRecord/).respond(savedPublishingRecord);
       httpMock.expectGET(/approval\/isAdminUser/).respond(true);
+      httpMock.expectGET(/assessment/).respond(savedAssessment);
       httpMock.expectGET(/approval\/current/).respond(savedApproval);
       
       scope.save("Approve");
@@ -116,6 +117,7 @@ describe('AssessmentPublishingController ', function() {
       httpMock.expectGET(/approval\/current/).respond(savedApproval);
       httpMock.expectPUT(/publishingRecord/).respond(400, {"messages" : {"formId" : [ "Publishing Status submitted Awaiting_Approval does not match current saved Publishing Status " + savedPublishingRecord.status + "." ] } });
       httpMock.expectGET(/approval\/isAdminUser/).respond(true);
+      httpMock.expectGET(/assessment/).respond(savedAssessment);
       httpMock.expectGET(/approval\/current/).respond(savedApproval);
       
       scope.save();

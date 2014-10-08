@@ -1,10 +1,13 @@
-<div data-error-panel data-error-list="errors" data-error-header="Invalid affinity group data detected:" data-relative-width="true"></div>
-
-<div class="left_menu_hidden" data-ng-show="!assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}">
+<div data-error-panel data-relative-width="true"
+        data-error-list="errors" data-error-header="Invalid affinity group data detected:" 
+        data-warning-list="warnings" data-warning-header="WARNING - Please ensure following affinity group data is correct:">
+</div>
+    
+<div class="left_menu_hidden" data-ng-show="!assessment.locked" data-ng-style="menuHidden && {'margin-left': '-221px'}" data-widget-navigation>
     <h6 tabindex="-1">Tools</h6>
-    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()"> </div>
-    <div title="Attach Items to Affinity Group" class="icons icon-gear"  data-ng-hide="assessment.locked" data-ng-click="openEditWidget()"> </div>      
-    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()"> </div>
+    <div title="Top of Page" class="icons icon-arrow-up" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToTop()" tabindex="-1"> </div>
+    <div title="Attach Items to Affinity Group" class="icons icon-gear"  data-ng-hide="assessment.locked" data-ng-click="openEditWidget()" tabindex="0" data-focus-watch="showToolsFocus"> </div>      
+    <div title="Bottom of Page" class="icons icon-arrow-down" data-ng-show="searchResponse.returnCount > 20" data-ng-click="moveToBottom()" tabindex="-1"> </div>
 </div>
                 
 <div class="left_menu_visible_item_mover" data-ng-show="showEditWidget">
@@ -19,7 +22,7 @@
                       <label for="assignItems" title="Selected Items">Selected Items:</label> 
                       <span class="selectedItemsList">{{getSelectedItems()}}</span>
                  </div>
-                 <div><a data-ng-click="checkAll()">Check All</a> - <a data-ng-click="uncheckAll()">Uncheck All</a></div>
+                 <div><a data-ng-click="checkAll()" data-enter="checkAll()" tabindex="0" data-focus-watch="showEditWidget">Check All</a> - <a data-ng-click="uncheckAll()" data-enter="uncheckAll()" tabindex="0">Uncheck All</a></div>
             </div>
             <div class="moverSection" data-ng-show="!operationComplete">
                  <div>
@@ -74,6 +77,15 @@
                 </span>
             </li>
             <li></li>
+        </ul>
+        <ul data-ng-show="paramErrors.length > 0" class="masterpool-filters">
+             <li data-ng-show="paramErrors" class="masterpool-filters">
+                <span> 
+                   <label title="Errors">Errors: </label>
+                   <span class="masterpoolErrors">{{checkFilterErrors(metadataParams)}}</span>
+                 </span>
+             </li>
+             <li></li>
         </ul>
         <ul class="wide-filters">
             <span data-ng-repeat="filter in metadataParams">
@@ -130,7 +142,7 @@
                <td scope="col" role="gridcell" aria-labelledby="standardHeader">{{ item.primaryStandard }}</td>
                <td scope="col" role="gridcell" aria-labelledby="idHeader">{{ item.tibIdentifier }}</td>
                <td scope="col" role="gridcell" aria-labelledby="versionHeader">{{ item.version }}</td>
-               <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{ item.grade }}</td>
+               <td scope="col" role="gridcell" aria-labelledby="gradeHeader">{{ item.intendedGrade }}</td>
                <td scope="col" role="gridcell" aria-labelledby="subjectHeader">{{ item.subject }}</td>
                <td scope="col" role="gridcell" aria-labelledby="statusHeader">{{ item.status }}</td>
                <td scope="col" role="gridcell" aria-labelledby="keywordsHeader">{{ item.allIncludedMetadata.Keyword }}</td>
@@ -144,5 +156,5 @@
            </tr>
 	   </table>
 	</div>
-
 </div>
+<div id="bottomOfTable"></div>  
