@@ -19,9 +19,9 @@ We would be happy to receive feedback on its capabilities, problems, or future e
 ### REST Module
 The REST module is a deployable WAR file (`test-auth.rest-VERSION.war`) that provides REST endpoints that can be used to access and modify Test Authoring data.
 
-In order to run and use the REST WAR application, several supporting applications must be running and accessible: Program Management (PM), Monitoring and Alerting (MNA), Test Item Bank (TIB), and Test Spec Bank (TSB). In addition, the following Shared Services applications are also required at run time: Permissions, Single Sign On (SSO - OpenAM) Core Standards (CS).
+In order to run and use the REST WAR application, several supporting applications must be running and accessible: Program Management (PM), Monitoring and Alerting (MNA), Test Item Bank (TIB), and Test Spec Bank (TSB). In addition, the following Shared Services applications are also required at run time: Permissions, Single Sign On (SSO - OpenAM), and Core Standards (CS).
 
-The REST layer setup must be performed before deploying the WAR to a Tomcat-compatible application server. Specifically, virtually all of the start up and run time parameters that the REST module needs are stored in sb11-program-management using its profile property configuration feature.
+The REST layer setup must be performed before deploying the WAR to a Tomcat-compatible application server. Specifically, virtually all of the start up and run time parameters that the REST module needs are stored in Program Management using its profile property configuration feature.
 
 To execute the REST module and connect to sb11-program-management, run time parameters are passed to the Tomcat server running the Test Authoring REST module:
 
@@ -37,7 +37,34 @@ This run time parameter specifies the property configuration set stored in the r
 '`dev_testauth_overrides`'
 is a useful feature that allows for overrides: in this case, all properties contained in the property group '`testauth`' for level '`dev`' are used by default, except where property group '`dev_testauth_overrides`' has an overriding property value.
 
-**Note:** the Program Management config variables required for this component are found [here:](external_release_docs/installation/testauth-progman-config.txt)
+**Note:** the Program Management config variables required for this component are found at external_release_docs/installation/testauth-progman-config.txt
+
+* `testauth.item.count.max.limit=40000` - Maximum items per assessment
+* `component.name=TestAuthoring` - Component name must match name in Permissions and Program Management
+* `permission.uri=http://name.of.permissions.server/rest` - URI of the Permissions application's REST endpoint
+* `testauth.security.idp=http://name.of.identity.provider/auth/saml2/jsp/exportmetadata.jsp?metalias=idp&realm=sbac` - SSO Identity Provider metadata URL
+* `testauth.mna.description=The Test Authoring Component` - Name of this component, as shown within Monitoring and Alerting
+* `testauth.mna.healthMetricIntervalInSeconds=120` - Periodic health metrics for MNA
+* `mna.mnaUrl=http://name.of.mna.server/rest/` - URL of MNA REST endpoint
+* `mna.logger.level=[OFF | ERROR | WARN | INFO | DEBUG | TRACE | ALL](default:ERROR)` - MNA logging level
+* `mna.clean.days=30 (default)` - How long to keep logs before cleanup
+* `mna.clean.cron=0 0 0 * * ? (default)` - MNA cron job for cleanup
+* `testauth.mna.availability.metric.email=abc@example.org` - email to send availability metrics
+* `testauth.mongo.hostname=` - Mongo DB Host name
+* `testauth.mongo.port=27017` - Mongo DB port
+* `testauth.mongo.username=` - Mongo DB usename 
+* `testauth.mongo.password=` - Mongo DB password
+* `testauth.mongo.dbname=testauth-dev` - Mongo DB database name
+* `testauth.minJs=true` - Use minJs?
+* `testauth.rest.context.root=/rest/` - REST endpoint of Test Authoring
+* `testauth.dtd.url=http://xxxxx/rest/resources/dtd/testpackage_v_9_19_2013.dtd` - Test Package DTD path
+* `tsb.tsbUrl=http://name.of.test.spec.bank.server/rest/` - Test Spec Bank REST endpoint URL
+* `testauth.core.standards.url=http://name.of.corestandards.server/api/` - CoreStandards API endpoint URL
+* `tib.baseUri=http://name.of.test.item.bank.server/rest/` - Test Item Bank REST endpoint URL
+* `testauth.security.profile=dev` - 
+* `testauth.languages=Afar|aar|Abkhazian|abk|Achinese|ace...` - Pipe-delimited list of supported languages in Test Authoring, e.g. Name|three-letter-official-abbreviation.
+
+Notes:
 
 * The REST module contains all of the domain beans used to model the Test Authoring data as well as code used as search beans to create Mongo queries
 * The REST module is also responsible for persistence of application data. This includes all business rules, validation, XML configuration, and publishing
