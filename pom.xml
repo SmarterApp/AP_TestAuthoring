@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opentestsystem.authoring</groupId>
     <artifactId>test-auth-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>R01.00.03</version>
     <name>Smarter Balanced #11 Test Auth - Parent Project</name>
     <packaging>pom</packaging>
 
     <parent>
         <groupId>org.opentestsystem.shared</groupId>
         <artifactId>shared-build-parent</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
+        <version>0.0.7</version>
     </parent>
 
     <modules>
@@ -21,7 +21,7 @@
 
     <properties>
         <mockito.version>1.9.5</mockito.version>
-        <sb11-shared-security.version>0.0.1-SNAPSHOT</sb11-shared-security.version>
+        <sb11-shared-security.version>0.0.1</sb11-shared-security.version>
     </properties>
 
     <scm>
@@ -29,17 +29,6 @@
         <developerConnection>scm:hg:https://bitbucket.org/sbacoss/testauthoring_release</developerConnection>
         <url>https://bitbucket.org/sbacoss/testauthoring_release</url>
     </scm>
-
-    <!-- needed to bootstrap the parent -->
-    <pluginRepositories>
-        <!-- Project Artifactory Proxy of Remote Repositories, which also 
-            exposes SB11 artifacts when they are deployed -->
-        <pluginRepository>
-            <id>SB11-Remote-Mirror-Repo</id>
-            <name>SB11 Remote Mirror Repo</name>
-            <url>http://datarecognitioncorp.artifactoryonline.com/datarecognitioncorp/remote-repos</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <dependencies>
         <dependency>
