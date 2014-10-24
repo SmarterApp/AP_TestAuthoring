@@ -55,14 +55,12 @@
 
     <script src="resources/testauth/js/testauth.js"></script>
 
-    <script src="resources/testauth/js/redirect.js"></script>
-
     <script src="resources/testauth/js/controllers/AssessmentAffinityGroupFormController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentAffinityGroupItemController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentAffinityGroupsController.js"></script>
-    
+
     <script src="resources/testauth/js/controllers/AssessmentApprovalHistoryController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentBlueprintController.js"></script>
@@ -91,19 +89,19 @@
 
     <script src="resources/testauth/js/controllers/AssessmentHomeController.js"></script>
 
+    <script src="resources/testauth/js/controllers/AssessmentItemMetadataConfigController.js"></script>
+
     <script src="resources/testauth/js/controllers/AssessmentItemPoolController.js"></script>
+
+    <script src="resources/testauth/js/controllers/AssessmentItemSummaryController.js"></script>
+
+    <script src="resources/testauth/js/controllers/AssessmentItemsController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentMasterPoolController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentMasterPoolItemsController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentMasterPoolSummaryController.js"></script>
-        
-    <script src="resources/testauth/js/controllers/AssessmentItemSummaryController.js"></script>
-
-    <script src="resources/testauth/js/controllers/AssessmentItemMetadataConfigController.js"></script>
-
-    <script src="resources/testauth/js/controllers/AssessmentItemsController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentPerformanceLevelController.js"></script>
 
@@ -131,11 +129,17 @@
 
     <script src="resources/testauth/js/controllers/AssessmentSegmentEditController.js"></script>
 
+    <script src="resources/testauth/js/controllers/AssessmentSegmentItemSortController.js"></script>
+
     <script src="resources/testauth/js/controllers/AssessmentSimulationRecordController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentSimulationRecordEditController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentSummaryController.js"></script>
+
+    <script src="resources/testauth/js/controllers/ComputationRuleFormController.js"></script>
+
+    <script src="resources/testauth/js/controllers/ComputationRuleSearchController.js"></script>
 
     <script src="resources/testauth/js/controllers/HomeController.js"></script>
 
@@ -153,10 +157,6 @@
 
     <script src="resources/testauth/js/controllers/PublicationSearchController.js"></script>
 
-    <script src="resources/testauth/js/controllers/ComputationRuleFormController.js"></script>
-
-    <script src="resources/testauth/js/controllers/ComputationRuleSearchController.js"></script>
-
     <script src="resources/testauth/js/controllers/SubjectFormController.js"></script>
 
     <script src="resources/testauth/js/controllers/SubjectSearchController.js"></script>
@@ -167,9 +167,9 @@
 
     <script src="resources/testauth/js/directives/accessibleTable.js"></script>
 
-    <script src="resources/testauth/js/directives/enter.js"></script>
-
     <script src="resources/testauth/js/directives/dragDrop.js"></script>
+
+    <script src="resources/testauth/js/directives/enter.js"></script>
 
     <script src="resources/testauth/js/directives/errorPanel.js"></script>
 
@@ -202,7 +202,7 @@
     <script src="resources/testauth/js/directives/widgetNavigation.js"></script>
 
     <script src="resources/testauth/js/services/AffinityGroupService.js"></script>
-    
+
     <script src="resources/testauth/js/services/ApprovalService.js"></script>
 
     <script src="resources/testauth/js/services/AssessmentService.js"></script>
@@ -210,6 +210,8 @@
     <script src="resources/testauth/js/services/BaseService.js"></script>
 
     <script src="resources/testauth/js/services/BlueprintElementService.js"></script>
+
+    <script src="resources/testauth/js/services/ComputationRuleService.js"></script>
 
     <script src="resources/testauth/js/services/CoreStandardsService.js"></script>
 
@@ -225,13 +227,13 @@
 
     <script src="resources/testauth/js/services/ItemGroupService.js"></script>
 
-    <script src="resources/testauth/js/services/ItemSelectionAlgorithmService.js"></script>
-
-    <script src="resources/testauth/js/services/ItemService.js"></script>
-
     <script src="resources/testauth/js/services/ItemMetadataConfigService.js"></script>
 
     <script src="resources/testauth/js/services/ItemMetadataKeysService.js"></script>
+
+    <script src="resources/testauth/js/services/ItemSelectionAlgorithmService.js"></script>
+
+    <script src="resources/testauth/js/services/ItemService.js"></script>
 
     <script src="resources/testauth/js/services/NavigationService.js"></script>
 
@@ -246,8 +248,6 @@
     <script src="resources/testauth/js/services/PublishingRecordService.js"></script>
 
     <script src="resources/testauth/js/services/ReportingMeasureService.js"></script>
-
-    <script src="resources/testauth/js/services/ComputationRuleService.js"></script>
 
     <script src="resources/testauth/js/services/ScoringRuleService.js"></script>
 

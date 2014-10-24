@@ -197,7 +197,8 @@ $stateProvider
                 controller: 'AssessmentSegmentController'
             }
         }
-    }).state('assessmenthome.segmentedit', {
+    })
+    .state('assessmenthome.segmentedit', {
         url: "/segment/edit/{segmentId}", 
         resolve: {
             loadedSegment:segmentResolver,
@@ -253,7 +254,20 @@ $stateProvider
                 controller: 'ItemGroupSearchController'
             }
         }
-    }).state('assessmenthome.itempool.groupsForm', {
+    })
+    .state('assessmenthome.itempool.sort', {
+        url: "/segmentSort",
+        resolve: {
+        	segmentListData:segmentListResolver
+        },
+        views: {
+            "item-pool-view": {
+                templateUrl: 'resources/testauth/partials/assessment-segment-items-sort.html',
+                controller: 'AssessmentSegmentItemSortController'
+            }
+        }
+    })
+    .state('assessmenthome.itempool.groupsForm', {
         url: "/itemGroupForm/{itemGroupId}", 
         resolve: {
         	navLinks :homeSearchNavResolver,
@@ -402,7 +416,8 @@ $stateProvider
                 controller: 'AssessmentFormItemController'
             }
         }
-    }).state('assessmenthome.formhome.sorting', {
+    })
+    .state('assessmenthome.formhome.sorting', {
         url: "/partition/sort",
         resolve: {
             formPartitionListData : formPartitionListResolver

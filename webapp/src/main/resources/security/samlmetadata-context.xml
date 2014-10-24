@@ -10,31 +10,44 @@
               http://www.springframework.org/schema/context
               http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-    <!-- Provider of default SAML Context -->
-    <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl">
-    </bean>
-    <bean id="metadataDelegate" class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
-        <constructor-arg>
-            <bean class="org.opensaml.saml2.metadata.provider.FilesystemMetadataProvider">
-                <constructor-arg>
-                    <value type="java.io.File">${testauth.security.dir}/${testauth.webapp.saml.metadata.filename}</value>
-                </constructor-arg>
-                <property name="parserPool" ref="parserPool"/>
-            </bean>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
-                   <property name="local" value="true"/>
-                   <property name="alias" value="testauth_webapp"/>
-                   <property name="securityProfile" value="metaiop"/>
-                   <property name="sslSecurityProfile" value="pkix"/>
-                   <property name="signingKey" value="apollo"/>
-                   <property name="encryptionKey" value="apollo"/>
-                   <property name="requireArtifactResolveSigned" value="false"/>
-                   <property name="requireLogoutRequestSigned" value="false"/>
-                   <property name="requireLogoutResponseSigned" value="false"/>
-                   <property name="idpDiscoveryEnabled" value="false"/>
-            </bean>
-        </constructor-arg>
-    </bean>
+    <beans profile="server.loadbalanced" > 
+       <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderLB">
+            <property name="scheme" value="${testauth.loadbalanced.url.scheme}"/>
+            <property name="serverName" value="${testauth.loadbalanced.server.name}"/>
+            <property name="serverPort" value="${testauth.loadbalanced.server.port}"/>
+            <property name="includeServerPortInRequestURL" value="${testauth.loadbalanced.includeServerPortInRequestURL}"/>
+            <property name="contextPath" value="${testauth.loadbalanced.server.rest.contextpath}"/>
+        </bean>
+    </beans>
+    
+    <beans profile="server.singleinstance"> 
+        <bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl"></bean>
+    </beans>
+    
+    <beans>
+        <bean id="metadataDelegate" class="org.springframework.security.saml.metadata.ExtendedMetadataDelegate">
+            <constructor-arg>
+                <bean class="org.opensaml.saml2.metadata.provider.FilesystemMetadataProvider">
+                    <constructor-arg>
+                        <value type="java.io.File">${testauth.security.dir}/${testauth.webapp.saml.metadata.filename}</value>
+                    </constructor-arg>
+                    <property name="parserPool" ref="parserPool"/>
+                </bean>
+            </constructor-arg>
+            <constructor-arg>
+                <bean class="org.springframework.security.saml.metadata.ExtendedMetadata">
+                       <property name="local" value="true"/>
+                       <property name="alias" value="testauth_webapp"/>
+                       <property name="securityProfile" value="metaiop"/>
+                       <property name="sslSecurityProfile" value="pkix"/>
+                       <property name="signingKey" value="apollo"/>
+                       <property name="encryptionKey" value="apollo"/>
+                       <property name="requireArtifactResolveSigned" value="false"/>
+                       <property name="requireLogoutRequestSigned" value="false"/>
+                       <property name="requireLogoutResponseSigned" value="false"/>
+                       <property name="idpDiscoveryEnabled" value="false"/>
+                </bean>
+            </constructor-arg>
+        </bean>
+    </beans>
 </beans>

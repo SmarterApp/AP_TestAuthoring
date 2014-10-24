@@ -60,8 +60,16 @@ testauth.factory("ItemService", function($http, $q){
 	            url: url
 		    }).then(this.successHandler, this.errorHandler);
 		},
-		updateSortInfo : function(formPartitionId, itemLocations) {
+		updatePartitionSortInfo : function(formPartitionId, itemLocations) {
 			var url = this.getBaseUrl() + 'formPartition/' + formPartitionId + '/sortItems?_=' + Math.random();
+			return this.getHttp()({
+                method: "PUT",
+                url: url,
+                data:  itemLocations
+            }).then(this.successHandler, this.errorHandler);
+		},
+		updateSegmentSortInfo : function(segmentId, itemLocations) {
+			var url = this.getBaseUrl() + 'segment/' + segmentId + '/sortItems?_=' + Math.random();
 			return this.getHttp()({
                 method: "PUT",
                 url: url,

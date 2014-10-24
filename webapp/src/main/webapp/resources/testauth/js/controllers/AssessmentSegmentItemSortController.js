@@ -1,22 +1,23 @@
-testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$filter', 'loadedData', 'formPartitionListData','ItemService', '$location', '$anchorScroll', 'ItemGroupService','FormPartitionService',
-      function($scope, $state, $filter, loadedData, formPartitionListData, ItemService, $location, $anchorScroll, ItemGroupService, FormPartitionService) {
+testauth.controller('AssessmentSegmentItemSortController',['$scope','$state', '$filter', 'loadedData','segmentListData','ItemService', '$location', '$anchorScroll', 'ItemGroupService','FormPartitionService',
+      function($scope, $state, $filter, loadedData, segmentListData, ItemService, $location, $anchorScroll, ItemGroupService, FormPartitionService) {
   		$scope.errors = loadedData.errors;
   		$scope.assessment = loadedData.data;
   		$scope.searchResponse = {};
   		
-		$scope.locationType = "FORM_PARTITION";
+		$scope.locationType = "SEGMENT";
 	
 		$scope.defaultTibParams = {p:{}};
 		
 		////// form filters
-		$scope.formPartitionList = [];
+		$scope.segmentList = [];
 		
-		if(formPartitionListData.data){
-			$scope.formPartitionList.push({"id":"", "title":"Select Form Partition"});
-        	angular.forEach(formPartitionListData.data.searchResults, function(formPartition){
-        		$scope.formPartitionList.push({"id": formPartition.id , "title":  formPartition.form.name + " - " + formPartition.name});
+		if(segmentListData.data){
+			var adaptiveSegments = $filter('adaptiveSegments')(segmentListData.data.searchResults);
+			$scope.segmentList.push({"id":"", "title":"Select Segment"});
+        	angular.forEach(adaptiveSegments, function(segment){
+        		$scope.segmentList.push({"id": segment.id , "title":  segment.label});
 			});
-        	$scope.formPartitionId = "";
+        	$scope.segmentId = "";
         }
 		//END FORM FILTERS
 		
@@ -25,7 +26,7 @@ testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$fil
 			var params = {
 					"assessmentId" : $scope.assessment.id,
 					"locationType" : $scope.locationType,
-					"locationId" : $scope.formPartitionId,
+					"locationId" : $scope.segmentId,
 					"currentPage":0,
 					"pageSize": 1000,
 					"sortKey":"groupName"
@@ -53,11 +54,10 @@ testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$fil
         	$scope.sortChanged = true;
         };
 		
-		$scope.formPartitionChanged = function() {
+		$scope.segmentChanged = function() {
 			$scope.refreshGroups();
 			$scope.refreshItems();
 			$scope.changed = true;
-			
 			if(document.getElementById($scope.selectedCellId) != null) {
   	   			document.getElementById($scope.selectedCellId).setAttribute("tabindex", "0");
 			}
@@ -82,7 +82,7 @@ testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$fil
   				});
 				level1Index++;
 			});
-			ItemService.updatePartitionSortInfo($scope.formPartitionId, locationItemsToSave).then(function(response) {
+			ItemService.updateSegmentSortInfo($scope.segmentId, locationItemsToSave).then(function(response) {
 				$scope.saving = false;
 				$scope.refreshItems();
 			});
@@ -105,26 +105,26 @@ testauth.controller('AssessmentFormItemSortController',['$scope','$state', '$fil
   		$scope.refreshItems = function() {
   			$scope.sortedGroupedItems = [];
   			$scope.sortChanged = false;
-  			if($scope.assessment.id != null && $scope.formPartitionId){
+  			if($scope.assessment.id != null && $scope.segmentId){
 	  			var params = {"assessmentId": $scope.assessment.id,
-						   "formPartitionId": $scope.formPartitionId,
+						   "segmentId": $scope.segmentId,
 		        		   "sortDir":"desc", "currentPage": 0, "pageSize":"100000"};
 	  					$scope.loading = true;
 			  			ItemService.search(params).then(function(response) {
 			  					if(response.data.searchResults){
-			  						$scope.loadSearchableItemList(response.data.searchResults, $scope.formPartitionId);
+			  						$scope.loadSearchableItemList(response.data.searchResults, $scope.segmentId);
 			  					};
 			    		});
 	  			}
   		};
   		
   		$scope.sortedGroupedItems = [];
-  		$scope.loadSearchableItemList = function(itemList, formPartitionId){
+  		$scope.loadSearchableItemList = function(itemList, segmentId){
   			var locationList = [];
   			angular.forEach(itemList, function(item){
   				angular.forEach(item.itemLocation, function(location){
-  					if(location.formPartitionId == formPartitionId){
-  						locationList.push({itemIdentifier:item.tibIdentifier, formPartitionId: location.formPartitionId, itemGroupId : location.itemGroupId, level1SortIndex : location.level1SortIndex, level2SortIndex: location.level2SortIndex, type:location.type});
+  					if(location.segmentId == segmentId){
+  						locationList.push({itemIdentifier:item.tibIdentifier, segmentId: location.segmentId, itemGroupId : location.itemGroupId, level1SortIndex : location.level1SortIndex, level2SortIndex: location.level2SortIndex, type:location.type});
   					}
   				});
 			});

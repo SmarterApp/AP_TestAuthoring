@@ -3,8 +3,8 @@
                     <ul>
                         <li>
                             <span>
-                                <label for="formPartition" title="Form Partition">Form Partition:</label>
-                                <select data-ng-model="formPartitionId" data-ng-change="formPartitionChanged()" data-ng-options="formPart.id as formPart.title for formPart in formPartitionList" tabindex="0" title="Form Partition">
+                                <label for="segmentSelector" title="Segment">Segment:</label>
+                                <select id="segmentSelector" data-ng-model="segmentId" data-ng-change="segmentChanged()" data-ng-options="seg.id as seg.title for seg in segmentList" tabindex="0" title="Segment">
                                 </select>
                             </span>
                         </li>
@@ -55,7 +55,7 @@
                     saving...
               </div>
               <div data-ng-show="sortedGroupedItems.length == 0 && !loading">
-                    No Items in selected partition
+                    No Items in selected segment
               </div>
               
 </div>  
