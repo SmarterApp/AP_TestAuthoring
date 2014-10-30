@@ -13,6 +13,16 @@ testauth.controller('AssessmentPerformanceLevelController',['$scope','$state', '
         }
         $scope.searchResponse = {};
 
+        
+        $scope.showReference = function(){
+        	var ret = true;
+        	if("Assessment" == $scope.searchParams.blueprintReferenceType){
+        		ret = false;
+        		$scope.searchParams.blueprintReferenceId = "";
+        	}
+        	return ret;
+        };
+        
         $scope.searchPerformanceLevels = function(params) {
         	if ($("#blueprintReferenceId").val() && !params.blueprintReferenceId) {
         		var ids = [];

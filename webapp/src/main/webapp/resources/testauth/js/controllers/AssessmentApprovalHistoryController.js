@@ -15,5 +15,12 @@ testauth.controller('AssessmentApprovalHistoryController', ['$scope', '$state', 
   		$scope.searchApprovals = function(params) {
   			return ApprovalService.search(params);
   		};
-  		
+		
+		$scope.availableApprovalStatuses = [];
+		ApprovalService.getApprovalStatuses().then(
+				function(response) {
+					$scope.availableApprovalStatuses.push('');
+					$scope.availableApprovalStatuses = $scope.availableApprovalStatuses.concat(response.data);
+					$scope.searchParams.status = '';
+		});
 }]);

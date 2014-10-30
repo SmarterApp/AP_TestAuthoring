@@ -9,6 +9,7 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
   		$scope.showToolsFocus = false;
 		$scope.showWidgets = false;
 		$scope.showTibSearch = false;
+		$scope.deletingAll = false;
         
     	$scope.searchParams =  {"assessmentId": $scope.assessment.id
     							, "formPartitionId" : null
@@ -267,6 +268,21 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
 				ItemService.removeFromForm($scope.assessment.id, deleteRequest).then($scope.doneWithBulkChange);
 			}else{
 				$scope.widgeterrors = ['Please select items to delete.'];
+			}
+		};
+		
+		$scope.deleteAllPartitionItems = function() {
+			var formPartition = $scope.formPartitionMap[$scope.searchParams.formPartitionId];
+			if (confirm("Are you sure you want to delete all items for the " + formPartition.form.name + " - " + formPartition.name  + " form partition?")) {
+				$scope.deletingAll = true;
+				ItemService.removeByFormPartitionId($scope.searchParams.formPartitionId).then(
+					function(response) {
+						$scope.errors = response.errors;
+						$scope.closeEditBar();
+						$scope.$broadcast('initiate-itempool-search');
+						$scope.validateItemPools();
+						$scope.deletingAll = false;
+					});
 			}
 		};
 		

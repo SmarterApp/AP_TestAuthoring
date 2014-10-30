@@ -8,6 +8,7 @@ testauth.controller('AssessmentAffinityGroupFormController', ['$scope', '$filter
         $scope.affinityGroup.assessmentId = $scope.assessment.id;
         $scope.socks = [];
         $scope.affinityGroupType = "adhoc";
+		$scope.actionButton = '';
         
         coreStandardsService.searchSocksByPublication({"publicationKey":$scope.assessment.publication.coreStandardsPublicationKey}).then(function(response) {
         	angular.forEach(response.data.payload, function(sock) {
@@ -26,6 +27,7 @@ testauth.controller('AssessmentAffinityGroupFormController', ['$scope', '$filter
 		}
         
         $scope.back = function() {
+            $scope.actionButton = 'cancel';
         	$state.transitionTo("assessmenthome.affinityGroups", {assessmentId:$scope.assessment.id});
         };
         
@@ -81,5 +83,13 @@ testauth.controller('AssessmentAffinityGroupFormController', ['$scope', '$filter
 		    $scope.editableForm.$cancel();
 		    $scope.errors = [];
         };
-        
+
+		$scope.$on('$stateChangeStart',
+			function(event, toState, toParams, fromState, fromParams) {
+				if ($scope.editableForm.$dirty && $scope.actionButton != 'cancel') {
+					if (!confirm("You have unsaved changes. Are you sure you want to leave this page?")) {
+						event.preventDefault();
+					}
+				}
+		});
 }]);

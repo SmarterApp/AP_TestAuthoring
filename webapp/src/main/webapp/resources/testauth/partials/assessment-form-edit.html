@@ -4,7 +4,8 @@
     <form data-editable-form name="editableForm" data-onaftersave="save()" data-shown="isNew">
     <div data-ng-show="editableForm.$dirty" class="dirtynag">* Warning: You have unsaved changes</div>
     <h5 tabindex="-1">Form<span class="control-label-required">Indicates required field</span></h5>
-    <div class="fieldGroup">
+    <div class="fieldGroup" data-ng-show="languages.length == 0">Form cannot be configured because there are no items in TIB for this assessment's standards publication.</div>
+    <div class="fieldGroup" data-ng-show="languages.length > 0">
         <ul>
             <li>
 	            <span>
@@ -46,6 +47,6 @@
                     <span class="btnText">Back</span>
             </button>
         </span> 	        
-	 </div>
-	 </form>
+	</div>
+	</form>
 </div>

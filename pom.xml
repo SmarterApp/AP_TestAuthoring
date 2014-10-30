@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opentestsystem.authoring</groupId>
     <artifactId>test-auth-parent</artifactId>
-    <version>R01.00.03</version>
+    <version>R01.00.04</version>
     <name>Smarter Balanced #11 Test Auth - Parent Project</name>
     <packaging>pom</packaging>
 
@@ -29,6 +29,17 @@
         <developerConnection>scm:hg:https://bitbucket.org/sbacoss/testauthoring_release</developerConnection>
         <url>https://bitbucket.org/sbacoss/testauthoring_release</url>
     </scm>
+
+    <!-- needed to bootstrap the parent -->
+    <pluginRepositories>
+        <!-- Project Artifactory Proxy of Remote Repositories, which also 
+            exposes SB11 artifacts when they are deployed -->
+        <pluginRepository>
+            <id>SB11-Remote-Mirror-Repo</id>
+            <name>SB11 Remote Mirror Repo</name>
+            <url>http://datarecognitioncorp.artifactoryonline.com/datarecognitioncorp/remote-repos</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>

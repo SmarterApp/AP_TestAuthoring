@@ -152,6 +152,15 @@
                                       </div>
                                 </div>
                          </div>
+                        <div class="itemMove" data-ng-show="isDeleteAllowed()">
+                        <h5 tabindex="-1">{{moveOrDelete}} ALL Segment Items</h5>
+	                        <div class="moverSection" data-ng-show="isDeleteAllowed()">
+	                            <button type="button" class="boxBtn" data-ng-click="deleteAllSegmentItems()" tabindex="0" data-ng-show="showMoveDeleteButton">
+	                                <span class="btnIcon icon_sprite icon_delete3 ng-class:{ajax_indicator:deletingAll}" aria-hidden="true"></span>
+	                                <span class="btnText">Delete All Segment Items</span>
+	                            </button>
+	                        </div>
+                        </div>
                       </div>
                     </div>
                     

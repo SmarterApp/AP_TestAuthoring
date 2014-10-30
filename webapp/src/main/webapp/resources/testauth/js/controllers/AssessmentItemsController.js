@@ -14,6 +14,7 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 		$scope.showMoveDeleteButton = true;
 		$scope.showTibSearch = false;
 		$scope.segmentList = [];
+		$scope.deletingAll = false;
 		
 		$scope.locationType = "SEGMENT";
 		$scope.defaultTibParams = [];
@@ -423,6 +424,20 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 				ItemService.removeFromSegmentPool($scope.assessment.id, deleteRequest).then($scope.doneWithBulkChange);
 			}else{
 				$scope.widgeterrors = ['Please select items to delete.'];
+			}
+		};
+		
+		$scope.deleteAllSegmentItems = function() {
+			if (confirm("Are you sure you want to delete all items for the " + $scope.currentSegmentLabel + " segment?")) {
+				$scope.deletingAll = true;
+				ItemService.removeBySegmentId($scope.searchParams.segmentId).then(
+					function(response) {
+						$scope.errors = response.errors;
+						$scope.closeEditBar();
+						$scope.$broadcast('initiate-itempool-search');
+						$scope.validateItemPools();
+						$scope.deletingAll = false;
+					});
 			}
 		};
 

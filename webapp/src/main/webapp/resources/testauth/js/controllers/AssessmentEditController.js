@@ -61,12 +61,12 @@ testauth.controller('AssessmentEditController',['$scope','$state', 'loadedData',
 				if($scope.errors.length == 0){
 					$scope.editableForm.$setPristine();
 					$scope.assessment = response.data;
+					AssessmentService.updateCache(response.data);
 					if ($scope.resetAssessment) {
 					    $scope.resetAssessment(response.data);
 					}
-					 $scope.isNew = false;
-					 AssessmentService.updateCache(response.data);
-					 $state.transitionTo("assessmenthome.detailhome.edit", {assessmentId:$scope.assessment.id});
+					$scope.isNew = false;
+					$state.transitionTo("assessmenthome.detailhome.edit", {assessmentId:$scope.assessment.id});
 				}else{
 					angular.forEach($scope.errorsMap, function(msg,key){
 						var fieldName = key + "";

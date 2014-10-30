@@ -108,6 +108,18 @@ testauth.factory("ItemService", function($http, $q){
                 data:  data
             }).then(this.successHandler, this.errorHandler);
 		},
+		removeBySegmentId : function(segmentId){
+	        return this.getHttp()({
+	                method: 'DELETE',
+	                url: this.getBaseUrl() + this.getResource() + '/clearSegmentPool/' + segmentId
+	        }).then(this.successHandler, this.errorHandler);
+	    },
+		removeByFormPartitionId : function(formPartitionId){
+	        return this.getHttp()({
+	                method: 'DELETE',
+	                url: this.getBaseUrl() + this.getResource() + '/clearFormPartition/' + formPartitionId
+	        }).then(this.successHandler, this.errorHandler);
+	    },
 		
 		updateCollection : function(objectList){
             var params = { "items": objectList };        

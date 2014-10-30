@@ -11,10 +11,8 @@
                    </span>
                </li>
                <li>
-                   <span>
-                       <label for="status" title="Status">Status:</label>
-                       <input name="status" data-ng-model="searchParams.status" tabindex="0" alt="Status" />
-                   </span>
+	               <label for="status" title="Status">Status:</label>
+	               <select data-ng-model="searchParams.status" data-ng-options="approvalStatus for approvalStatus in availableApprovalStatuses" tabindex="0" title="Status"></select>
                </li>
            </ul>
            <button type="button" type="button" class="boxBtn" data-search-on-click tabindex="0">

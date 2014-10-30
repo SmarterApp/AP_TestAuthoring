@@ -936,7 +936,7 @@ var testResolverWithCache = ['$stateParams','AssessmentService', function ($stat
     if($stateParams.assessmentId) {    	   	
     	AssessmentService.removeCache();
     	return AssessmentService.findById($stateParams.assessmentId).then(function(loadedData) {
-    		AssessmentService.updateCache(loadedData);
+    		AssessmentService.updateCache(loadedData.data);
     		return loadedData;
 		});
     } 

@@ -1,10 +1,6 @@
 testauth.controller('HomeController', ['$scope','$location', '$state', 'AssessmentService', 'VersionService',
      function HomeController($scope,$location, $state, AssessmentService, VersionService) {
 		
-		if(AssessmentService.getCache()){
-			$scope.assessment = AssessmentService.getCache().data;
-		}
-		
 		VersionService.getBuildInfo().then(function(response) {
 		    $scope.buildInfo = response.data;
 		});
@@ -28,7 +24,7 @@ testauth.controller('HomeController', ['$scope','$location', '$state', 'Assessme
 	    		$location.path(path);
 	    	} else {
 	    		 if (AssessmentService.getCache()) {
-	    			 $scope.assessment = AssessmentService.getCache().data;
+	    			 $scope.assessment = AssessmentService.getCache();
 	    			 $state.transitionTo(path, {assessmentId:$scope.assessment.id});
 	    			 $scope.activeTab = path;
 	    		 } else {

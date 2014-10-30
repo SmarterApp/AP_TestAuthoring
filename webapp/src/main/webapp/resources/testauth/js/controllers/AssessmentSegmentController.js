@@ -107,5 +107,13 @@ testauth.controller('AssessmentSegmentController',['$scope','$state', 'loadedDat
                 });
             };
         };
+  		
+        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if ($scope.positionChanged) {
+                if (!confirm("You have unsaved changes. Are you sure you want to leave this page?")) {
+                    event.preventDefault();
+                }
+            }
+        });
 	}
 ]);

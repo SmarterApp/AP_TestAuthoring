@@ -30,6 +30,10 @@ testauth.factory("ApprovalService", function($http){
 		
 		isAdminUser : function() {
 			return this.getHttp().get(this.getBaseUrl() + this.getResource() + '/isAdminUser?_=' + Math.random()).then(this.successHandler, this.errorHandler);
+		},
+
+		getApprovalStatuses : function() {
+			return this.getHttp().get(baseUrl + this.getResource() + '/approvalStatuses?_=' + Math.random()).then(this.successHandler, this.errorHandler);
 		}
 
     };

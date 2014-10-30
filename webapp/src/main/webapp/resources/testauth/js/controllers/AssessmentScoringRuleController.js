@@ -16,7 +16,9 @@ testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loa
 			$scope.searchParams = $state.current.searchParams;
 		}
   		$scope.searchResponse = {};
-	
+
+  		$(".itemSection").height($(".left_menu_visible_item_mover").height());
+  		
   		$scope.searchScoringRules = function(params) {
         	if ($("#blueprintReferenceId").val() && !params.blueprintReferenceId) {
         		var ids = [];
@@ -153,4 +155,12 @@ testauth.controller('AssessmentScoringRuleController', ['$scope', '$state', 'loa
 				break;
 			}
         };
+  		
+        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if ($scope.orderChanged) {
+                if (!confirm("You have unsaved changes. Are you sure you want to leave this page?")) {
+                    event.preventDefault();
+                }
+            }
+        });
 }]);
