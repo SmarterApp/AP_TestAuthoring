@@ -575,6 +575,14 @@ $stateProvider
         }
     }).state('assessmenthome.publishinghome.publishing', {
         url: "/publishing",
+        views: {
+            "publishing-home-view": {
+                templateUrl: 'resources/testauth/partials/assessment-publishing-interstitial.html',
+                controller: 'AssessmentPublishingInterstitialController'
+            }
+        }
+    }).state('assessmenthome.publishinghome.publishingview', {
+        url: "/publishing",
         resolve: {
         	loadedPublishingValidity:checkPublishingValidityPublishingRecordResolver
         },

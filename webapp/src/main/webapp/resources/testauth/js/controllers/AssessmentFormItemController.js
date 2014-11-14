@@ -1,5 +1,5 @@
-testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter', 'loadedData', 'formPartitionListData','ItemService', 'BlueprintElementService', '$location', '$anchorScroll', 'ItemGroupService','FormPartitionService',
-      function($scope, $state, $filter, loadedData, formPartitionListData, ItemService, BlueprintElementService, $location, $anchorScroll, ItemGroupService, FormPartitionService) {
+testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter', 'loadedData', 'formPartitionListData','ItemService', 'BlueprintElementService', 'CoreStandardsService', '$location', '$anchorScroll', 'ItemGroupService','FormPartitionService',
+      function($scope, $state, $filter, loadedData, formPartitionListData, ItemService, BlueprintElementService, CoreStandardsService, $location, $anchorScroll, ItemGroupService, FormPartitionService) {
         $scope.errors = loadedData.errors;
         $scope.warnings = loadedData.warnings;
   		$scope.assessment = loadedData.data;
@@ -163,8 +163,31 @@ testauth.controller('AssessmentFormItemController',['$scope','$state', '$filter'
 			$scope.moveOrDelete = "Delete";
 			$scope.openEditWidget();
 		};
+
+        CoreStandardsService.searchGradeByPublication({"publicationKey":$scope.assessment.publication.coreStandardsPublicationKey}).then( function(response) {
+            $scope.grades = response.data.payload;
+        });
+
+        $scope.gradesSelector = {
+            'placeholder': "Select...",
+            'allowClear': true,
+            'multiple': true,
+            'simple_tags': true,
+            'width' :'resolve',
+            'query': function (query) {
+                var data = { results: $scope.convertGradesToSelect2Array($scope.grades) };
+                query.callback(data);
+            },
+            'id': function(select2Object) { // retrieve a unique id from a select2 object
+                return select2Object.id;
+            }
+        };
 		
-    	function hasSearchParam(paramName){
+        $scope.convertGradesToSelect2Array = function(grades) {
+            return $.map( grades, function(grade) { return { "id":grade.key, "text":grade.name }; });
+        };
+
+        function hasSearchParam(paramName){
     		return $scope.searchParams[paramName] !=null && $scope.searchParams[paramName].length > 0;
     	};
     	

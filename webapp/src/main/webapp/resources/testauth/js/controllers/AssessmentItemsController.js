@@ -1,5 +1,5 @@
-testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'loadedData', 'segmentListData','ItemService', 'BlueprintElementService', '$location', '$anchorScroll', 'ItemGroupService',
-      function($scope, $state, $filter, loadedData, segmentListData,  ItemService, BlueprintElementService, $location, $anchorScroll, ItemGroupService) {
+testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'loadedData', 'segmentListData','ItemService', 'BlueprintElementService', 'CoreStandardsService', '$location', '$anchorScroll', 'ItemGroupService',
+      function($scope, $state, $filter, loadedData, segmentListData,  ItemService, BlueprintElementService, CoreStandardsService, $location, $anchorScroll, ItemGroupService) {
   		$scope.savingIndicator = false;
   		$scope.errors = loadedData.errors;
   		$scope.assessment = loadedData.data;
@@ -137,6 +137,29 @@ testauth.controller('AssessmentItemsController',['$scope','$state','$filter', 'l
 	        	});
 	        	$scope.syncIndicator = false;
 	        });
+        };
+
+        CoreStandardsService.searchGradeByPublication({"publicationKey":$scope.assessment.publication.coreStandardsPublicationKey}).then( function(response) {
+            $scope.grades = response.data.payload;
+        });
+
+        $scope.gradesSelector = {
+            'placeholder': "Select...",
+            'allowClear': true,
+            'multiple': true,
+            'simple_tags': true,
+            'width' :'resolve',
+            'query': function (query) {
+                var data = { results: $scope.convertGradesToSelect2Array($scope.grades) };
+                query.callback(data);
+            },
+            'id': function(select2Object) { // retrieve a unique id from a select2 object
+                return select2Object.id;
+            }
+        };
+        
+        $scope.convertGradesToSelect2Array = function(grades) {
+            return $.map( grades, function(grade) { return { "id":grade.key, "text":grade.name }; });
         };
         
         $scope.searchItems = function(params) {

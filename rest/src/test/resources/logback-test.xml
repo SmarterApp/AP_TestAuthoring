@@ -9,26 +9,6 @@
     <logger name="log4j.logger.org.opensaml" level="DEBUG" />
     <logger name="u.c.jemos.podam.api.*" level="ERROR" />
     
-    
-     <!-- Performance loggers -->
-    <logger name="PERFORMANCE_FILTER" additivity="false" level="ERROR">
-        <appender-ref ref="MDCAppender" />
-    </logger>
-
-    <logger name="PERFORMANCE_REST" additivity="false" level="ERROR">
-        <appender-ref ref="MDCAppender" />
-    </logger>
-
-    <logger name="PERFORMANCE_PERSISTENCE" additivity="false" level="ERROR">
-        <appender-ref ref="MDCAppender" />
-    </logger>
-
-    <logger name="PERFORMANCE_SERVICE" additivity="false" level="ERROR">
-        <appender-ref ref="MDCAppender" />
-    </logger>
-
- 
-    
   <root level="ERROR">
     <appender-ref ref="STDOUT" />
   </root>

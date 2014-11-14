@@ -115,6 +115,8 @@
 
     <script src="resources/testauth/js/controllers/AssessmentPublishingHomeController.js"></script>
 
+    <script src="resources/testauth/js/controllers/AssessmentPublishingInterstitialController.js"></script>
+
     <script src="resources/testauth/js/controllers/AssessmentReportingMeasureController.js"></script>
 
     <script src="resources/testauth/js/controllers/AssessmentReportingMeasureEditController.js"></script>

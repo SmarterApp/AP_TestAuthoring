@@ -12,4 +12,7 @@
     <logger name="org.opentestsystem" level="INFO" />
     <logger name="log4j.logger.org.opensaml" level="INFO" />
     <logger name="com.fasterxml.jackson.*" level="INFO" />
+    
+    <!-- uncomment the following line to stop logging the rest layer performance metric to mna -->
+    <!--  <logger name="PERFORMANCE_REST" additivity="false" level="ERROR"/>-->
 </configuration>
