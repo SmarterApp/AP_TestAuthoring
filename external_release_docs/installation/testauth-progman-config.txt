@@ -2,6 +2,8 @@ component.name=TestAuthoring
 mna.mnaUrl=http://mna.url/rest/
 mna.oauth.client.id=mna
 mna.oauth.client.secret=
+mna.oauth.batch.account=mna-client-email-address
+mna.oauth.batch.password=mna-client-password
 oauth.access.url=https://sso.url/auth/oauth2/access_token?realm=/sbac
 oauth.tib.client.secret=
 oauth.tib.client=tib

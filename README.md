@@ -49,6 +49,8 @@ is a useful feature that allows for overrides: in this case, all properties cont
 * `mna.logger.level=[OFF | ERROR | WARN | INFO | DEBUG | TRACE | ALL](default:ERROR)` - MNA logging level
 * `mna.clean.days=30 (default)` - How long to keep logs before cleanup
 * `mna.clean.cron=0 0 0 * * ? (default)` - MNA cron job for cleanup
+* `mna.oauth.batch.account=` - Username (email address) of MNA client user used for authenticating into MNA and logging metrics information
+* `mna.oauth.batch.password=` - Password of MNA client user
 * `testauth.mna.availability.metric.email=abc@example.org` - email to send availability metrics
 * `testauth.mongo.hostname=` - Mongo DB Host name
 * `testauth.mongo.port=27017` - Mongo DB port
