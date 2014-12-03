@@ -38,7 +38,7 @@
     <security:http security="none" pattern="/thankyou"/>
     <security:http security="none" pattern="/favicon.ico"/>
     <security:http security="none" pattern="/resources/dtd/**"/>
-    <security:http security="none" pattern="/api"/>
+    <security:http security="none" pattern="/api/**"/>
     <security:http security="none" pattern="/version"/>
 
     <!-- Secured pages -->
