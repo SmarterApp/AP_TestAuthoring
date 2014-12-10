@@ -66,6 +66,16 @@ is a useful feature that allows for overrides: in this case, all properties cont
 * `testauth.security.profile=dev` - 
 * `testauth.languages=Afar|aar|Abkhazian|abk|Achinese|ace...` - Pipe-delimited list of supported languages in Test Authoring, e.g. Name|three-letter-official-abbreviation.
 
+#### Clustered Environment properties
+These are *optional* properties which are used when configuring a clustered environment behind a load balancer (LB). To activate clustered environment support, simply change the active profile setenv as follows: change `spring.profiles.active` from `server.singleinstance` to `server.loadbalanced`. Furthermore, you will need to set these key/value pairs appropriately: 
+
+* `testauth.loadbalanced.url.scheme` - {this should be http or https} 
+* `testauth.loadbalanced.server.name` - {the loadbalancer’s name} 
+* `testauth.loadbalanced.server.port` - {if your server requires a port, include it here, otherwise put 80 in as the default} 
+* `testauth.loadbalanced.includeServerPortInRequestURL` - {boolean true/false value which indicates if the port should be included to resolve the server} 
+* `testauth.loadbalanced.server.rest.contextpath` - {REST context name. e.g.: "/testauth.rest"} 
+* `testauth.loadbalanced.server.webapp.contextpath` - {webapp context name. e.g.: "/testauth.webapp". Leave this blank if you are using ROOT as webapp context name}  
+
 Notes:
 
 * The REST module contains all of the domain beans used to model the Test Authoring data as well as code used as search beans to create Mongo queries
