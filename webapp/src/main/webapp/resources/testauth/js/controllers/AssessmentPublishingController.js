@@ -10,61 +10,13 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         $scope.isAdminUser = false;
         $scope.allowLevel2 = true;
         $scope.assessmentlocked = false;
-		if (!$state.current.searchParams) {
+
+        if (!$state.current.searchParams) {
 			$scope.searchParams = {"assessmentId": $scope.assessment.id, "sortKey":"version", "sortDir":"DESC", "pageSize" : 10, "currentPage": 1};
 		} else {
 			$scope.searchParams = $state.current.searchParams;
 		}
   		$scope.searchResponse = {};
-  		
-        UserService.getCurrentUser().then(function(response) {
-		    $scope.user = response.data;
-		    $scope.permissions = response.data.authorities;
-        	if($scope.user) {
-        		
-        		ApprovalService.isAdminUser().then(function(response) {
-        			$scope.isAdminUser = response.data;
-        		});
-        	}
-		});
-        
-        $scope.hasPermission = function(approval) {
-        	var approvalFound = false;
-        	if(approval.version == $scope.publishingRecord.version && $scope.permissions != null) {
-            	for (var i = 0; i < $scope.permissions.length; i++) {
-					var permission = $scope.permissions[i];
-	        		if (permission.authority == approval.permission) {
-	        			approvalFound = true;
-	        			break;
-	        		}
-  	            }
-        	}
-        	return approvalFound;
-        };
-  		
-  		$scope.getLatestApprovals = function() {
-  			if ($scope.publishingRecord) {
-		  		ApprovalService.retrieveLatestApprovals($scope.publishingRecord.id).then(function(response) {
-		  			$scope.currentApprovals = response.data;
-		  		});
-  			}
-  		};
-        
-        $scope.hasApprovedApproval = function() {
-        	var approvedFound = false;
-        	$scope.allowLevel2 = true;
-        	if($scope.currentApprovals != null) {
-	        	for (var i = 0; i < $scope.currentApprovals.length; i++) {
-					var approval = $scope.currentApprovals[i];
-	        		if (approval.status == 'Approved') {
-	        			approvedFound = true;
-	        		} else if (approval.level == 1) {
-	        			$scope.allowLevel2 = false;
-	        		}
-	            }
-        	}
-        	return approvedFound;
-        };
   		
   		$scope.getCurrentPublishingRecord = function() {
 			PublishingRecordService.retrieveLatestStatus($scope.assessment.id).then(function(response) {
@@ -82,31 +34,10 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
 				}
 	  		});
   		};
-
-  		$scope.getLatestApprovals();
-  		
-        $scope.cancelApproval = function() {
-        	if (confirmSave('cancel')) {
-            	$scope.publishingRecord.publishingStatus = 'Rejected';
-        		processSave();
-        	}
-        };
-  		
+        
         $scope.save = function(type) {
         	if (confirmSave('')) {
         		processSave(type);
-        	}
-        };
-        
-        $scope.updateApproval = function(approval, status) {
-        	if (confirmSave(status)) {
-        		approval.status = status;
-        		approval.username = $scope.user.fullName;
-        		ApprovalService.update(approval).then(function(response) {
-                    $scope.errors = response.errors;
-    				$scope.messages = response.messages;
-					$scope.getCurrentPublishingRecord();
-        		});
         	}
         };
         
@@ -147,15 +78,6 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
 	  			$scope.refreshInfo();
             });
         }
-        
-        $scope.refreshInfo = function() {
-			AssessmentService.findById($scope.assessment.id).then(function (response) {
-			    $scope.assessment.locked = response.data.locked;
-			    $scope.assessment.status = response.data.status;
-			    
-			});
-			$scope.getLatestApprovals();
-        };
 
         $scope.processValidationErrors = function() {
 	        angular.forEach($scope.publishingRecord.validationResultList, function(validationResult) {
@@ -164,4 +86,97 @@ testauth.controller('AssessmentPublishingController', ['$scope', '$state', 'load
         };
 
 		$scope.processValidationErrors();
+
+        UserService.getCurrentUser().then(function(response) {
+		    $scope.user = response.data;
+		    $scope.permissions = response.data.authorities;
+        	if ($scope.user) {
+        		ApprovalService.isAdminUser().then(function(response) {
+        			$scope.isAdminUser = response.data;
+        		});
+        	}
+		});
+        
+        $scope.hasPermission = function(approval) {
+        	var approvalFound = false;
+        	if (approval.version == $scope.publishingRecord.version && $scope.permissions != null) {
+            	for (var i = 0; i < $scope.permissions.length; i++) {
+					var permission = $scope.permissions[i];
+	        		if (permission.authority == approval.permission) {
+	        			approvalFound = true;
+	        			break;
+	        		}
+  	            }
+        	}
+        	return approvalFound;
+        };
+
+  		$scope.hasApprovedApproval = function() {
+        	var approvedFound = false;
+        	$scope.allowLevel2 = true;
+        	if ($scope.currentApprovals != null) {
+	        	for (var i = 0; i < $scope.currentApprovals.length; i++) {
+					var approval = $scope.currentApprovals[i];
+	        		if (approval.status == 'Approved') {
+	        			approvedFound = true;
+	        		} else if (approval.level == 1) {
+	        			$scope.allowLevel2 = false;
+	        		}
+	            }
+        	}
+        	return approvedFound;
+        };
+
+        $scope.updateApproval = function(approval, status) {
+        	if (confirmSave(status)) {
+        		approval.status = status;
+        		approval.username = $scope.user.fullName;
+        		ApprovalService.update(approval).then(function(response) {
+                    $scope.errors = response.errors;
+    				$scope.messages = response.messages;
+    				if ($scope.errors.length == 0 && approval.status == 'Rejected') {
+    			        $scope.refreshInfo();
+    					$state.transitionTo("assessmenthome.publishinghome.publishing", {assessmentId:$scope.assessment.id});
+    				} else {
+    					$scope.getCurrentPublishingRecord();
+    				}
+        		});
+        	}
+        };
+  		
+        $scope.cancelApproval = function() {
+        	if (confirmSave('cancel')) {
+            	$scope.publishingRecord.publishingStatus = 'Rejected';
+            	$scope.updateIndicator = true;
+            	PublishingRecordService.update($scope.publishingRecord, false).then( function(response) {
+                    $scope.errors = response.errors;
+                    $scope.updateIndicator = false;
+    				$scope.messages = response.messages;
+    				if ($scope.errors.length == 0) {
+    			        $scope.refreshInfo();
+    					$state.transitionTo("assessmenthome.publishinghome.publishing", {assessmentId:$scope.assessment.id});
+    				}
+                });
+        	}
+        };
+        
+        $scope.refreshInfo = function() {
+			AssessmentService.findById($scope.assessment.id).then(function (response) {
+				AssessmentService.updateCache(response.data);
+				if ($scope.resetAssessment) {
+				    $scope.resetAssessment(response.data);
+				}
+			});
+			$scope.getLatestApprovals();
+        };
+  		
+  		$scope.getLatestApprovals = function() {
+  			if ($scope.publishingRecord) {
+		  		ApprovalService.retrieveLatestApprovals($scope.publishingRecord.id).then(function(response) {
+		  			$scope.currentApprovals = response.data;
+		  		});
+  			}
+  		};
+        
+  		$scope.getLatestApprovals();
 }]);
