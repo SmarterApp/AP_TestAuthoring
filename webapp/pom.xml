@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.opentestsystem.authoring</groupId>
         <artifactId>test-auth-parent</artifactId>
-        <version>R01.00.14</version>
+        <version>R01.00.15</version>
     </parent>
 
     <name>Smarter Balanced #11 Test Auth - Webapp for the Component</name>
