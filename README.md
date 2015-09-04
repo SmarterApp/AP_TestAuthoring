@@ -51,6 +51,10 @@ is a useful feature that allows for overrides: in this case, all properties cont
 * `mna.clean.cron=0 0 0 * * ? (default)` - MNA cron job for cleanup
 * `mna.oauth.batch.account=` - Username (email address) of MNA client user used for authenticating into MNA and logging metrics information
 * `mna.oauth.batch.password=` - Password of MNA client user
+* `oauth.tsb.client=` - Oauth client id
+* `oauth.tsb.client.secret=` - Oauth TSB client secret
+* `oauth.tsb.batch.account=` - Account name for machine user being used to publish to TSB
+* `oauth.tsb.batch.password=` - TSB machine user password
 * `testauth.mna.availability.metric.email=abc@example.org` - email to send availability metrics
 * `testauth.mongo.hostname=` - Mongo DB Host name
 * `testauth.mongo.port=27017` - Mongo DB port

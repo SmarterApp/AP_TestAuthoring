@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.opentestsystem.authoring</groupId>
         <artifactId>test-auth-parent</artifactId>
-        <version>R01.00.38</version>
+        <version>R01.00.66</version>
     </parent>
     
     <properties>
@@ -110,7 +110,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.authoring</groupId>
 			<artifactId>test-spec-bank-client</artifactId>
-			<version>${tsb-client.version}</version>
+			<version>R01.00.66</version>
 		</dependency>
 
 		<dependency>
