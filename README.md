@@ -67,8 +67,10 @@ is a useful feature that allows for overrides: in this case, all properties cont
 * `tsb.tsbUrl=http://name.of.test.spec.bank.server/rest/` - Test Spec Bank REST endpoint URL
 * `testauth.core.standards.url=http://name.of.corestandards.server/api/` - CoreStandards API endpoint URL
 * `tib.baseUri=http://name.of.test.item.bank.server/rest/` - Test Item Bank REST endpoint URL
-* `testauth.security.profile=dev` - 
 * `testauth.languages=Afar|aar|Abkhazian|abk|Achinese|ace...` - Pipe-delimited list of supported languages in Test Authoring, e.g. Name|three-letter-official-abbreviation.
+* `testauth.itembank=200` - itembank number, for example 187 or 200. Will be added to all item searches sent to TIB 
+* `testauth.client=SBAC` - will be used as publisher in test specification
+* `testauth.serveruniquenumber=2` - make sure each TA server in server farm has unique number, from 1 to N.
 
 #### Clustered Environment properties
 These are *optional* properties which are used when configuring a clustered environment behind a load balancer (LB). To activate clustered environment support, simply change the active profile setenv as follows: change `spring.profiles.active` from `server.singleinstance` to `server.loadbalanced`. Furthermore, you will need to set these key/value pairs appropriately: 

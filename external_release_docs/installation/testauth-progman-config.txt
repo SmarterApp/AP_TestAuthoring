@@ -33,3 +33,6 @@ testauth.security.saml.keystore.user=apollo
 testauth.webapp.saml.metadata.filename=SP_FILE.xml
 tib.baseUri=https://test.item.bank.url/
 tsb.tsbUrl=https://test.spec.bank.url/rest/
+testauth.client=SBAC
+testauth.serveruniquenumber=2
+testauth.itembank=200
