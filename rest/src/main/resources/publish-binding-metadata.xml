@@ -147,7 +147,7 @@
 				<xml-attribute java-attribute="formPosition" xml-path="@formposition" />
 				<xml-attribute java-attribute="maxItems" xml-path="@maxitems" />
 				<xml-element java-attribute="identifier" xml-path="identifier" />
-				<xml-attribute java-attribute="passageReferenceList" xml-path="passageref/@passageid" />
+				<xml-element java-attribute="passageReferenceList" xml-path="passageref/text()" />
 				<xml-element java-attribute="itemReferenceList" xml-path="groupitem" />
 				<xml-element java-attribute="propertyList" xml-path="property" />
 			</java-attributes>
@@ -219,6 +219,7 @@
 				<xml-attribute java-attribute="scorePoints" xml-path="@scorepoints" />
 				<xml-attribute java-attribute="dimension" xml-path="@dimension" />
 				<xml-attribute java-attribute="weight" xml-path="@weight" />
+			  	<xml-attribute java-attribute="statDomain" xml-path="@statdomain" /> 
  				<xml-element java-attribute="itemScoreParameterList" xml-path="itemscoreparameter" />
  				<xml-element java-attribute="propertyList" xml-path="property" />
 			</java-attributes>
@@ -251,7 +252,7 @@
 		<java-type name="TestPerformanceLevel">
 			<java-attributes>
 				<xml-attribute java-attribute="bpElementId" xml-path="@bpelementid" />
-				<xml-attribute java-attribute="level" xml-path="@level" />
+				<xml-attribute java-attribute="level" xml-path="@plevel" />
 				<xml-attribute java-attribute="scaledLo" xml-path="@scaledlo" />
 				<xml-attribute java-attribute="scaledHi" xml-path="@scaledhi" />
 			</java-attributes>

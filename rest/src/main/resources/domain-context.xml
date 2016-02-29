@@ -13,6 +13,9 @@
     <bean id="languageMap" class="java.util.HashMap">
     	<constructor-arg>
 	   		<map>
+	   			<entry key="ENU" value="English" />
+	   		    <entry key="ESN" value="Spanish" />
+	   			<entry key="ENU-Braille" value="Braille English" />	   		    
 				<entry key="aar" value="Afar" />
 				<entry key="abk" value="Abkhazian" />
 				<entry key="ace" value="Achinese" />

@@ -163,7 +163,11 @@ testauth.directive("tibItemSearch",['$http','$parse', 'TibItemService','ItemServ
 				var importParams = {};
 				angular.forEach($scope.params, function(param,index){
 					if(param.filterValue && param.filterValue.length >0){
-						importParams[param.filterName] = param.filterValue;
+					//	importParams[param.filterName] = param.filterValue;
+				    if (importParams[param.filterName] == null) {
+				        importParams[param.filterName] = [];
+				    }
+					importParams[param.filterName].push(param.filterValue);					
 					}
 				});
 				$scope.searchingTib = true;

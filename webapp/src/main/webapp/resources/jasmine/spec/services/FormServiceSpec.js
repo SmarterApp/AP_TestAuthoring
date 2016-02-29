@@ -5,17 +5,17 @@ describe('Form Service', function() {
   var unsavedForm = {
 		  "assessmentId" : "assessmentId",
 		  "name" : "form-name",
-          "language" : "eng"
+          "language" : "enu"
   };
   
   var existingForm = {
           "id" : "form_id",
 		  "assessmentId" : "assessmentId",
 		  "name" : "form-name",
-          "language" : "eng"
+          "language" : "enu"
   };
   
-  var expectedLanguages = [{ "key" : "eng", "value" : "English"}, { "key" : "spa", "value" : "Spanish; Castilian" }];
+  var expectedLanguages = [{ "key" : "enu", "value" : "English"}, { "key" : "esn", "value" : "Spanish; Castilian" }];
   
   //you need to indicate your module in a test
   beforeEach(module('testauth', function($provide) {
@@ -47,7 +47,7 @@ describe('Form Service', function() {
           "id": "form_id",
 		  "assessmentId" : "assessmentId",
 		  "name" : "form-name",
-          "language" : "eng"
+          "language" : "enu"
       }).respond(201,httpResponse);
             
       var returnedPromise = serviceMock.save(existingForm);
@@ -65,7 +65,7 @@ describe('Form Service', function() {
       httpMock.expectPOST('form', {
 		  "assessmentId" : "assessmentId",
 		  "name" : "form-name",
-          "language" : "eng"
+          "language" : "enu"
       }).respond(201,httpResponse);
             
       var returnedPromise = serviceMock.save(unsavedForm);
@@ -138,7 +138,7 @@ describe('Form Service', function() {
           "id": "form_id",
 		  "assessmentId" : "assessmentId",
 		  "name" : "form-name",
-          "language" : "eng"
+          "language" : "enu"
       }).respond(500,httpResponse);
             
       var returnedPromise = serviceMock.save(existingForm);
